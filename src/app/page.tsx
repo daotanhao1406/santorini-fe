@@ -1,9 +1,41 @@
 'use client'
-
 import { Button } from '@heroui/button'
-import * as React from 'react'
+import { useEffect, useState } from 'react'
+
+import { createClient } from '@/lib/supabase/client'
+
+interface Product {
+  name: string
+}
 
 export default function HomePage() {
+  const [products, setProducts] = useState<Product[] | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const loadData = async () => {
+    setLoading(true)
+    const supabase = createClient()
+    const { data, error } = await supabase.from('products').select('name')
+    if (error) {
+      setError(error.message)
+    } else {
+      setProducts(data)
+      setLoading(false)
+    }
+  }
+  useEffect(() => {
+    loadData()
+  }, [])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  if (error) {
+    return <div>{error}</div>
+  }
+
   return (
     <main className='p-5 bg-background'>
       <Button radius='sm' color='primary'>
@@ -24,8 +56,12 @@ export default function HomePage() {
       <Button radius='sm' color='warning'>
         Warning
       </Button>
-      <p className='font-pacifico text-lg'>Buy $5.99</p>
-      <p className='font-montserrat text-lg'>Buy $5.99</p>
+
+      {products?.map((item, key) => (
+        <div className='font-pacifico' key={key}>
+          {key + 1}. {item.name}
+        </div>
+      ))}
     </main>
   )
 }
