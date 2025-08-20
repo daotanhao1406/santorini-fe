@@ -22,6 +22,8 @@
   },
   "dependencies": {
     "@heroui/button": "2.2.23",
+    "@heroui/checkbox": "^2.3.24",
+    "@heroui/form": "^2.1.24",
     "@heroui/input": "2.4.24",
     "@heroui/navbar": "2.2.21",
     "@heroui/switch": "2.2.21",
@@ -34,9 +36,11 @@
     "clsx": "2.1.1",
     "framer-motion": "11.18.2",
     "intl-messageformat": "10.7.16",
+    "lucide-react": "0.539.0",
     "next": "15.3.1",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "tailwind-merge": "3.3.1"
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.1",

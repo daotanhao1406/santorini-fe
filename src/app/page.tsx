@@ -24,6 +24,7 @@ export default function HomePage() {
       setLoading(false)
     }
   }
+
   useEffect(() => {
     loadData()
   }, [])
