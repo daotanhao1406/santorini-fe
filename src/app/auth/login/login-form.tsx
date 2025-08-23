@@ -3,33 +3,58 @@ import { Button } from '@heroui/button'
 import { Checkbox } from '@heroui/checkbox'
 import { Form } from '@heroui/form'
 import { Input } from '@heroui/input'
+import { addToast } from '@heroui/toast'
 import { Eye, EyeOff, KeyRound, MailIcon } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
+import { createClient } from '@/lib/supabase/client'
+
 export const LoginForm = () => {
+  const router = useRouter()
   const [password, setPassword] = useState<string>('')
   const [isVisible, setIsVisible] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState({})
 
   const toggleVisibility = () => setIsVisible(!isVisible)
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const data = Object.fromEntries(new FormData(e.currentTarget))
+    const supabase = createClient()
+    setIsLoading(true)
 
+    const formData = Object.fromEntries(new FormData(e.currentTarget))
     // Custom validation checks
-    if (!data.email) {
+    if (!formData.email) {
       setErrors({ email: 'Please enter your email' })
 
-      return
+      return setIsLoading(false)
     }
-    if (!data.password) {
+    if (!formData.password) {
       setErrors({ password: 'Please enter your password' })
 
-      return
+      return setIsLoading(false)
     }
     // Clear errors and submit
     setErrors({})
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: formData.email as string,
+        password: formData.password as string,
+      })
+      if (error) throw error
+      router.push('/')
+    } catch (error: unknown) {
+      addToast({
+        title: 'Login failed',
+        description:
+          error instanceof Error ? error.message : 'An error occurred',
+        color: 'danger',
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -144,7 +169,13 @@ export const LoginForm = () => {
             </button>
           </div>
 
-          <Button type='submit' size='lg' color='primary' className='w-full'>
+          <Button
+            isLoading={isLoading}
+            type='submit'
+            size='lg'
+            color='primary'
+            className='w-full'
+          >
             Login
           </Button>
         </Form>

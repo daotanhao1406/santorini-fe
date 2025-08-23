@@ -1,5 +1,14 @@
-import { LoginForm } from '@/app/(auth)/login/login-form'
-import { LoginHero } from '@/app/(auth)/login/login-hero'
+import { Metadata } from 'next'
+
+import { LoginForm } from '@/app/auth/login/login-form'
+import { LoginHero } from '@/app/auth/login/login-hero'
+export const metadata: Metadata = {
+  title: {
+    default: 'Login',
+    template: `%s`,
+  },
+  robots: { index: true, follow: true },
+}
 
 export default function LoginPage() {
   return (
