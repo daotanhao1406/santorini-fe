@@ -11,6 +11,8 @@ import { useState } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
 
+import { MyButton } from '@/components/ui/button'
+
 export const LoginForm = () => {
   const router = useRouter()
   const [password, setPassword] = useState<string>('')
@@ -88,7 +90,7 @@ export const LoginForm = () => {
         <Form
           validationErrors={errors}
           onSubmit={handleSubmit}
-          className='w-full items-stretch space-y-2'
+          className='w-full items-stretch'
         >
           <div className='space-y-12'>
             <Input
@@ -161,12 +163,7 @@ export const LoginForm = () => {
             <div className='flex items-center space-x-2 '>
               <Checkbox name='remember'>Remember me</Checkbox>
             </div>
-            <button
-              type='button'
-              className='text-sm text-luxora-brown hover:text-luxora-dark-brown transition-colors'
-            >
-              Forgot password?
-            </button>
+            <MyButton variant='linkHover2'>Forgot password?</MyButton>
           </div>
 
           <Button

@@ -13,6 +13,7 @@ const config = {
       fontFamily: {
         pacifico: ['Pacifico', 'cursive'],
         montserrat: ['Montserrat', 'sans-serif'],
+        coiny: ['Coiny', 'cursive'],
       },
     },
   },
