@@ -1,10 +1,29 @@
 import { Metadata } from 'next'
+import { Coiny, Montserrat, Pacifico } from 'next/font/google'
 import { Suspense } from 'react'
 
 import '@/styles/globals.css'
 
 import { siteConfig } from '@/constant/config'
 import { AppProvider } from '@/providers/AppProvider'
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-montserrat',
+})
+
+const pacifico = Pacifico({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-pacifico',
+})
+
+const coiny = Coiny({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-coiny',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -39,20 +58,21 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html className='light' suppressHydrationWarning lang='en'>
+    <html
+      className={`${montserrat.variable} ${pacifico.variable} ${coiny.variable} light`}
+      suppressHydrationWarning
+      lang='en'
+    >
       <head />
-      <body
-        cz-shortcut-listen='true'
-        className='bg-background font-sans antialiased'
-      >
+      <body cz-shortcut-listen='true' className='bg-background antialiased'>
         <AppProvider>
-          <div className='mx-auto relative flex flex-col min-h-screen w-full'>
+          <div className='relative flex flex-col min-h-screen min-w-screen'>
             <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
           </div>
         </AppProvider>
