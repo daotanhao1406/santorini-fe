@@ -1,4 +1,4 @@
-import LoadingSpinner from '../LoadingSpinner'
+import LoadingSpinner from '@/components/home/loading-spinner'
 
 interface LoadingIndicatorProps {
   isLoading: boolean

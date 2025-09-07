@@ -23,7 +23,7 @@ const config = {
         light: {
           colors: {
             background: {
-              DEFAULT: '#FFEEDD',
+              DEFAULT: '#f9f9fb',
             },
             primary: {
               DEFAULT: '#351C0E',

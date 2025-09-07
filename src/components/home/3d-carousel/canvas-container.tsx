@@ -3,9 +3,9 @@ import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
 import * as THREE from 'three'
 
-import Can3D from '@/components/carousel/Can3D'
+import Can3D from '@/components/home/3d-carousel/can-3d'
 
-import ThreeLoader from './ThreeLoader'
+import ThreeLoader from './three-loader'
 
 interface CanvasContainerProps {
   modelPath: string

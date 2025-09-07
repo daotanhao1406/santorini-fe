@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
   font-family: 'Pacifico';
   src: url('/fonts/pacifico-regular.woff2') format('woff2');
   font-weight: 400;
@@ -10,7 +10,7 @@
   src: url('/fonts/montserrat-regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
-}
+} */
 
 .jquery-ripples canvas {
   width: 100% !important;

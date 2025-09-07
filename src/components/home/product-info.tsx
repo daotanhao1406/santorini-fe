@@ -118,7 +118,7 @@ export default function ProductInfo({
   return (
     <div
       ref={containerRef}
-      className={`${isMobile ? 'absolute bottom-14 left-4 right-4 max-w-full min-w-0' : 'absolute bottom-2 left-20 max-w-[560px] min-w-[400px]'}`}
+      className={`${isMobile ? 'absolute bottom-14 left-4 right-4 max-w-full min-w-0' : 'self-end max-w-[560px] min-w-[400px]'}`}
       style={{
         opacity: renderDelayComplete ? 1 : 0,
         transition: 'opacity 0.3s ease',
@@ -128,7 +128,7 @@ export default function ProductInfo({
     >
       <div className='mb-4 min-w-full'>
         <div
-          className={`relative w-full mb-[6px] p-3 ${isMobile ? 'px-4' : 'px-6'} rounded-xl overflow-hidden`}
+          className={`relative w-full mb-[6px] p-3 ${isMobile ? 'px-4' : 'px-0'} rounded-xl overflow-hidden`}
         >
           {/* Animated content wrapper - only this part changes */}
           <div
@@ -152,7 +152,7 @@ export default function ProductInfo({
           {/* Button that stays stable with updated hover behavior */}
           <button
             ref={buttonRef}
-            className={`px-6 py-2 rounded-full font-medium transition-all duration-300 mt-4 ${isMobile ? 'text-sm hidden' : ''}`}
+            className={`px-6 py-2 rounded-full font-medium transition-all duration-300 mt-4 cursor-pointer ${isMobile ? 'text-sm hidden' : ''}`}
             style={{ backgroundColor: buttonBgColor, color: '#000' }}
             onMouseOver={(e) => {
               e.currentTarget.style.opacity = '0.8'

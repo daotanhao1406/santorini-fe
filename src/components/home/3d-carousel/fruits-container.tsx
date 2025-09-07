@@ -1,4 +1,4 @@
-import FloatingFruits from '../floating-fruits'
+import FloatingFruits from '@/components/home/floating-fruits'
 
 interface FruitsContainerProps {
   isVisible: boolean

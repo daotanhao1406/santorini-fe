@@ -74,7 +74,7 @@ export default function ScrollDownButton({
       ref={buttonRef}
     >
       <button
-        className='rounded-full border-1 border-white/50 flex flex-col items-center justify-center transition-all duration-300 bg-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.4)]'
+        className='rounded-full cursor-pointer border-1 border-white/50 flex flex-col items-center justify-center transition-all duration-300 bg-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.4)]'
         style={{
           width: `${mobileSize}px`,
           height: `${mobileSize}px`,

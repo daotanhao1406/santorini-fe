@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 
-import { FruitElement } from './FruitElement'
+import { FruitElement } from './fruit-element'
 import { FloatingFruitsProps } from './types'
 import { getFruitConfigs, getFruitImagePath } from './utils'
 

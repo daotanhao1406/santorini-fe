@@ -12,7 +12,7 @@ import {
   JuiceCarouselProps,
   LoadingIndicator,
   useCarouselNavigation,
-} from './carousel'
+} from '@/components/home/3d-carousel'
 
 export default function JuiceCarousel({
   onCanChange,
@@ -115,7 +115,6 @@ export default function JuiceCarousel({
       const timer = setTimeout(() => {
         setRenderDelayComplete(true)
       }, 300)
-
       return () => clearTimeout(timer)
     }
   }, [initialLoadComplete])

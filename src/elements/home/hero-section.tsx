@@ -1,12 +1,12 @@
 'use client'
 import { useEffect, useState } from 'react'
 
-import AnimatedBackground from '@/components/AnimatedBackground'
-import JuiceCarousel from '@/components/JuiceCarousel'
+import AnimatedBackground from '@/components/home/animated-background'
+import JuiceCarousel from '@/components/home/juice-carousel'
+import ProductInfo from '@/components/home/product-info'
+import ProductLogo from '@/components/home/product-logo'
+import ScrollDownButton from '@/components/home/scroll-down-button'
 import NavBar from '@/components/NavBar'
-import ProductInfo from '@/components/ProductInfo'
-import ProductLogo from '@/components/ProductLogo'
-import ScrollDownButton from '@/components/ScrollDownButton'
 
 // Define a type for the juice names to properly type-check
 type JuiceName = keyof typeof canThemeMap
@@ -75,10 +75,10 @@ const content = {
   nav: {
     logo: 'Juicy',
     items: [
-      { label: 'Flavour' },
-      { label: 'Drinks' },
-      { label: 'Fruit' },
-      { label: 'About' },
+      { label: 'Home' },
+      { label: 'News' },
+      { label: 'Menu' },
+      { label: 'About Us' },
       { label: 'Contact' },
     ],
     cartCount: 2,
@@ -126,14 +126,6 @@ export default function HeroSection() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Update body background color when theme changes, with improved timing
-  // useEffect(() => {
-  //   // Apply transition without delay first
-  //   document.body.style.transition = 'all 0.6s ease-in-out 0.3s'
-
-  //   document.body.style.backgroundColor = theme.mainBgColor
-  // }, [theme.mainBgColor])
-
   // Callback for JuiceCarousel with debounce to prevent rapid changes
   const handleCanChange = (canName: string) => {
     // Type check to ensure canName is a valid key in canThemeMap
@@ -151,10 +143,10 @@ export default function HeroSection() {
       style={{
         position: 'relative',
         minHeight: '110vh',
-        background: `linear-gradient(to bottom, ${theme.mainBgColor} 70%, #faebd7 100%)`,
+        background: `linear-gradient(to bottom, ${theme.mainBgColor} 70%, #f9f9fb 100%)`,
         transition: 'background-color 0.6s ease-in-out',
       }}
-      className='relative w-full max-w-[1440px] mx-auto max-h-screen sm:max-h-900px h-[100dvh] select-none'
+      className='relative w-full max-h-screen sm:max-h-900px h-[100dvh] select-none mx-auto'
     >
       <div
         style={{
@@ -164,27 +156,33 @@ export default function HeroSection() {
           width: '100%',
           height: '200px',
           background:
-            'linear-gradient(to bottom, rgba(255,255,255,0), #FFEEDD)',
+            'linear-gradient(to bottom, rgba(255,255,255,0), #f9f9fb)',
           pointerEvents: 'none',
         }}
       />
+
       <NavBar
-        logo={content.nav.logo}
-        navItems={content.nav.items}
+        logo='JUICY'
+        navItems={[
+          { label: 'Home' },
+          { label: 'News' },
+          { label: 'Menu' },
+          { label: 'About Us' },
+          { label: 'Contact' },
+        ]}
         bgColor='transparent'
-        cartItemCount={content.nav.cartCount}
+        cartItemCount={2}
         textColor='white'
-        themeColor={theme.mainBgColor} // Pass theme color to NavBar
-        buttonTextColor={theme.buttonTextColor} // Pass button text color to NavBar
       />
-      <div className='max-h-screen sm:max-h-900px h-[100dvh] overflow-hidden w-full relative'>
+
+      <div className='max-h-screen sm:max-h-900px h-[90dvh] overflow-hidden w-full relative'>
         {/* Background as a separate component that handles its own animation */}
         <AnimatedBackground backgroundColor={theme.mainBgColor} duration={1} />
 
         <div
           className={`max-w-[1440px] ${
             isMobile ? 'px-4' : 'pr-5 pl-[70px]'
-          } h-full w-full max-h-[1080px] m-auto relative`}
+          } h-full w-full max-h-[1080px] m-auto relative flex`}
         >
           {/* ProductLogo always fixed as "JUICY" and always white */}
           <ProductLogo
@@ -198,7 +196,7 @@ export default function HeroSection() {
           <div
             className={`${
               isMobile ? 'relative' : 'absolute'
-            }  top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full z-50`}
+            }  top-[46%] -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full z-50`}
           >
             <JuiceCarousel
               onCanChange={handleCanChange}

@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
@@ -70,12 +70,9 @@ export default function RootLayout({
       lang='en'
     >
       <head />
-      <body
-        cz-shortcut-listen='true'
-        className='bg-background font-montserrat antialiased'
-      >
+      <body cz-shortcut-listen='true' className='bg-background antialiased'>
         <AppProvider>
-          <div className='mx-auto relative flex flex-col min-h-screen w-full min-[1800px]:max-w-[1800px]'>
+          <div className='relative flex flex-col min-h-screen min-w-screen'>
             <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
           </div>
         </AppProvider>

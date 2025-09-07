@@ -1,6 +1,6 @@
 import { Html } from '@react-three/drei'
 
-import LoadingSpinner from '../LoadingSpinner'
+import LoadingSpinner from '@/components/home/loading-spinner'
 
 // Simple static loader that doesn't trigger state updates during render
 export default function ThreeLoader() {

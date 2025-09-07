@@ -1,8 +1,8 @@
 import { useRef } from 'react'
 
-import CanvasContainer from '@/components/carousel/CanvasContainer'
+import CanvasContainer from '@/components/home/3d-carousel/canvas-container'
 
-import { juiceCans, positionConfigs } from './JuiceData'
+import { juiceCans, positionConfigs } from './juiceData'
 
 interface CarouselWheelProps {
   activeIndex: number

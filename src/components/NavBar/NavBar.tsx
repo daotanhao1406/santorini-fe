@@ -1,9 +1,8 @@
-import { ShoppingBag, User } from 'lucide-react'
+'use client'
+import { User } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 import AccountDropdown from './AccountDropdown'
-import CartDropdown from './CartDropdown'
-import { sampleCartItems } from './data'
 import MobileMenu from './MobileMenu'
 import NavLinks from './NavLinks'
 import { NavBarProps } from './types'
@@ -96,7 +95,7 @@ export default function NavBar({
 
   return (
     <div
-      className='flex fixed left-1/2 -translate-x-1/2 top-3 w-full max-w-[1440px] items-center justify-between ps-[6.2%] pe-[5.5%] py-3 z-[100] select-none'
+      className='flex w-full max-w-[1440px] items-center justify-between pt-6 ps-[6.2%] pe-[5.5%] py-3 z-[111] select-none mx-auto'
       style={{
         backgroundColor: bgColor,
         backdropFilter: 'blur(2px)',
@@ -148,75 +147,7 @@ export default function NavBar({
             <AccountDropdown themeColor={themeColor} isDesktop={true} />
           )}
         </div>
-
-        {/* Cart Icon with Dropdown */}
-        <div ref={cartRef} className='relative'>
-          <span
-            className='relative cursor-pointer hover:opacity-80 transition-opacity duration-300'
-            style={{ color: textColor }}
-            onClick={() => toggleDropdown('cart')}
-          >
-            <ShoppingBag size={20} />
-            {cartItemCount > 0 && (
-              <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center'>
-                {cartItemCount}
-              </span>
-            )}
-          </span>
-
-          {/* Cart Dropdown Menu - Desktop */}
-          {!isMobile && activeDropdown === 'cart' && (
-            <CartDropdown
-              cartItems={sampleCartItems}
-              themeColor={themeColor}
-              isDesktop={true}
-            />
-          )}
-        </div>
       </div>
-
-      {/* Mobile Dropdowns - positioned at top of screen */}
-      {isMobile && activeDropdown === 'cart' && (
-        <CartDropdown
-          cartItems={sampleCartItems}
-          themeColor={themeColor}
-          isDesktop={false}
-          onClose={() => setActiveDropdown(null)}
-        />
-      )}
-
-      {isMobile && activeDropdown === 'account' && (
-        <AccountDropdown
-          themeColor={themeColor}
-          isDesktop={false}
-          onClose={() => setActiveDropdown(null)}
-        />
-      )}
-
-      {/* Global Styles */}
-      <style jsx global>{`
-        @keyframes scaleIn {
-          0% {
-            transform: scale(0.95);
-            opacity: 0;
-          }
-          100% {
-            transform: scale(1);
-            opacity: 1;
-          }
-        }
-        .styled-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .styled-scrollbar::-webkit-scrollbar-track {
-          background: #f1f1f1;
-          border-radius: 10px;
-        }
-        .styled-scrollbar::-webkit-scrollbar-thumb {
-          background: #c1c1c1;
-          border-radius: 10px;
-        }
-      `}</style>
     </div>
   )
 }
