@@ -47,7 +47,7 @@ const buttonVariants = cva(
 )
 
 interface IconProps {
-  Icon: React.ElementType
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
   iconPlacement: 'left' | 'right'
 }
 
@@ -72,13 +72,13 @@ const MyButton = React.forwardRef<
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     >
-      {Icon && iconPlacement === 'left' && (
+      {Icon && Icon !== null && iconPlacement === 'left' && (
         <div className='w-0 translate-x-[0%] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-100 group-hover:pr-2 group-hover:opacity-100'>
           <Icon />
         </div>
       )}
       {props.children}
-      {Icon && iconPlacement === 'right' && (
+      {Icon && Icon !== null && iconPlacement === 'right' && (
         <div className='w-0 translate-x-[100%] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100'>
           <Icon />
         </div>

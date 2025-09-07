@@ -31,12 +31,13 @@ export type TypographyEllipsis =
       expandable?: boolean
     }
 
-interface TypographyProps extends HTMLAttributes<HTMLElement> {
+interface TypographyProps<T extends ElementType = 'p'>
+  extends HTMLAttributes<HTMLElement> {
+  as?: T
   children: React.ReactNode
   size?: TypographySize
   ellipsis?: TypographyEllipsis
   className?: string
-  as?: ElementType
 }
 
 const Typography: React.FC<TypographyProps> = ({
@@ -110,7 +111,7 @@ const Typography: React.FC<TypographyProps> = ({
   return (
     <div className='typography-wrapper'>
       <Component
-        ref={textRef}
+        ref={textRef as any}
         className={finalClasses}
         style={getLineClampStyle()}
         {...props}

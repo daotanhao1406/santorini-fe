@@ -88,8 +88,8 @@ export default function Can3D({
       const clonedScene = scene.clone()
 
       clonedScene.traverse((o) => {
-        if ((o as THREE.Mesh).isMesh) {
-          const mesh = o as THREE.Mesh
+        if ((o as unknown as THREE.Mesh).isMesh) {
+          const mesh = o as unknown as THREE.Mesh
 
           if (mesh.material) {
             if (mesh.material instanceof THREE.MeshStandardMaterial) {
@@ -105,7 +105,9 @@ export default function Can3D({
         modelRef.current.remove(modelRef.current.children[0])
       }
 
-      modelRef.current.add(clonedScene)
+      modelRef.current.add(
+        clonedScene as THREE.Object3D<THREE.Object3DEventMap>,
+      )
 
       if (onLoaded && !loadedRef.current) {
         loadedRef.current = true
