@@ -3,7 +3,7 @@
 import { HeroUIProvider } from '@heroui/system'
 import { ToastProvider } from '@heroui/toast'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import { ReactNode } from 'react'
 
 declare module '@react-types/shared' {
   interface RouterConfig {
@@ -13,7 +13,7 @@ declare module '@react-types/shared' {
   }
 }
 
-export function AppProvider({ children }: { children: React.ReactNode }) {
+export function AppProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
 
   return (

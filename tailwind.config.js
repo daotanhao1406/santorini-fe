@@ -13,6 +13,7 @@ const config = {
       fontFamily: {
         pacifico: ['Pacifico', 'cursive'],
         montserrat: ['Montserrat', 'sans-serif'],
+        coiny: ['Coiny', 'cursive'],
       },
     },
   },
@@ -22,7 +23,7 @@ const config = {
         light: {
           colors: {
             background: {
-              DEFAULT: '#FFEEDD',
+              DEFAULT: '#f9f9fb',
             },
             primary: {
               DEFAULT: '#351C0E',
