@@ -120,6 +120,9 @@ importers:
       '@types/react-dom':
         specifier: 19.1.6
         version: 19.1.6(@types/react@19.1.8)
+      '@types/three':
+        specifier: 0.180.0
+        version: 0.180.0
       '@typescript-eslint/eslint-plugin':
         specifier: 8.34.1
         version: 8.34.1(@typescript-eslint/parser@8.34.1(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
