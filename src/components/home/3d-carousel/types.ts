@@ -8,7 +8,7 @@ export interface JuiceCan {
 export interface PositionConfig {
   className: string
   transformOrigin: string
-  rotation: [number, number, number]
+  rotation?: [number, number, number]
 }
 
 export interface Can3DProps {
