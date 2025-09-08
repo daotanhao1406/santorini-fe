@@ -1,5 +1,3 @@
-export { default as Can3D } from './can-3d'
-export { default as CanvasContainer } from './canvas-container'
 export { default as CarouselControls } from './carousel-controls'
 export { default as CarouselWheel } from './carousel-wheel'
 export { default as FruitsContainer } from './fruits-container'
