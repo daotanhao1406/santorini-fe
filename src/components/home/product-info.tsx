@@ -118,7 +118,7 @@ export default function ProductInfo({
   return (
     <div
       ref={containerRef}
-      className={`${isMobile ? 'absolute bottom-14 left-4 right-4 max-w-full min-w-0' : 'self-end max-w-[560px] min-w-[400px]'}`}
+      className={`${isMobile ? 'absolute bottom-14 left-4 right-4 max-w-full min-w-0' : 'self-end max-w-[500px] min-w-[400px]'}`}
       style={{
         opacity: renderDelayComplete ? 1 : 0,
         transition: 'opacity 0.3s ease',

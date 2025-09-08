@@ -1,6 +1,5 @@
+import Image from 'next/image'
 import { useRef } from 'react'
-
-import CanvasContainer from '@/components/home/3d-carousel/canvas-container'
 
 import { juiceCans, positionConfigs } from './juiceData'
 
@@ -28,9 +27,7 @@ export default function CarouselWheel({
       {juiceCans.map((can, index) => (
         <div
           key={can.name}
-          className={`${positionConfigs[index].className} ${
-            isMobile ? 'w-[45%] h-[45%] mx-auto' : 'w-1/2 h-1/2'
-          } transform-gpu`}
+          className={`${positionConfigs[index].className} flex items-center justify-center overflow-hidden`}
           style={{
             transformOrigin: positionConfigs[index].transformOrigin,
             willChange: 'transform',
@@ -39,12 +36,24 @@ export default function CarouselWheel({
             canModelsRef.current[index] = el
           }}
         >
-          <CanvasContainer
+          {/* <CanvasContainer
             modelPath={can.model}
             rotation={positionConfigs[index].rotation}
             isMobile={isMobile}
             isActivePosition={index === activeIndex}
             onLoaded={onActiveModelLoaded}
+          /> */}
+          <Image
+            src={can.model}
+            alt={can.name}
+            width={isMobile ? 160 : 260}
+            height={isMobile ? 160 : 260}
+            className='object-contain'
+            onLoadingComplete={() => {
+              if (index === activeIndex) {
+                onActiveModelLoaded()
+              }
+            }}
           />
         </div>
       ))}

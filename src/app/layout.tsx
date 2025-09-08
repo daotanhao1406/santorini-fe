@@ -72,9 +72,7 @@ export default async function RootLayout({
       <head />
       <body cz-shortcut-listen='true' className='bg-background antialiased'>
         <AppProvider>
-          <div className='relative flex flex-col min-h-screen min-w-screen'>
-            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
-          </div>
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         </AppProvider>
       </body>
     </html>
