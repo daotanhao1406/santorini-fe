@@ -143,24 +143,23 @@ export default function HeroSection() {
       style={{
         position: 'relative',
         minHeight: '110vh',
-        background: `linear-gradient(to bottom, ${theme.mainBgColor} 70%, #f9f9fb 100%)`,
-        transition: 'background-color 0.6s ease-in-out',
+        // background: `linear-gradient(to bottom, ${theme.mainBgColor} 70%, #f9f9fb 100%)`,
+        transition: '0.6s ease-in-out',
       }}
       className='relative w-full max-h-screen sm:max-h-900px h-[100dvh] select-none mx-auto'
     >
-      <div
-        style={{
-          position: 'absolute',
-          bottom: -50,
-          left: 0,
-          width: '100%',
-          height: '200px',
-          background:
-            'linear-gradient(to bottom, rgba(255,255,255,0), #f9f9fb)',
-          pointerEvents: 'none',
-        }}
-      />
-
+      <div className='absolute inset-0'>
+        {Object.entries(canThemeMap).map(([key, value]) => (
+          <div
+            key={key}
+            className='absolute inset-0 transition-opacity duration-1000 ease-in-out'
+            style={{
+              background: `linear-gradient(to bottom, ${value.mainBgColor} 70%, #f9f9fb 100%)`,
+              opacity: value.mainBgColor === theme.mainBgColor ? 1 : 0,
+            }}
+          />
+        ))}
+      </div>
       <NavBar
         logo='JUICY'
         navItems={[
