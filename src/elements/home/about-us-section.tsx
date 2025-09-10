@@ -8,17 +8,17 @@ export default function AboutUsSection() {
     <div className='flex flex-col lg:flex-row gap-20 mt-32 w-full px-10'>
       <div className='flex flex-col gap-2 lg:w-1/2 w-full'>
         <span className='text-5xl font-bold'>About JUICY</span>
-        <span className='text-xl font-medium'>
+        <span className='text-xl mt-1 font-medium'>
           JUICY – A JOURNEY TO DISCOVER NEW FLAVORS
         </span>
-        <span className='text-lg'>
+        <span className='text-lg mt-2'>
           The journey always begins with carefully selecting ingredients from
           fertile lands, followed by meticulous preservation and skillful
           preparation. Through continuous efforts, JUICY always strives
           toward...
         </span>
-        <Button size='lg' color='primary' className='mt-8 self-start'>
-          See more
+        <Button color='primary' className='mt-8 self-start p-8 text-lg'>
+          Learn more
         </Button>
       </div>
       <div className='lg:w-1/2 w-full flex lg:justify-end mx-auto'>
