@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 
-import { LoginForm } from '@/app/auth/login/login-form'
-import { LoginHero } from '@/app/auth/login/login-hero'
+import { LoginForm } from '@/app/[locale]/auth/login/login-form'
+import { LoginHero } from '@/app/[locale]/auth/login/login-hero'
 export const metadata: Metadata = {
   title: {
     default: 'Login',

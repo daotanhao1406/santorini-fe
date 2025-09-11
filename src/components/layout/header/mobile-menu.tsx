@@ -1,6 +1,16 @@
 import { ShoppingBag, User } from 'lucide-react'
-
-import { MobileMenuProps } from './types'
+export interface NavItem {
+  label: string
+  href?: string
+}
+export interface MobileMenuProps {
+  navItems: NavItem[]
+  cartItemCount: number
+  themeColor: string
+  activeDropdown: 'cart' | 'account' | 'menu' | null
+  textColor: string
+  toggleDropdown: (dropdown: 'cart' | 'account' | 'menu') => void
+}
 
 export default function MobileMenu({
   navItems,
@@ -13,7 +23,7 @@ export default function MobileMenu({
     <div className='relative md:hidden'>
       {/* Hamburger Button */}
       <button
-        className='relative z-10 flex flex-col justify-center items-center w-8 h-8 p-1'
+        className='relative z-[1001] flex flex-col justify-center items-center w-8 h-8 p-1'
         onClick={() => {
           const newDropdown = activeDropdown === 'menu' ? null : 'menu'
           toggleDropdown(newDropdown === null ? 'menu' : 'menu')
@@ -43,7 +53,7 @@ export default function MobileMenu({
       {/* Mobile Menu Dropdown - Improved */}
       {activeDropdown === 'menu' && (
         <div
-          className='fixed left-0 right-0 top-[56px] mx-auto w-full max-w-[95%] bg-white bg-opacity-95 backdrop-blur-md rounded-2xl shadow-lg overflow-hidden z-[500]'
+          className='fixed  left-0 right-0 top-[56px] mx-auto w-full max-w-[95%] bg-white bg-opacity-95 backdrop-blur-md rounded-2xl shadow-lg overflow-hidden z-[500]'
           style={{
             animation: 'scaleIn 0.2s ease-out forwards',
           }}
