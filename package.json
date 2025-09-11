@@ -21,9 +21,11 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@heroui/avatar": "2.2.21",
     "@heroui/badge": "2.2.15",
     "@heroui/button": "2.2.23",
     "@heroui/checkbox": "2.3.24",
+    "@heroui/dropdown": "2.3.26",
     "@heroui/form": "2.1.24",
     "@heroui/input": "2.4.24",
     "@heroui/navbar": "2.2.21",
@@ -43,6 +45,7 @@
     "intl-messageformat": "10.7.16",
     "lucide-react": "0.539.0",
     "next": "15.3.1",
+    "next-intl": "4.3.7",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-water-wave": "2.0.1",

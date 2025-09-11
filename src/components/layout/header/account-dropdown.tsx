@@ -1,5 +1,8 @@
-import { AccountDropdownProps } from './types'
-
+export interface AccountDropdownProps {
+  themeColor: string
+  isDesktop?: boolean
+  onClose?: () => void
+}
 export default function AccountDropdown({
   themeColor,
   isDesktop = true,

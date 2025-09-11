@@ -3,10 +3,16 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 import { hasEnvVars } from '../utils'
 
-export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
-    request,
-  })
+const SUPPORTED_LOCALES = ['vi', 'en']
+
+const getLocaleFromPath = (pathname: string): string | null => {
+  const parts = pathname.split('/')
+  const maybeLocale = parts[1]
+  return SUPPORTED_LOCALES.includes(maybeLocale) ? maybeLocale : null
+}
+
+export async function updateSession(request: NextRequest, response: NextResponse) {
+  let supabaseResponse = response
 
   // If the env vars are not set, skip middleware check. You can remove this
   // once you setup the project.
@@ -48,20 +54,24 @@ export async function updateSession(request: NextRequest) {
   const { data } = await supabase.auth.getClaims()
   const user = data?.claims
 
-  if (
-    request.nextUrl.pathname !== '/' &&
-    !user &&
-    !request.nextUrl.pathname.startsWith('/auth')
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
+  const pathname = request.nextUrl.pathname
+  const locale = getLocaleFromPath(pathname)
+  const basePath = locale ? `/${locale}` : ''
+
+  const isAuthPath = pathname.startsWith(`${basePath}/auth`)
+  const isRoot = pathname === '/' || pathname === `/${locale}`
+
+  if (!user && !isAuthPath && !isRoot) {
+    // Chưa đăng nhập → chuyển về /[locale]/auth/login
     const url = request.nextUrl.clone()
-    url.pathname = '/auth/login'
+    url.pathname = `${basePath}/auth/login`
     return NextResponse.redirect(url)
   }
 
-  if (user && request.nextUrl.pathname.startsWith('/auth')) {
+  if (user && isAuthPath) {
+    // Đã đăng nhập mà vào /auth → chuyển về /[locale]/home
     const url = request.nextUrl.clone()
-    url.pathname = '/home'
+    url.pathname = `${basePath}/home`
     return NextResponse.redirect(url)
   }
 

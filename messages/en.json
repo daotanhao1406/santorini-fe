@@ -1,0 +1,11 @@
+{
+  "HomePage": {
+    "nav": {
+      "home": "Home",
+      "about": "About",
+      "contact": "Contact",
+      "menu": "Menu",
+      "news": "News"
+    }
+  }
+}
