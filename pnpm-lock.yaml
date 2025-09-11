@@ -71,9 +71,6 @@ importers:
       gsap:
         specifier: 3.13.0
         version: 3.13.0
-      intl-messageformat:
-        specifier: 10.7.16
-        version: 10.7.16
       lucide-react:
         specifier: 0.539.0
         version: 0.539.0(react@19.1.0)
@@ -89,9 +86,6 @@ importers:
       react-dom:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
-      react-water-wave:
-        specifier: 2.0.1
-        version: 2.0.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       tailwind-merge:
         specifier: 3.3.1
         version: 3.3.1
@@ -3373,14 +3367,6 @@ packages:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
     hasBin: true
 
-  jquery.ripples@0.6.3:
-    resolution: {integrity: sha512-ZZQtIoPdesJCx59eDpmbUThZs8HkAxNWG7eFogdziqwFx19oktRbC5XNIjY1PKbSx4YtmoQLHfbl4NHR1z9Wmw==}
-    peerDependencies:
-      jquery: '>=1.7.0'
-
-  jquery@3.7.1:
-    resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
-
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
@@ -3906,12 +3892,6 @@ packages:
     peerDependenciesMeta:
       react-dom:
         optional: true
-
-  react-water-wave@2.0.1:
-    resolution: {integrity: sha512-+iu4pUzDebh2cIQbupzckCSAMok+dYx6hTOziVdLt2gIbB4erceMmlnzF2TmUg7FZDvFW7NJYWXEbfi7gzOsfA==}
-    peerDependencies:
-      react: ^16 | ^17 | ^18
-      react-dom: ^16 | ^17 | ^18
 
   react@19.1.0:
     resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
@@ -8466,12 +8446,6 @@ snapshots:
 
   jiti@2.4.2: {}
 
-  jquery.ripples@0.6.3(jquery@3.7.1):
-    dependencies:
-      jquery: 3.7.1
-
-  jquery@3.7.1: {}
-
   js-tokens@4.0.0: {}
 
   js-yaml@4.1.0:
@@ -8949,13 +8923,6 @@ snapshots:
     dependencies:
       react: 19.1.0
     optionalDependencies:
-      react-dom: 19.1.0(react@19.1.0)
-
-  react-water-wave@2.0.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
-    dependencies:
-      jquery: 3.7.1
-      jquery.ripples: 0.6.3(jquery@3.7.1)
-      react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
   react@19.1.0: {}

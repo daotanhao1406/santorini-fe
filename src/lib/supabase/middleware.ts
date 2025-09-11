@@ -11,7 +11,10 @@ const getLocaleFromPath = (pathname: string): string | null => {
   return SUPPORTED_LOCALES.includes(maybeLocale) ? maybeLocale : null
 }
 
-export async function updateSession(request: NextRequest, response: NextResponse) {
+export async function updateSession(
+  request: NextRequest,
+  response: NextResponse,
+) {
   let supabaseResponse = response
 
   // If the env vars are not set, skip middleware check. You can remove this
