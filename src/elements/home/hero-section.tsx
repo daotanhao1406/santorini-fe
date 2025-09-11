@@ -1,4 +1,5 @@
 'use client'
+import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
 import AnimatedBackground from '@/components/home/animated-background'
@@ -6,7 +7,7 @@ import JuiceCarousel from '@/components/home/juice-carousel'
 import ProductInfo from '@/components/home/product-info'
 import ProductLogo from '@/components/home/product-logo'
 import ScrollDownButton from '@/components/home/scroll-down-button'
-import NavBar from '@/components/NavBar'
+import NavBar from '@/components/layout/header'
 
 // Define a type for the juice names to properly type-check
 type JuiceName = keyof typeof canThemeMap
@@ -109,6 +110,7 @@ export default function HeroSection() {
   const [productTitle, setProductTitle] = useState('Lemon Ginger')
   const [, setProductDesc] = useState(content.product.description)
   const [isMobile, setIsMobile] = useState(false)
+  const navTranslations = useTranslations('HomePage.nav')
 
   // Check for mobile screen size
   useEffect(() => {
@@ -163,11 +165,11 @@ export default function HeroSection() {
       <NavBar
         logo='JUICY'
         navItems={[
-          { label: 'Home' },
-          { label: 'News' },
-          { label: 'Menu' },
-          { label: 'About Us' },
-          { label: 'Contact' },
+          { label: navTranslations('home') },
+          { label: navTranslations('news') },
+          { label: navTranslations('menu') },
+          { label: navTranslations('about') },
+          { label: navTranslations('contact') },
         ]}
         bgColor='transparent'
         cartItemCount={2}
@@ -195,7 +197,7 @@ export default function HeroSection() {
           <div
             className={`${
               isMobile ? 'relative' : 'absolute'
-            }  top-[46%] -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full z-50`}
+            }  top-[46%] -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full z-0`}
           >
             <JuiceCarousel
               onCanChange={handleCanChange}

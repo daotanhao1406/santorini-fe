@@ -1,0 +1,11 @@
+{
+  "HomePage": {
+    "nav": {
+      "home": "Trang chủ",
+      "about": "Về chúng tôi",
+      "contact": "Liên hệ",
+      "menu": "Menu",
+      "news": "Tin tức"
+    }
+  }
+}
