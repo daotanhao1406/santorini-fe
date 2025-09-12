@@ -7,6 +7,8 @@ import { ReactNode, Suspense } from 'react'
 
 import '@/styles/globals.css'
 
+import Footer from '@/components/layout/footer'
+
 import { siteConfig } from '@/constant/config'
 import { routing } from '@/i18n/routing'
 import { AppProvider } from '@/providers/AppProvider'
@@ -85,7 +87,12 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body cz-shortcut-listen='true' className='bg-background antialiased'>
         <NextIntlClientProvider>
           <AppProvider>
-            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+            <Suspense fallback={<div>Loading...</div>}>
+              {children}
+              <div className='mt-20'>
+                <Footer />
+              </div>
+            </Suspense>
           </AppProvider>
         </NextIntlClientProvider>
       </body>
