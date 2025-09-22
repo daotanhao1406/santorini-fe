@@ -7,18 +7,7 @@ import ProductInfo from '@/components/home/product-info'
 import ProductLogo from '@/components/home/product-logo'
 import ScrollDownButton from '@/components/home/scroll-down-button'
 
-import { juiceData } from '@/app/[locale]/page'
-
-export interface JuiceData {
-  title: string
-  description: string
-  mainBgColor: string
-  blurColor: string
-  textColor: string
-  accentColor: string
-  buttonBgColor: string
-  buttonTextColor: string
-}
+import { JuiceData, juiceData } from '@/constant/juiceData'
 
 interface HeroSectionProps {
   currentJuiceData: JuiceData
@@ -68,14 +57,14 @@ export default function HeroSection({
       className='relative w-full max-h-screen sm:max-h-900px h-[100dvh] select-none mx-auto'
     >
       <div className='absolute inset-0'>
-        {Object.entries(juiceData).map(([key, value]) => (
+        {juiceData.map((juice, index) => (
           <div
-            key={key}
+            key={index}
             className='absolute inset-0 transition-opacity duration-1000 ease-in-out'
             style={{
-              background: `linear-gradient(to bottom, ${value.mainBgColor} 70%, #f9f9fb 100%)`,
+              background: `linear-gradient(to bottom, ${juice.mainBgColor} 70%, #f9f9fb 100%)`,
               opacity:
-                value.mainBgColor === currentJuiceData.mainBgColor ? 1 : 0,
+                juice.mainBgColor === currentJuiceData.mainBgColor ? 1 : 0,
             }}
           />
         ))}

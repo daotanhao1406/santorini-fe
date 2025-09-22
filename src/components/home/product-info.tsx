@@ -2,7 +2,7 @@
 import gsap from 'gsap'
 import { useEffect, useRef, useState } from 'react'
 
-import { JuiceData } from '@/elements/home/hero-section'
+import { JuiceData } from '@/constant/juiceData'
 
 interface ProductInfoProps {
   juiceData: JuiceData
