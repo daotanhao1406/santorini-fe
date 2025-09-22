@@ -24,7 +24,7 @@ export default function ScrollDownButton({
   const buttonRef = useRef<HTMLDivElement>(null)
 
   const handleClick = () => {
-    setShowMenu((prev) => !prev)
+    // setShowMenu((prev) => !prev)
   }
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export default function ScrollDownButton({
         isMobile
           ? 'bottom-4 right-4'
           : 'bottom-[clamp(2rem,1.8vw,9rem)] right-[clamp(2rem,4.5vw,9rem)]'
-      } z-50`}
+      } z-10`}
       ref={buttonRef}
     >
       <button

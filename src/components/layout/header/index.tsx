@@ -1,182 +1,121 @@
-'use client'
-import { User } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { Button } from '@heroui/button'
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
+} from '@heroui/navbar'
+import { ClipboardList, House, Mails, Newspaper, Users } from 'lucide-react'
+import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { useMemo, useState } from 'react'
 
-import AccountDropdown from '@/components/layout/header/account-dropdown'
 import LocaleSwitcher from '@/components/layout/header/locale-switcher'
-import MobileMenu from '@/components/layout/header/mobile-menu'
 
-export interface NavItem {
-  label: string
-  href?: string
-}
-
-export interface NavBarProps {
-  logo: string
-  navItems: NavItem[]
-  cartItemCount: number
+interface NavbarProps {
+  isOutOfHeroSection?: boolean
   bgColor?: string
-  textColor?: string
-  themeColor?: string
-  buttonTextColor?: string
 }
 
-export default function NavBar({
-  logo,
-  navItems,
-  cartItemCount,
-  textColor = 'white',
-  bgColor = 'transparent',
-  themeColor = '#82AF38',
-}: NavBarProps) {
-  const [activeDropdown, setActiveDropdown] = useState<
-    'cart' | 'account' | 'menu' | null
-  >(null)
-  const cartRef = useRef<HTMLDivElement>(null)
-  const accountRef = useRef<HTMLDivElement>(null)
-  const menuRef = useRef<HTMLDivElement>(null)
-  const [isMobile, setIsMobile] = useState(false)
+export default function Header({ isOutOfHeroSection, bgColor }: NavbarProps) {
+  const navbarTranslate = useTranslations('HomePage.nav')
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  // Check for mobile screen size
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 600)
-    }
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+  const menuItems = [
+    {
+      label: navbarTranslate('home'),
+      href: '/',
+      icon: <House size={18} />,
+    },
+    {
+      label: navbarTranslate('news'),
+      href: '/news',
+      icon: <Newspaper size={18} />,
+    },
+    {
+      label: navbarTranslate('menu'),
+      href: '/menu',
+      icon: <ClipboardList size={18} />,
+    },
+    {
+      label: navbarTranslate('about'),
+      href: '/about',
+      icon: <Users size={18} />,
+    },
+    {
+      label: navbarTranslate('contact'),
+      href: '/contact',
+      icon: <Mails size={18} />,
+    },
+  ]
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      const target = event.target as Element
+  const navbarBgColor = useMemo(() => {
+    if (isMenuOpen) return ''
+    if (isOutOfHeroSection) return ''
+    return bgColor
+  }, [isMenuOpen, isOutOfHeroSection, bgColor])
 
-      // Check if clicking on dropdown buttons
-      const clickingDropdownButton = target.closest('[data-dropdown]')
-      if (clickingDropdownButton) {
-        const buttonType = clickingDropdownButton.getAttribute('data-dropdown')
-        // If clicking cart/account from menu, don't close menu
-        if (
-          activeDropdown === 'menu' &&
-          (buttonType === 'cart' || buttonType === 'account')
-        ) {
-          return
-        }
-      }
-
-      // Check each dropdown separately
-      if (
-        activeDropdown === 'cart' &&
-        cartRef.current &&
-        !cartRef.current.contains(target)
-      ) {
-        setActiveDropdown(null)
-      }
-
-      if (
-        activeDropdown === 'account' &&
-        accountRef.current &&
-        !accountRef.current.contains(target)
-      ) {
-        setActiveDropdown(null)
-      }
-
-      if (
-        activeDropdown === 'menu' &&
-        menuRef.current &&
-        !menuRef.current.contains(target)
-      ) {
-        setActiveDropdown(null)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [activeDropdown])
-
-  // Toggle dropdown visibility
-  const toggleDropdown = (dropdown: 'cart' | 'account' | 'menu') => {
-    setActiveDropdown((prev) => {
-      // If clicking the same dropdown that's already open, close it
-      if (prev === dropdown) return null
-
-      return dropdown
-    })
-  }
+  const navbarTextColor = useMemo(() => {
+    if (isMenuOpen) return 'black'
+    if (isOutOfHeroSection) return 'black'
+    return 'white'
+  }, [isMenuOpen, isOutOfHeroSection])
 
   return (
-    <div
-      className='flex w-full max-w-[1440px] items-center justify-between pt-6 ps-[6.2%] pe-[5.5%] py-3 z-[999] select-none mx-auto'
-      style={{
-        backgroundColor: bgColor,
-        backdropFilter: 'blur(2px)',
-        transition: 'background-color 0.3s ease',
-      }}
+    <Navbar
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+      maxWidth='xl'
+      isBlurred={false}
+      isBordered={isOutOfHeroSection}
+      className={`transition-colors duration-1000 ease-in-out ${isOutOfHeroSection ? 'bg-background' : ''}`}
+      style={{ backgroundColor: navbarBgColor, color: navbarTextColor }}
     >
-      {/* Logo */}
-      <div
-        className='text-2xl uppercase font-bold cursor-default'
-        style={{
-          color: textColor,
-          fontWeight: 900,
-        }}
-      >
-        {logo}
-      </div>
-
-      {/* Navigation Links - Desktop */}
-      <div className='hidden space-x-8 md:flex xl:space-x-20'>
-        {navItems.map((item, index) => (
-          <span
-            key={index}
-            className='text-base font-normal cursor-pointer relative group'
-            style={{ color: textColor }}
-          >
-            {item.label}
-            <span
-              className='absolute left-0 bottom-0 w-0 h-[2px] group-hover:w-full transition-all duration-300'
-              style={{ backgroundColor: textColor }}
-            />
-          </span>
+      <NavbarBrand>
+        <div className='text-2xl font-black uppercase cursor-default'>
+          JUICY
+        </div>
+      </NavbarBrand>
+      <NavbarContent className='hidden sm:flex ' justify='end'>
+        {menuItems.map((item, index) => (
+          <NavbarItem className='ml-8 xl:px-6' key={`${item.label}-${index}`}>
+            <Link className='font-medium relative group ' href='#'>
+              {item.label}
+              <span
+                className={`absolute ${isOutOfHeroSection ? 'bg-black' : 'bg-white'} left-0 -bottom-[2px] w-0 h-[1px] group-hover:w-full transition-all duration-300`}
+              />
+            </Link>
+          </NavbarItem>
         ))}
-      </div>
-
-      {/* Mobile Menu */}
-      {isMobile && (
-        <div ref={menuRef}>
-          <MobileMenu
-            navItems={navItems}
-            cartItemCount={cartItemCount}
-            themeColor={themeColor}
-            textColor={textColor}
-            activeDropdown={activeDropdown}
-            toggleDropdown={toggleDropdown}
-          />
+      </NavbarContent>
+      <NavbarContent justify='end'>
+        <NavbarItem>
+          <LocaleSwitcher />
+        </NavbarItem>
+        <NavbarItem className='sm:hidden'>
+          <NavbarMenuToggle />
+        </NavbarItem>
+      </NavbarContent>
+      <NavbarMenu>
+        <Button variant='bordered' color='primary'>
+          Sign In / Sign Up
+        </Button>
+        <div className='mt-2'>
+          {menuItems.map((item, index) => (
+            <NavbarMenuItem className='py-1' key={`${item}-${index}`}>
+              <Link
+                className='w-full font-semibold flex items-center gap-3 text-medium'
+                href='#'
+              >
+                {item.icon} {item.label}
+              </Link>
+            </NavbarMenuItem>
+          ))}
         </div>
-      )}
-
-      {/* User and Cart Icons - Desktop */}
-      <div className={`${isMobile ? 'hidden' : 'flex'} items-center space-x-4`}>
-        {/* Account Icon with Dropdown */}
-        <div ref={accountRef} className='relative'>
-          <span
-            className='cursor-pointer hover:opacity-80 transition-opacity duration-300'
-            style={{ color: textColor }}
-            onClick={() => toggleDropdown('account')}
-          >
-            <User size={20} />
-          </span>
-
-          {/* Account Dropdown Menu - Desktop */}
-          {!isMobile && activeDropdown === 'account' && (
-            <AccountDropdown themeColor={themeColor} isDesktop={true} />
-          )}
-        </div>
-        <LocaleSwitcher />
-      </div>
-    </div>
+      </NavbarMenu>
+    </Navbar>
   )
 }

@@ -6,6 +6,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@heroui/dropdown'
+import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { Locale, useLocale } from 'next-intl'
 import { useTransition } from 'react'
@@ -42,12 +43,12 @@ export default function LocaleSwitcher() {
       placement='bottom-end'
     >
       <DropdownTrigger>
-        <Avatar
-          isDisabled={isPending}
-          radius='none'
-          as='button'
+        <Image
           alt={currentLocale}
-          className='w-6 h-4 rounded-[3px] hover:cursor-pointer'
+          className='rounded-[3px] cursor-pointer'
+          width={24}
+          height={16}
+          aria-disabled={isPending}
           src={`https://flagcdn.com/${currentLocale === 'vi' ? 'vn' : 'gb'}.svg`}
         />
       </DropdownTrigger>

@@ -1,5 +1,4 @@
 'use client'
-import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
 import AnimatedBackground from '@/components/home/animated-background'
@@ -7,110 +6,19 @@ import JuiceCarousel from '@/components/home/juice-carousel'
 import ProductInfo from '@/components/home/product-info'
 import ProductLogo from '@/components/home/product-logo'
 import ScrollDownButton from '@/components/home/scroll-down-button'
-import NavBar from '@/components/layout/header'
 
-// Define a type for the juice names to properly type-check
-type JuiceName = keyof typeof canThemeMap
+import { JuiceData, juiceData } from '@/constant/juiceData'
 
-// Can color and text color map
-const canThemeMap = {
-  'Lemon Ginger': {
-    mainBgColor: '#82AF38',
-    blurColor: '#E5F985',
-    textColor: 'white',
-    accentColor: 'rgba(255, 255, 255, 0.9)',
-    buttonBgColor: 'white',
-    buttonTextColor: '#82AF38',
-  },
-  'Blueberry Açai': {
-    mainBgColor: '#385dd2',
-    blurColor: '#B6B6F9',
-    textColor: 'white',
-    accentColor: 'rgba(255, 255, 255, 0.9)',
-    buttonBgColor: 'white',
-    buttonTextColor: '#385dd2',
-  },
-  'Mango Burst': {
-    mainBgColor: '#FFA500',
-    blurColor: '#FFF3B6',
-    textColor: '#222',
-    accentColor: 'rgba(0,0,0,0.7)',
-    buttonBgColor: 'white',
-    buttonTextColor: '#FFA500',
-  },
-  'Raspberry Rosé': {
-    mainBgColor: '#FF6B81',
-    blurColor: '#FFD6DE',
-    textColor: 'white',
-    accentColor: 'rgba(255,255,255,0.9)',
-    buttonBgColor: 'white',
-    buttonTextColor: '#FF6B81',
-  },
+interface HeroSectionProps {
+  currentJuiceData: JuiceData
+  onChangeJuiceData: (canName: string) => void
 }
 
-// Create juice data for pre-rendering with unique descriptions for each flavor
-const juiceData = {
-  'Lemon Ginger': {
-    title: 'Lemon Ginger',
-    description:
-      'A zesty and refreshing blend with a spicy kick. Our Lemon Ginger juice combines the citrusy brightness of fresh lemons with the warming properties of ginger.',
-  },
-  'Blueberry Açai': {
-    title: 'Blueberry Açai',
-    description:
-      'A nutrient-packed superfood blend. Our Blueberry Açai juice brings together antioxidant-rich berries with the exotic taste of açai for a delicious health boost.',
-  },
-  'Mango Burst': {
-    title: 'Mango Burst',
-    description:
-      'A tropical explosion of sweetness. Our Mango Burst juice captures the sun-ripened goodness of premium mangoes for a taste of paradise in every sip.',
-  },
-  'Raspberry Rosé': {
-    title: 'Raspberry Rosé',
-    description:
-      'An elegant and sophisticated blend. Our Raspberry Rosé juice combines the delicate sweetness of raspberries with subtle floral notes for a refined exp.',
-  },
-}
-
-const content = {
-  nav: {
-    logo: 'Juicy',
-    items: [
-      { label: 'Home' },
-      { label: 'News' },
-      { label: 'Menu' },
-      { label: 'About Us' },
-      { label: 'Contact' },
-    ],
-    cartCount: 2,
-  },
-  logo: {
-    text: 'JUICY',
-  },
-  sizes: [
-    { size: '355', unit: 'ML', selected: true },
-    { size: '100', unit: 'ML' },
-    { size: '125', unit: 'ML' },
-  ],
-  product: {
-    title: 'Cheeky lime',
-    description:
-      "Discover a world of vibrant flavors with our premium juice selection. At Fresh & Juicy, we believe in the power of nature's finest ingredients to bring you",
-    buttonText: 'See More',
-  },
-  scroll: {
-    firstLine: 'Get',
-    secondLine: 'This',
-  },
-}
-
-export default function HeroSection() {
-  // Default to Lemon Ginger
-  const [theme, setTheme] = useState(canThemeMap['Lemon Ginger'])
-  const [productTitle, setProductTitle] = useState('Lemon Ginger')
-  const [, setProductDesc] = useState(content.product.description)
+export default function HeroSection({
+  currentJuiceData,
+  onChangeJuiceData,
+}: HeroSectionProps) {
   const [isMobile, setIsMobile] = useState(false)
-  const navTranslations = useTranslations('HomePage.nav')
 
   // Check for mobile screen size
   useEffect(() => {
@@ -131,11 +39,9 @@ export default function HeroSection() {
   // Callback for JuiceCarousel with debounce to prevent rapid changes
   const handleCanChange = (canName: string) => {
     // Type check to ensure canName is a valid key in canThemeMap
-    if (Object.keys(canThemeMap).includes(canName)) {
-      const typedCanName = canName as JuiceName
-      setTheme(canThemeMap[typedCanName])
-      setProductTitle(canName)
-      setProductDesc(juiceData[typedCanName].description)
+
+    if (typeof onChangeJuiceData === 'function') {
+      onChangeJuiceData(canName)
     }
   }
 
@@ -151,34 +57,25 @@ export default function HeroSection() {
       className='relative w-full max-h-screen sm:max-h-900px h-[100dvh] select-none mx-auto'
     >
       <div className='absolute inset-0'>
-        {Object.entries(canThemeMap).map(([key, value]) => (
+        {juiceData.map((juice, index) => (
           <div
-            key={key}
+            key={index}
             className='absolute inset-0 transition-opacity duration-1000 ease-in-out'
             style={{
-              background: `linear-gradient(to bottom, ${value.mainBgColor} 70%, #f9f9fb 100%)`,
-              opacity: value.mainBgColor === theme.mainBgColor ? 1 : 0,
+              background: `linear-gradient(to bottom, ${juice.mainBgColor} 70%, #f9f9fb 100%)`,
+              opacity:
+                juice.mainBgColor === currentJuiceData.mainBgColor ? 1 : 0,
             }}
           />
         ))}
       </div>
-      <NavBar
-        logo='JUICY'
-        navItems={[
-          { label: navTranslations('home') },
-          { label: navTranslations('news') },
-          { label: navTranslations('menu') },
-          { label: navTranslations('about') },
-          { label: navTranslations('contact') },
-        ]}
-        bgColor='transparent'
-        cartItemCount={2}
-        textColor='white'
-      />
 
       <div className='max-h-screen sm:max-h-900px h-[90dvh] overflow-hidden w-full relative'>
         {/* Background as a separate component that handles its own animation */}
-        <AnimatedBackground backgroundColor={theme.mainBgColor} duration={1} />
+        <AnimatedBackground
+          backgroundColor={currentJuiceData.mainBgColor}
+          duration={1}
+        />
 
         <div
           className={`max-w-[1440px] ${
@@ -205,20 +102,14 @@ export default function HeroSection() {
             />
           </div>
 
-          <ProductInfo
-            title={productTitle}
-            juiceData={juiceData}
-            buttonText={content.product.buttonText}
-            buttonBgColor={theme.buttonBgColor}
-            buttonTextColor={theme.buttonTextColor}
-          />
+          <ProductInfo juiceData={currentJuiceData} />
 
           <ScrollDownButton
-            firstLine={content.scroll.firstLine}
-            secondLine={content.scroll.secondLine}
+            firstLine='Get'
+            secondLine='This'
             textColor='white'
             isMobile={isMobile}
-            themeColor={theme.mainBgColor}
+            themeColor={currentJuiceData.mainBgColor}
           />
         </div>
       </div>
