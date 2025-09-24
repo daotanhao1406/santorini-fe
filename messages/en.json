@@ -6,6 +6,24 @@
       "contact": "Contact",
       "menu": "Menu",
       "news": "News"
+    },
+    "product": {
+      "lemon": {
+        "title": "Lemon Ginger",
+        "description": "A zesty and refreshing blend with a spicy kick. Our Lemon Ginger juice combines the citrusy brightness of fresh lemons with the warming properties of ginger."
+      },
+      "blueberry": {
+        "title": "Blueberry Açai",
+        "description": "A nutrient-packed superfood blend. Our Blueberry Açai juice brings together antioxidant-rich berries with the exotic taste of açai for a delicious health boost."
+      },
+      "mango": {
+        "title": "Mango Burst",
+        "description": "A tropical explosion of sweetness. Our Mango Burst juice captures the sun-ripened goodness of premium mangoes for a taste of paradise in every sip."
+      },
+      "raspberry": {
+        "title": "Raspberry Rosé",
+        "description": "An elegant and sophisticated blend. Our Raspberry Rosé juice combines the delicate sweetness of raspberries with subtle floral notes for a refined exp."
+      }
     }
   }
 }

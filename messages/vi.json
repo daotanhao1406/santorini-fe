@@ -6,6 +6,24 @@
       "contact": "Liên hệ",
       "menu": "Menu",
       "news": "Tin tức"
+    },
+    "product": {
+      "lemon": {
+        "title": "Chanh Gừng",
+        "description": "Một sự kết hợp chua thanh đầy sảng khoái cùng vị cay nồng đặc trưng. Nước ép Chanh Gừng mang đến hương chanh tươi mát hòa quyện cùng sức ấm nồng của gừng."
+      },
+      "blueberry": {
+        "title": "Việt Quất Açai",
+        "description": "Một sự pha trộn giàu dưỡng chất từ siêu thực phẩm. Nước ép Việt Quất Açai kết hợp các loại quả mọng dồi dào chất chống oxy hóa với hương vị nhiệt đới độc đáo của açai, mang lại nguồn năng lượng khỏe mạnh."
+      },
+      "mango": {
+        "title": "Xoài Nhiệt Đới",
+        "description": "Một vụ nổ hương vị ngọt ngào nơi xứ nhiệt đới. Nước ép Xoài Nhiệt Đới lưu giữ trọn vẹn vị ngon chín mọng của xoài thượng hạng, đưa bạn đến thiên đường trong từng ngụm."
+      },
+      "raspberry": {
+        "title": "Mâm Xôi Rosé",
+        "description": "Một sự kết hợp thanh lịch và tinh tế. Nước ép Mâm Xôi Rosé hòa quyện vị ngọt dịu của quả mâm xôi cùng hương hoa nhẹ nhàng, mang đến trải nghiệm đầy sang trọng."
+      }
     }
   }
 }

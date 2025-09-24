@@ -84,11 +84,14 @@ export default async function LocaleLayout({ children, params }: Props) {
       lang={locale}
     >
       <head />
-      <body cz-shortcut-listen='true' className='bg-background antialiased'>
+      <body
+        cz-shortcut-listen='true'
+        className='bg-background antialiased font-montserrat'
+      >
         <NextIntlClientProvider>
           <AppProvider>
             <Suspense fallback={<div>Loading...</div>}>
-              {children}
+              <main className='flex-1'>{children}</main>
               <div className='mt-20'>
                 <Footer />
               </div>
