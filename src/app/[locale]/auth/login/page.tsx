@@ -1,7 +1,7 @@
+import { Card } from '@heroui/card'
 import { Metadata } from 'next'
 
 import { LoginForm } from '@/app/[locale]/auth/login/login-form'
-import { LoginHero } from '@/app/[locale]/auth/login/login-hero'
 export const metadata: Metadata = {
   title: {
     default: 'Login',
@@ -12,18 +12,12 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className='min-h-screen bg-background'>
-      <div className='grid lg:grid-cols-2 min-h-screen'>
-        {/* Left side - Login Form */}
+    <div className='min-h-screen bg-background flex items-center justify-center'>
+      <Card>
         <div className='flex items-center justify-center p-8 lg:p-12'>
           <LoginForm />
         </div>
-
-        {/* Right side - Hero Image */}
-        <div className='hidden lg:block'>
-          <LoginHero />
-        </div>
-      </div>
+      </Card>
     </div>
   )
 }
