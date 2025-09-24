@@ -52,7 +52,7 @@ const config = {
               900: '#281A0B',
             },
             default: {
-              DEFAULT: '#FFFFFF',
+              DEFAULT: '#f9f9fb',
               50: '#F7F7F7',
               100: '#EDEDED',
               200: '#E4E4E4',

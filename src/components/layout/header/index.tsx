@@ -1,3 +1,4 @@
+'use client'
 import { Button } from '@heroui/button'
 import {
   Navbar,
@@ -9,18 +10,23 @@ import {
   NavbarMenuToggle,
 } from '@heroui/navbar'
 import { ClipboardList, House, Mails, Newspaper, Users } from 'lucide-react'
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 
 import LocaleSwitcher from '@/components/layout/header/locale-switcher'
+import LoginButton from '@/components/layout/header/login-button'
+
+import { Link } from '@/i18n/navigation'
 
 interface NavbarProps {
   isOutOfHeroSection?: boolean
   bgColor?: string
 }
 
-export default function Header({ isOutOfHeroSection, bgColor }: NavbarProps) {
+export default function Header({
+  isOutOfHeroSection = true,
+  bgColor,
+}: NavbarProps) {
   const navbarTranslate = useTranslations('HomePage.nav')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
@@ -75,14 +81,16 @@ export default function Header({ isOutOfHeroSection, bgColor }: NavbarProps) {
       style={{ backgroundColor: navbarBgColor, color: navbarTextColor }}
     >
       <NavbarBrand>
-        <div className='text-2xl font-black uppercase cursor-default'>
-          JUICY
-        </div>
+        <Link href='/'>
+          <div className='text-2xl font-black uppercase cursor-pointer'>
+            JUICY
+          </div>
+        </Link>
       </NavbarBrand>
       <NavbarContent className='hidden sm:flex ' justify='end'>
         {menuItems.map((item, index) => (
-          <NavbarItem className='ml-8 xl:px-6' key={`${item.label}-${index}`}>
-            <Link className='font-medium relative group ' href='#'>
+          <NavbarItem className='ml-8 xl:px-4' key={`${item.label}-${index}`}>
+            <Link className='font-medium relative group' href={item.href}>
               {item.label}
               <span
                 className={`absolute ${isOutOfHeroSection ? 'bg-black' : 'bg-white'} left-0 -bottom-[2px] w-0 h-[1px] group-hover:w-full transition-all duration-300`}
@@ -91,9 +99,12 @@ export default function Header({ isOutOfHeroSection, bgColor }: NavbarProps) {
           </NavbarItem>
         ))}
       </NavbarContent>
-      <NavbarContent justify='end'>
+      <NavbarContent className='gap-6' justify='end'>
         <NavbarItem>
           <LocaleSwitcher />
+        </NavbarItem>
+        <NavbarItem>
+          <LoginButton isOutOfHeroSection={isOutOfHeroSection} />
         </NavbarItem>
         <NavbarItem className='sm:hidden'>
           <NavbarMenuToggle />
