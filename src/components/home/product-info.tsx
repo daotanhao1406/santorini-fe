@@ -1,5 +1,6 @@
 'use client'
 import gsap from 'gsap'
+import { useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from 'react'
 
 import { JuiceData } from '@/constant/juiceData'
@@ -12,6 +13,10 @@ export default function ProductInfo({ juiceData }: ProductInfoProps) {
   // Create stable refs for elements that shouldn't re-render
   const containerRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const t = useTranslations('HomePage.products')
+  const juiceTitle = t(`${juiceData?.slug || 'lemon'}.title`)
+  const juiceDescription = t(`${juiceData?.slug || 'lemon'}.description`)
+  const seeMoreBtnText = t('see_more_button_text')
 
   // Content elements that will animate
   const contentWrapperRef = useRef<HTMLDivElement>(null)
@@ -20,7 +25,7 @@ export default function ProductInfo({ juiceData }: ProductInfoProps) {
 
   const [renderDelayComplete, setRenderDelayComplete] = useState(false)
   const animationRef = useRef<gsap.core.Tween | null>(null)
-  const previousTitle = useRef<string>(juiceData?.title)
+  const previousTitle = useRef<string>(juiceTitle)
   const [isMobile, setIsMobile] = useState(false)
 
   // Check for mobile screen size
@@ -53,20 +58,16 @@ export default function ProductInfo({ juiceData }: ProductInfoProps) {
     if (!renderDelayComplete) return
 
     // If the title has changed, animate content change
-    if (
-      previousTitle.current !== juiceData?.title &&
-      contentWrapperRef.current
-    ) {
+    if (previousTitle.current !== juiceTitle && contentWrapperRef.current) {
       // Kill any existing animations
       if (animationRef.current) {
         animationRef.current.kill()
       }
 
       // Update content
-      if (titleRef.current)
-        titleRef.current.textContent = juiceData?.title || ''
+      if (titleRef.current) titleRef.current.textContent = juiceTitle || ''
       if (descriptionRef.current)
-        descriptionRef.current.textContent = juiceData?.description || ''
+        descriptionRef.current.textContent = juiceDescription || ''
 
       // Create new animation with optimized settings
       animationRef.current = gsap.fromTo(
@@ -88,7 +89,7 @@ export default function ProductInfo({ juiceData }: ProductInfoProps) {
       )
 
       // Update previous title reference
-      previousTitle.current = juiceData?.title
+      previousTitle.current = juiceTitle
     }
 
     // Update button colors if they change
@@ -96,10 +97,7 @@ export default function ProductInfo({ juiceData }: ProductInfoProps) {
       buttonRef.current.style.backgroundColor = juiceData?.buttonBgColor
       buttonRef.current.style.color = juiceData?.buttonTextColor
     }
-  }, [juiceData, renderDelayComplete])
-
-  // Get initial juice data
-  const initialJuice = juiceData
+  }, [juiceData, renderDelayComplete, juiceTitle, juiceDescription])
 
   return (
     <div
@@ -126,13 +124,13 @@ export default function ProductInfo({ juiceData }: ProductInfoProps) {
               ref={titleRef}
               className={`text-shadow-xs ${isMobile ? 'text-3xl mb-2' : 'text-4xl mb-4'} font-light  text-white font-coiny`}
             >
-              {initialJuice?.title}
+              {juiceTitle}
             </h1>
             <p
               ref={descriptionRef}
               className={`text-white ${isMobile ? 'text-base line-clamp-3' : 'text-lg'} text-shadow-xs`}
             >
-              {initialJuice?.description}
+              {juiceDescription}
             </p>
           </div>
           {/* Button that stays stable with updated hover behavior */}
@@ -147,7 +145,7 @@ export default function ProductInfo({ juiceData }: ProductInfoProps) {
               e.currentTarget.style.opacity = '1'
             }}
           >
-            See More
+            {seeMoreBtnText}
           </button>
         </div>
       </div>

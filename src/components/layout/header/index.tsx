@@ -27,7 +27,7 @@ export default function Header({
   isOutOfHeroSection = true,
   bgColor,
 }: NavbarProps) {
-  const navbarTranslate = useTranslations('HomePage.nav')
+  const navbarTranslate = useTranslations('header')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const menuItems = [
@@ -48,7 +48,7 @@ export default function Header({
     },
     {
       label: navbarTranslate('about'),
-      href: '/about',
+      href: '/about-us',
       icon: <Users size={18} />,
     },
     {

@@ -1,9 +1,13 @@
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 export default function CategorySection() {
+  const categoriesTranslation = useTranslations('HomePage.categories')
   return (
     <div className='flex flex-col md:flex-row justify-around mt-32 gap-20 px-10'>
       <div className='flex flex-col items-center gap-8'>
-        <span className='text-3xl font-bold'>Fruit Tea</span>
+        <span className='text-3xl font-bold'>
+          {categoriesTranslation('fruit_tea')}
+        </span>
         <Image
           src='/images/fruit-poster.png'
           width={600}
@@ -13,7 +17,9 @@ export default function CategorySection() {
         />
       </div>
       <div className='flex flex-col items-center gap-8'>
-        <span className='text-3xl font-bold'>Milk Tea</span>
+        <span className='text-3xl font-bold'>
+          {categoriesTranslation('milk_tea')}
+        </span>
         <Image
           src='/images/milk-tea-poster.png'
           width={600}
@@ -23,7 +29,9 @@ export default function CategorySection() {
         />
       </div>
       <div className='flex flex-col items-center gap-8'>
-        <span className='text-3xl font-bold'>Snacks</span>
+        <span className='text-3xl font-bold'>
+          {categoriesTranslation('snacks')}
+        </span>
         <Image
           src='/images/btt-poster.png'
           width={600}

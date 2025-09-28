@@ -1,13 +1,25 @@
 {
-  "HomePage": {
-    "nav": {
-      "home": "Trang chủ",
-      "about": "Về chúng tôi",
-      "contact": "Liên hệ",
-      "menu": "Menu",
-      "news": "Tin tức"
+  "header": {
+    "home": "Trang chủ",
+    "about": "Về chúng tôi",
+    "contact": "Liên hệ",
+    "menu": "Menu",
+    "news": "Tin tức",
+    "login_button_text": "Đăng nhập"
+  },
+  "footer": {
+    "opening_hours": "Giờ mở cửa",
+    "contact_us": {
+      "title": "Liên hệ",
+      "address": "88 Đ. Số 26, Hiệp Bình Chánh, Thủ Đức, TP.Hồ Chí Minh"
     },
-    "product": {
+    "subscribe": {
+      "title": "Đăng ký ngay",
+      "placeholder": "Nhập email của bạn"
+    }
+  },
+  "HomePage": {
+    "products": {
       "lemon": {
         "title": "Chanh Gừng",
         "description": "Một sự kết hợp chua thanh đầy sảng khoái cùng vị cay nồng đặc trưng. Nước ép Chanh Gừng mang đến hương chanh tươi mát hòa quyện cùng sức ấm nồng của gừng."
@@ -23,7 +35,19 @@
       "raspberry": {
         "title": "Mâm Xôi Rosé",
         "description": "Một sự kết hợp thanh lịch và tinh tế. Nước ép Mâm Xôi Rosé hòa quyện vị ngọt dịu của quả mâm xôi cùng hương hoa nhẹ nhàng, mang đến trải nghiệm đầy sang trọng."
-      }
+      },
+      "see_more_button_text": "Xem thêm"
+    },
+    "about": {
+      "title": "Về JUICY",
+      "subtitle": "JUICY – HÀNH TRÌNH CHINH PHỤC PHONG VỊ MỚI",
+      "description": "Hành trình luôn bắt đầu từ việc chọn lựa nguyên liệu ký cẩn từ các vùng đất trù phú, cho đến việc bảo quản, pha chế tỉ mỉ tay nghề nhân. Qua những nỗ lực không ngừng, SEKAI luôn hướng đến...",
+      "learn_more_button_text": "Xem thêm"
+    },
+    "categories": {
+      "fruit_tea": "Trà trái cây",
+      "milk_tea": "Trà sữa",
+      "snacks": "Ăn vặt"
     }
   }
 }
