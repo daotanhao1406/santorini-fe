@@ -1,9 +1,11 @@
 'use client'
 import { Input } from '@heroui/input'
 import { Facebook, Instagram, SendHorizontal, Twitter } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 export default function Footer() {
+  const footerTranslation = useTranslations('footer')
   const [email, setEmail] = useState('')
   const [isSubmitting] = useState(false)
   // const { toast } = useToast();
@@ -99,7 +101,7 @@ export default function Footer() {
               className='text-lg font-semibold text-foreground mb-4'
               data-testid='heading-opening-hours'
             >
-              Opening Hours
+              {footerTranslation('opening_hours')}
             </h3>
             <div className='space-y-2'>
               <div className='flex flex-col'>
@@ -121,17 +123,15 @@ export default function Footer() {
               className='text-lg font-semibold text-foreground mb-4'
               data-testid='heading-contact'
             >
-              Contact Us
+              {footerTranslation('contact_us.title')}
             </h3>
             <div className='space-y-2'>
               <p className='text-sm' data-testid='text-address-1'>
-                123 Sip Street, United Brewland
+                {footerTranslation('contact_us.address')}
               </p>
-              <p className='text-sm' data-testid='text-address-2'>
-                CO 12345, Cafeville
-              </p>
+
               <p className='text-sm' data-testid='text-phone'>
-                (555) 123-4567
+                093 248 5756
               </p>
               <p className='text-sm' data-testid='text-email'>
                 info@juicy.com
@@ -145,7 +145,7 @@ export default function Footer() {
               className='text-lg font-semibold text-foreground mb-4'
               data-testid='heading-newsletter'
             >
-              Subscribe Us
+              {footerTranslation('subscribe.title')}
             </h3>
             <form
               onSubmit={handleNewsletterSubmit}
@@ -155,20 +155,17 @@ export default function Footer() {
               <div className='flex'>
                 <Input
                   type='email'
-                  placeholder='Enter your email'
+                  placeholder={footerTranslation('subscribe.placeholder')}
                   value={email}
                   size='lg'
                   onChange={(e) => setEmail(e.target.value)}
-                  // className='flex-1 rounded-r-none focus:z-10'
                   disabled={isSubmitting}
                   variant='bordered'
-                  data-testid='input-newsletter-email'
                   endContent={
                     <button
                       aria-label='toggle password visibility'
                       className='focus:outline-solid outline-transparent'
                       type='button'
-                      // onClick={toggleVisibility}
                     >
                       <SendHorizontal className='w-4 h-4' />
                     </button>

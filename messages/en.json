@@ -1,13 +1,25 @@
 {
-  "HomePage": {
-    "nav": {
-      "home": "Home",
-      "about": "About",
-      "contact": "Contact",
-      "menu": "Menu",
-      "news": "News"
+  "header": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "menu": "Menu",
+    "news": "News",
+    "login_button_text": "Login"
+  },
+  "footer": {
+    "opening_hours": "Opening hours",
+    "contact_us": {
+      "title": "Contact us",
+      "address": "88 Street 26, Hiep Binh Chanh, Thuc Duc, Ho Chi Minh City"
     },
-    "product": {
+    "subscribe": {
+      "title": "Subscribe now",
+      "placeholder": "Enter your email"
+    }
+  },
+  "HomePage": {
+    "products": {
       "lemon": {
         "title": "Lemon Ginger",
         "description": "A zesty and refreshing blend with a spicy kick. Our Lemon Ginger juice combines the citrusy brightness of fresh lemons with the warming properties of ginger."
@@ -23,7 +35,19 @@
       "raspberry": {
         "title": "Raspberry Rosé",
         "description": "An elegant and sophisticated blend. Our Raspberry Rosé juice combines the delicate sweetness of raspberries with subtle floral notes for a refined exp."
-      }
+      },
+      "see_more_button_text": "See more"
+    },
+    "about": {
+      "title": "About JUICY",
+      "subtitle": "JUICY – A JOURNEY TO DISCOVER NEW FLAVORS",
+      "description": "The journey always begins with carefully selecting ingredients from fertile lands, followed by meticulous preservation and skillful preparation. Through continuous efforts, JUICY always strives toward...",
+      "learn_more_button_text": "Learn more"
+    },
+    "categories": {
+      "fruit_tea": "Fruit Tea",
+      "milk_tea": "Milk Tea",
+      "snacks": "Snacks"
     }
   }
 }
