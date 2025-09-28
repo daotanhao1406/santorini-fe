@@ -9,6 +9,7 @@ import {
   DropdownTrigger,
 } from '@heroui/dropdown'
 import { User } from '@supabase/supabase-js'
+import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
@@ -23,6 +24,7 @@ export default function LoginButton({
   isOutOfHeroSection = true,
 }: LoginButtonProps) {
   const supabase = createClient()
+  const navTranslation = useTranslations('header')
   const [loading, setLoading] = useState<boolean>(true)
   const [userProfile, setUserProfile] = useState<User | null>(null)
   const [error, setError] = useState<string>('')
@@ -60,7 +62,7 @@ export default function LoginButton({
           variant={isOutOfHeroSection ? 'light' : 'solid'}
           className='h-9 font-medium'
         >
-          Login
+          {navTranslation('login_button_text') || 'Login'}
         </Button>
       </Link>
     )
@@ -85,7 +87,6 @@ export default function LoginButton({
         </DropdownItem>
         <DropdownItem key='settings'>My Settings</DropdownItem>
         <DropdownItem key='configurations'>Configurations</DropdownItem>
-        <DropdownItem key='help_and_feedback'>Help & Feedback</DropdownItem>
         <DropdownItem
           key='logout'
           color='danger'
