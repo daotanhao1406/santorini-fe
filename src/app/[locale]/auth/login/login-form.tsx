@@ -6,7 +6,7 @@ import { Input } from '@heroui/input'
 import { addToast } from '@heroui/toast'
 import { Eye, EyeOff, KeyRound, MailIcon } from 'lucide-react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
@@ -15,10 +15,13 @@ import { MyButton } from '@/components/ui/button'
 
 export const LoginForm = () => {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [password, setPassword] = useState<string>('')
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState({})
+
+  const continueUrl = searchParams.get('continueUrl') || '/'
 
   const toggleVisibility = () => setIsVisible(!isVisible)
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +49,7 @@ export const LoginForm = () => {
         password: formData.password as string,
       })
       if (error) throw error
-      router.push('/')
+      router.push(continueUrl)
     } catch (error: unknown) {
       addToast({
         title: 'Login failed',
