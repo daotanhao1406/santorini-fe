@@ -14,7 +14,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
 
-import { Link } from '@/i18n/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
 
 interface LoginButtonProps {
   isOutOfHeroSection?: boolean
@@ -24,6 +24,7 @@ export default function LoginButton({
   isOutOfHeroSection = true,
 }: LoginButtonProps) {
   const supabase = createClient()
+  const router = useRouter()
   const navTranslation = useTranslations('header')
   const [loading, setLoading] = useState<boolean>(true)
   const [userProfile, setUserProfile] = useState<User | null>(null)
@@ -93,6 +94,7 @@ export default function LoginButton({
           onClick={() => {
             supabase.auth.signOut().then(() => {
               getProfile()
+              router.replace('/auth/login')
             })
           }}
         >
