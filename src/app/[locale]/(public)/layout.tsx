@@ -6,9 +6,9 @@ export default async function PublicLayout({
   children: React.ReactNode
 }) {
   return (
-    <main className='flex-1'>
+    <main className='font-montserrat'>
       <Header />
-      <div className='flex-1'>{children}</div>
+      <div className='flex-1 w-full max-w-[1280px] mx-auto'>{children}</div>
     </main>
   )
 }

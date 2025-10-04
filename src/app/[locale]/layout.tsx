@@ -86,16 +86,18 @@ export default async function LocaleLayout({ children, params }: Props) {
       <head />
       <body
         cz-shortcut-listen='true'
-        className='bg-background antialiased font-montserrat'
+        className='bg-background antialiased font-montserrat min-h-screen'
       >
         <NextIntlClientProvider>
           <AppProvider>
-            <Suspense fallback={<div>Loading...</div>}>
-              <main className='flex-1'>{children}</main>
-              <div className='mt-20'>
-                <Footer />
-              </div>
-            </Suspense>
+            <div className='mx-auto relative flex flex-col min-h-screen w-full'>
+              <Suspense fallback={<div>Loading...</div>}>
+                <main className='flex-1'>{children}</main>
+                <div className='mt-20'>
+                  <Footer />
+                </div>
+              </Suspense>
+            </div>
           </AppProvider>
         </NextIntlClientProvider>
       </body>
