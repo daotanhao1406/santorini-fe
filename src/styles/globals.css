@@ -78,14 +78,6 @@ a {
     /* Force hardware acceleration on mobile */
   }
 
-  /* Improve touch interactions */
-  button,
-  a {
-    min-height: 44px;
-    min-width: 44px;
-    touch-action: manipulation;
-  }
-
   /* Fix possible overflow issues */
   .overflow-hidden-mobile {
     overflow: hidden;
