@@ -5,7 +5,12 @@ import Image from 'next/image'
 
 import { Product } from '@/types/product'
 
-export default function ProductItem({ name, description, image_url }: Product) {
+export default function ProductItem({
+  name,
+  description,
+  image_url,
+  base_price,
+}: Product) {
   return (
     <Card className='text-sm'>
       <CardBody className='p-5'>
@@ -26,8 +31,14 @@ export default function ProductItem({ name, description, image_url }: Product) {
             </div>
             <div className='flex justify-between items-end'>
               <div className='flex gap-1 pt-0 xl:pt-2'>
-                <h3 className='text-large font-bold'>35,000</h3>
-                <p className='font-bold text-sm mt-0.5'>đ</p>
+                {typeof base_price === 'number' && (
+                  <>
+                    <h3 className='text-large font-bold'>
+                      {base_price?.toLocaleString('en-US')}
+                    </h3>
+                    <p className='font-bold text-sm mt-0.5'>đ</p>
+                  </>
+                )}
               </div>
               <Button
                 aria-label='Add to cart'
