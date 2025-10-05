@@ -7,7 +7,6 @@ import {
   DropdownTrigger,
 } from '@heroui/dropdown'
 import Image from 'next/image'
-import { useParams } from 'next/navigation'
 import { Locale, useLocale } from 'next-intl'
 import { useTransition } from 'react'
 
@@ -17,19 +16,17 @@ export default function LocaleSwitcher() {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
   const pathname = usePathname()
-  const params = useParams()
   const currentLocale = useLocale()
 
   function onSelectChange(key: React.Key) {
     const nextLocale = key as Locale
     startTransition(() => {
-      router.replace(
-        // @ts-expect-error -- TypeScript will validate that only known `params`
-        // are used in combination with a given `pathname`. Since the two will
-        // always match for the current route, we can skip runtime checks.
-        { pathname, params },
-        { locale: nextLocale },
-      )
+      const search = window.location.search
+      const hash = window.location.hash
+      const path = pathname.startsWith('/') ? pathname : `/${pathname}`
+
+      const newUrl = `${path}${search}${hash}`
+      router.replace(newUrl, { locale: nextLocale, scroll: false })
     })
   }
 
