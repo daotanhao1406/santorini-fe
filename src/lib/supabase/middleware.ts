@@ -11,7 +11,7 @@ const getLocaleFromPath = (pathname: string): string | null => {
   return SUPPORTED_LOCALES.includes(maybeLocale) ? maybeLocale : null
 }
 
-const protectedRoutes = ['/news', '/profile', '/settings']
+const protectedRoutes = ['/profile', '/settings']
 
 export async function updateSession(
   request: NextRequest,
