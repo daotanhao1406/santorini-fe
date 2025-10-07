@@ -1,7 +1,6 @@
 'use client'
 
-import { HeroUIProvider } from '@heroui/system'
-import { ToastProvider } from '@heroui/toast'
+import { HeroUIProvider, ToastProvider } from '@heroui/react'
 import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 

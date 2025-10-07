@@ -1,13 +1,13 @@
 'use client'
 
-import { Avatar } from '@heroui/avatar'
-import { Button } from '@heroui/button'
 import {
+  Avatar,
+  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@heroui/dropdown'
+} from '@heroui/react'
 import { User } from '@supabase/supabase-js'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
