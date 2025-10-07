@@ -1,4 +1,4 @@
-import { Card, CardBody, CardFooter } from '@heroui/card'
+import { Card, CardBody, CardFooter } from '@heroui/react'
 import Image from 'next/image'
 
 import { Category } from '@/types/category'
@@ -23,10 +23,10 @@ export default function CategoryItem({
       <CardBody className='p-5 px-7 pb-0 items-center justify-center flex'>
         <Image
           alt={`${category?.name} image`}
-          className='object-cover rounded-xl '
+          className='object-cover rounded-xl h-12 w-8'
           src={category?.image_url}
           width={32}
-          height={51}
+          height={48}
         />
       </CardBody>
       <CardFooter className='justify-center p-3'>{category?.name}</CardFooter>

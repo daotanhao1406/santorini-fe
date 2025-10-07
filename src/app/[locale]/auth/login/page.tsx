@@ -1,4 +1,4 @@
-import { Card } from '@heroui/card'
+import { Card } from '@heroui/react'
 import { Metadata } from 'next'
 
 import { LoginForm } from '@/app/[locale]/auth/login/login-form'

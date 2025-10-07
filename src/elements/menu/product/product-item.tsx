@@ -1,5 +1,4 @@
-import { Button } from '@heroui/button'
-import { Card, CardBody } from '@heroui/card'
+import { Button, Card, CardBody } from '@heroui/react'
 import { ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
 
@@ -21,6 +20,7 @@ export default function ProductItem({
               className='object-cover rounded-xl'
               src={image_url}
               fill
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             />
           </div>
 
