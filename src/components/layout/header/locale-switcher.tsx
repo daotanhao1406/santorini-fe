@@ -1,11 +1,11 @@
 'use client'
-import { Avatar } from '@heroui/avatar'
 import {
+  Avatar,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@heroui/dropdown'
+} from '@heroui/react'
 import Image from 'next/image'
 import { Locale, useLocale } from 'next-intl'
 import { useTransition } from 'react'
@@ -42,7 +42,7 @@ export default function LocaleSwitcher() {
       <DropdownTrigger>
         <Image
           alt={currentLocale}
-          className='rounded-[3px] cursor-pointer'
+          className='rounded-[3px] cursor-pointer h-4 w-6'
           width={24}
           height={16}
           aria-disabled={isPending}

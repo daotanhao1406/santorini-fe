@@ -1,5 +1,5 @@
 'use client'
-import { Input } from '@heroui/input'
+import { Input } from '@heroui/react'
 import { Facebook, Instagram, SendHorizontal, Twitter } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'

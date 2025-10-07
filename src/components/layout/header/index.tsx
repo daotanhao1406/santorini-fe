@@ -1,6 +1,6 @@
 'use client'
-import { Button } from '@heroui/button'
 import {
+  Button,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -8,7 +8,7 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
-} from '@heroui/navbar'
+} from '@heroui/react'
 import { ClipboardList, House, Mails, Newspaper, Users } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'

@@ -49,7 +49,7 @@ export default function CarouselWheel({
             width={isMobile ? 160 : 260}
             height={isMobile ? 160 : 260}
             className='object-contain'
-            onLoadingComplete={() => {
+            onLoad={() => {
               if (index === activeIndex) {
                 onActiveModelLoaded()
               }
