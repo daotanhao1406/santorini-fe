@@ -18,7 +18,7 @@ export default function QuantityStepper({
       <Button size='sm' isIconOnly onPress={() => onChange(value - 1)}>
         <Minus size={14} />
       </Button>
-      <Typography className='mt-1'>
+      <Typography>
         <Counter value={value} />
       </Typography>
       <Button size='sm' isIconOnly onPress={() => onChange(value + 1)}>

@@ -11,7 +11,7 @@ function Number({ mv, number }: NumberProps) {
   const y = useTransform(mv, (latest) => {
     const placeValue = latest % 10
     const offset = (10 + number - placeValue) % 10
-    let memo = offset * 1 // mỗi số dịch 1em
+    let memo = offset * 1
     if (offset > 5) memo -= 10 * 1
     return memo + 'em'
   })
@@ -44,7 +44,7 @@ function Digit({ place, value, digitStyle }: DigitProps) {
   const defaultStyle: React.CSSProperties = {
     position: 'relative',
     width: '1ch',
-    height: '1em', // chiều cao bằng đúng line-height hiện tại
+    height: '10px',
     overflow: 'hidden',
     fontVariantNumeric: 'tabular-nums',
   }
