@@ -9,16 +9,16 @@ import { cn } from '@/lib/utils'
 const textBaseVariants = cva('', {
   variants: {
     size: {
-      default: 'text-2xl sm:text-3xl lg:text-4xl',
-      xxs: 'text-base sm:text-lg lg:text-lg',
-      xs: 'text-lg sm:text-xl lg:text-2xl',
-      sm: 'text-xl sm:text-2xl lg:text-3xl',
-      md: 'text-2xl sm:text-3xl lg:text-4xl',
-      lg: 'text-3xl sm:text-4xl lg:text-5xl',
-      xl: 'text-4xl sm:text-5xl lg:text-6xl',
-      xxl: 'text-[2.5rem] sm:text-6xl lg:text-[6rem]',
-      xll: 'text-5xl sm:text-6xl lg:text-[7rem]',
-      xxxl: 'text-[6rem] leading-5 lg:leading-8 sm:text-6xl lg:text-[8rem]',
+      xxs: 'text-[8px] sm:text-[10px] lg:text-[10px]',
+      xs: 'text-[10px] sm:text-xs lg:text-xs',
+      sm: 'text-xs sm:text-sm lg:text-sm',
+      default: 'text-xs sm:text-sm lg:text-sm',
+      md: 'text-sm sm:text-base lg:text-base',
+      lg: 'text-base sm:text-lg lg:text-lg',
+      xl: 'text-lg sm:text-xl lg:text-2xl',
+      xxl: 'text-xl sm:text-2xl lg:text-3xl',
+      xll: 'text-2xl sm:text-3xl lg:text-4xl',
+      xxxl: 'text-3xl sm:text-4xl lg:text-5xl',
     },
     weight: {
       default: 'font-bold',
@@ -42,14 +42,14 @@ const textBaseVariants = cva('', {
 })
 
 interface TypographyProps extends VariantProps<typeof textBaseVariants> {
-  text: string
+  children: React.ReactNode
   className?: string
   fallbackColor?: string
   transitionDuration?: number
 }
 
 export default function Typography({
-  text,
+  children,
   size,
   weight,
   font,
@@ -57,8 +57,7 @@ export default function Typography({
   fallbackColor = 'black',
 }: TypographyProps) {
   const textClassName = useMemo(
-    () =>
-      cn(textBaseVariants({ size, weight, font }), className, 'pb-1.5 md:pb-4'),
+    () => cn(textBaseVariants({ size, weight, font }), className),
     [size, weight, font, className],
   )
 
@@ -81,7 +80,7 @@ export default function Typography({
   return (
     <div className='relative inline-block'>
       <span className={textClassName} style={textStyle}>
-        {text}
+        {children}
       </span>
     </div>
   )

@@ -1,6 +1,5 @@
 'use client'
 import {
-  Button,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -13,6 +12,7 @@ import { ClipboardList, House, Mails, Newspaper, Users } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 
+import CartSidebar from '@/components/layout/cart-sidebar'
 import LocaleSwitcher from '@/components/layout/header/locale-switcher'
 import LoginButton from '@/components/layout/header/login-button'
 
@@ -101,6 +101,9 @@ export default function Header({
       </NavbarContent>
       <NavbarContent className='gap-6' justify='end'>
         <NavbarItem>
+          <CartSidebar isOutOfHeroSection={isOutOfHeroSection} />
+        </NavbarItem>
+        <NavbarItem>
           <LocaleSwitcher />
         </NavbarItem>
         <NavbarItem>
@@ -111,15 +114,13 @@ export default function Header({
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
-        <Button variant='bordered' color='primary'>
-          Sign In / Sign Up
-        </Button>
         <div className='mt-2'>
           {menuItems.map((item, index) => (
             <NavbarMenuItem className='py-1' key={`${item}-${index}`}>
               <Link
                 className='w-full font-semibold flex items-center gap-3 text-medium'
-                href='#'
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
               >
                 {item.icon} {item.label}
               </Link>
