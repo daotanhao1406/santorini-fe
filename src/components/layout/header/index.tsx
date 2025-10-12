@@ -1,5 +1,6 @@
 'use client'
 import {
+  Button,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -99,7 +100,7 @@ export default function Header({
           </NavbarItem>
         ))}
       </NavbarContent>
-      <NavbarContent className='gap-6' justify='end'>
+      <NavbarContent className='md:gap-6' justify='end'>
         <NavbarItem>
           <CartSidebar isOutOfHeroSection={isOutOfHeroSection} />
         </NavbarItem>
@@ -110,7 +111,9 @@ export default function Header({
           <LoginButton isOutOfHeroSection={isOutOfHeroSection} />
         </NavbarItem>
         <NavbarItem className='sm:hidden'>
-          <NavbarMenuToggle />
+          <Button size='sm' className='min-w-8 px-1'>
+            <NavbarMenuToggle />
+          </Button>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>

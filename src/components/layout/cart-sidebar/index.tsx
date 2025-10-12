@@ -7,17 +7,17 @@ import {
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  Listbox,
-  ListboxItem,
   useDisclosure,
 } from '@heroui/react'
-import { ShoppingBag } from 'lucide-react'
+import { ShoppingBag, X } from 'lucide-react'
 import { useLocale } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
 
 import CartItem from '@/components/layout/cart-sidebar/cart-item'
+import PriceDisplay from '@/components/price-display'
+import Typography from '@/components/ui/typography'
 
 import { Product } from '@/types/product'
 
@@ -40,6 +40,50 @@ export default function CartSidebar({
 
     setProducts(data as Product[])
   }, [locale, supabase])
+
+  const renderCartItemList = useCallback(() => {
+    if (!Array.isArray(products) || products.length === 0) {
+      return (
+        <div className='flex flex-col items-center gap-4 mt-20'>
+          <ShoppingBag size={40} />
+          <Typography size='lg' className='font-bold'>
+            Your cart is empty
+          </Typography>
+        </div>
+      )
+    }
+
+    return (
+      <DrawerBody className='flex flex-col gap-6'>
+        {products.map((product) => (
+          <CartItem key={product.id} {...product} />
+        ))}
+      </DrawerBody>
+    )
+  }, [products])
+
+  const renderDrawerFooter = useCallback(() => {
+    if (!Array.isArray(products) || products.length === 0) return null
+
+    const totalPrice = products.reduce(
+      (total, product) => total + product.base_price,
+      0,
+    )
+
+    return (
+      <DrawerFooter className='flex flex-col w-full gap-4'>
+        <div className='flex justify-between'>
+          <Typography size='sm' className='font-semibold'>
+            Total
+          </Typography>
+          <Typography size='sm' className='font-semibold'>
+            <PriceDisplay value={totalPrice} />
+          </Typography>
+        </div>
+        <Button color='primary'>Checkout</Button>
+      </DrawerFooter>
+    )
+  }, [products])
 
   useEffect(() => {
     loadProducts()
@@ -67,36 +111,34 @@ export default function CartSidebar({
           />
         </Button>
       </Badge>
-      <Drawer hideCloseButton isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Drawer
+        motionProps={{
+          variants: {
+            enter: {
+              opacity: 1,
+              x: 0,
+            },
+            exit: {
+              x: 100,
+              opacity: 0,
+            },
+          },
+        }}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        hideCloseButton
+      >
         <DrawerContent>
           {(onClose) => (
             <>
-              <DrawerHeader className='flex flex-col gap-1'>
-                Shoppping Cart
+              <DrawerHeader className='flex justify-between'>
+                <Typography size='lg'>Shoppping Cart</Typography>
+                <Button variant='light' isIconOnly size='sm' onPress={onClose}>
+                  <X />
+                </Button>
               </DrawerHeader>
-              <DrawerBody>
-                <Listbox
-                  className='p-0'
-                  aria-label='Listbox menu with icons'
-                  variant='faded'
-                  shouldHighlightOnFocus={false}
-                  selectionMode='none'
-                >
-                  {products.map((product) => (
-                    <ListboxItem className='px-0 py-3' key={product.id}>
-                      <CartItem {...product} />
-                    </ListboxItem>
-                  ))}
-                </Listbox>
-              </DrawerBody>
-              <DrawerFooter>
-                <Button color='danger' variant='light' onPress={onClose}>
-                  Close
-                </Button>
-                <Button color='primary' onPress={onClose}>
-                  Action
-                </Button>
-              </DrawerFooter>
+              {renderCartItemList()}
+              {renderDrawerFooter()}
             </>
           )}
         </DrawerContent>

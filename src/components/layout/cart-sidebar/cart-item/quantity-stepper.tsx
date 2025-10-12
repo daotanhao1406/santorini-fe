@@ -9,19 +9,33 @@ import Typography from '@/components/ui/typography'
 export default function QuantityStepper({
   value,
   onChange,
+  min,
+  max,
 }: {
   value: number
   onChange: (value: number) => void
+  min?: number
+  max?: number
 }) {
   return (
     <div className='flex items-center justify-center gap-2'>
-      <Button size='sm' isIconOnly onPress={() => onChange(value - 1)}>
+      <Button
+        isDisabled={typeof min === 'number' && value <= min}
+        size='sm'
+        isIconOnly
+        onPress={() => onChange(value - 1)}
+      >
         <Minus size={14} />
       </Button>
       <Typography>
         <Counter value={value} />
       </Typography>
-      <Button size='sm' isIconOnly onPress={() => onChange(value + 1)}>
+      <Button
+        isDisabled={typeof max === 'number' && value >= max}
+        size='sm'
+        isIconOnly
+        onPress={() => onChange(value + 1)}
+      >
         <Plus size={14} />
       </Button>
     </div>

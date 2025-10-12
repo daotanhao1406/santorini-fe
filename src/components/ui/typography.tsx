@@ -1,7 +1,7 @@
 'use client'
 
 import { cva, type VariantProps } from 'class-variance-authority'
-import React, { type CSSProperties, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -22,16 +22,17 @@ const textBaseVariants = cva('', {
     },
     type: {
       default: '',
+      primary: 'text-primary-600',
       secondary: 'text-default-700',
       success: 'text-success-600',
       danger: 'text-danger-600',
       warning: 'text-warning-600',
-      
-  }
+    },
   },
-  
+
   defaultVariants: {
-    size: 'default'
+    size: 'default',
+    type: 'default',
   },
 })
 
@@ -45,30 +46,13 @@ interface TypographyProps extends VariantProps<typeof textBaseVariants> {
 export default function Typography({
   children,
   size,
-
+  type,
   className,
 }: TypographyProps) {
   const textClassName = useMemo(
-    () => cn(textBaseVariants({ size }), className),
-    [size, className],
+    () => cn(textBaseVariants({ size, type }), className),
+    [size, type, className],
   )
 
-  // Memoize style for performance
-  const textStyle: CSSProperties = {
-
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    WebkitBackgroundClip: 'text',
-    lineHeight: 1,
-    textAlign: 'center'
-  }
-
-  return (
-    <div className='relative inline-block' >
-      <span className={textClassName} style={textStyle}>
-        {children}
-      </span>
-    </div >
-  )
+  return <span className={textClassName}>{children}</span>
 }
