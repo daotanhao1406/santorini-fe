@@ -13,6 +13,7 @@ import { ClipboardList, House, Mails, Newspaper, Users } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 
+import CartSidebar from '@/components/layout/cart-sidebar'
 import LocaleSwitcher from '@/components/layout/header/locale-switcher'
 import LoginButton from '@/components/layout/header/login-button'
 
@@ -99,7 +100,10 @@ export default function Header({
           </NavbarItem>
         ))}
       </NavbarContent>
-      <NavbarContent className='gap-6' justify='end'>
+      <NavbarContent className='md:gap-6' justify='end'>
+        <NavbarItem>
+          <CartSidebar isOutOfHeroSection={isOutOfHeroSection} />
+        </NavbarItem>
         <NavbarItem>
           <LocaleSwitcher />
         </NavbarItem>
@@ -107,19 +111,19 @@ export default function Header({
           <LoginButton isOutOfHeroSection={isOutOfHeroSection} />
         </NavbarItem>
         <NavbarItem className='sm:hidden'>
-          <NavbarMenuToggle />
+          <Button size='sm' className='min-w-8 px-1'>
+            <NavbarMenuToggle />
+          </Button>
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
-        <Button variant='bordered' color='primary'>
-          Sign In / Sign Up
-        </Button>
         <div className='mt-2'>
           {menuItems.map((item, index) => (
             <NavbarMenuItem className='py-1' key={`${item}-${index}`}>
               <Link
                 className='w-full font-semibold flex items-center gap-3 text-medium'
-                href='#'
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
               >
                 {item.icon} {item.label}
               </Link>

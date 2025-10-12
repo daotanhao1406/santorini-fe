@@ -6,7 +6,6 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@heroui/react'
-import Image from 'next/image'
 import { Locale, useLocale } from 'next-intl'
 import { useTransition } from 'react'
 
@@ -40,13 +39,12 @@ export default function LocaleSwitcher() {
       placement='bottom-end'
     >
       <DropdownTrigger>
-        <Image
-          alt={currentLocale}
-          className='rounded-[3px] cursor-pointer h-4 w-6'
-          width={24}
-          height={16}
-          aria-disabled={isPending}
-          src={`https://flagcdn.com/${currentLocale === 'vi' ? 'vn' : 'gb'}.svg`}
+        <Avatar
+          radius='none'
+          alt='vietnamese'
+          className='w-6 h-4 rounded-[3px] cursor-pointer'
+          src={`/svg/${currentLocale === 'vi' ? 'vn' : 'gb'}.svg`}
+          isDisabled={isPending}
         />
       </DropdownTrigger>
       <DropdownMenu
@@ -61,7 +59,7 @@ export default function LocaleSwitcher() {
               radius='none'
               alt='vietnamese'
               className='w-6 h-4 rounded-[3px]'
-              src='https://flagcdn.com/vn.svg'
+              src='/svg/vn.svg'
             />
           }
         >
@@ -74,7 +72,7 @@ export default function LocaleSwitcher() {
               radius='none'
               alt='english'
               className='w-6 h-4 rounded-[3px]'
-              src='https://flagcdn.com/gb.svg'
+              src='/svg/gb.svg'
             />
           }
         >
