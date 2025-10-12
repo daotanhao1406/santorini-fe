@@ -1,7 +1,7 @@
 'use client'
 
 import { cva, type VariantProps } from 'class-variance-authority'
-import React, { type CSSProperties, useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -9,80 +9,50 @@ import { cn } from '@/lib/utils'
 const textBaseVariants = cva('', {
   variants: {
     size: {
-      default: 'text-2xl sm:text-3xl lg:text-4xl',
-      xxs: 'text-base sm:text-lg lg:text-lg',
-      xs: 'text-lg sm:text-xl lg:text-2xl',
-      sm: 'text-xl sm:text-2xl lg:text-3xl',
-      md: 'text-2xl sm:text-3xl lg:text-4xl',
-      lg: 'text-3xl sm:text-4xl lg:text-5xl',
-      xl: 'text-4xl sm:text-5xl lg:text-6xl',
-      xxl: 'text-[2.5rem] sm:text-6xl lg:text-[6rem]',
-      xll: 'text-5xl sm:text-6xl lg:text-[7rem]',
-      xxxl: 'text-[6rem] leading-5 lg:leading-8 sm:text-6xl lg:text-[8rem]',
+      xxs: 'text-[8px] sm:text-[10px] lg:text-[10px]',
+      xs: 'text-[10px] sm:text-xs lg:text-xs',
+      sm: 'text-xs sm:text-sm lg:text-sm',
+      default: 'text-xs sm:text-sm lg:text-sm',
+      md: 'text-sm sm:text-base lg:text-base',
+      lg: 'text-base sm:text-lg lg:text-lg',
+      xl: 'text-lg sm:text-xl lg:text-2xl',
+      xxl: 'text-xl sm:text-2xl lg:text-3xl',
+      xll: 'text-2xl sm:text-3xl lg:text-4xl',
+      xxxl: 'text-3xl sm:text-4xl lg:text-5xl',
     },
-    weight: {
-      default: 'font-bold',
-      thin: 'font-thin',
-      base: 'font-base',
-      semi: 'font-semibold',
-      bold: 'font-bold',
-      black: 'font-black',
-    },
-    font: {
-      default: 'font-sansTight',
-      serif: 'font-serif',
-      mono: 'font-mono',
+    type: {
+      default: '',
+      primary: 'text-primary-600',
+      secondary: 'text-default-700',
+      success: 'text-success-600',
+      danger: 'text-danger-600',
+      warning: 'text-warning-600',
     },
   },
+
   defaultVariants: {
     size: 'default',
-    weight: 'bold',
-    font: 'default',
+    type: 'default',
   },
 })
 
 interface TypographyProps extends VariantProps<typeof textBaseVariants> {
-  text: string
+  children: React.ReactNode
   className?: string
   fallbackColor?: string
   transitionDuration?: number
 }
 
 export default function Typography({
-  text,
+  children,
   size,
-  weight,
-  font,
+  type,
   className,
-  fallbackColor = 'black',
 }: TypographyProps) {
   const textClassName = useMemo(
-    () =>
-      cn(textBaseVariants({ size, weight, font }), className, 'pb-1.5 md:pb-4'),
-    [size, weight, font, className],
+    () => cn(textBaseVariants({ size, type }), className),
+    [size, type, className],
   )
 
-  // Memoize style for performance
-  const textStyle = useMemo(() => {
-    const style: CSSProperties = {
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      WebkitBackgroundClip: 'text',
-      lineHeight: 1,
-      textAlign: 'center',
-      color: fallbackColor, // Always set the fallback color initially
-      WebkitTextFillColor: fallbackColor, // Safari fix
-    }
-
-    return style
-  }, [fallbackColor])
-
-  return (
-    <div className='relative inline-block'>
-      <span className={textClassName} style={textStyle}>
-        {text}
-      </span>
-    </div>
-  )
+  return <span className={textClassName}>{children}</span>
 }
