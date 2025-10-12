@@ -20,24 +20,18 @@ const textBaseVariants = cva('', {
       xll: 'text-2xl sm:text-3xl lg:text-4xl',
       xxxl: 'text-3xl sm:text-4xl lg:text-5xl',
     },
-    weight: {
-      default: 'font-bold',
-      thin: 'font-thin',
-      base: 'font-base',
-      semi: 'font-semibold',
-      bold: 'font-bold',
-      black: 'font-black',
-    },
-    font: {
-      default: 'font-sansTight',
-      serif: 'font-serif',
-      mono: 'font-mono',
-    },
+    type: {
+      default: '',
+      secondary: 'text-default-700',
+      success: 'text-success-600',
+      danger: 'text-danger-600',
+      warning: 'text-warning-600',
+      
+  }
   },
+  
   defaultVariants: {
-    size: 'default',
-    weight: 'bold',
-    font: 'default',
+    size: 'default'
   },
 })
 
@@ -51,37 +45,30 @@ interface TypographyProps extends VariantProps<typeof textBaseVariants> {
 export default function Typography({
   children,
   size,
-  weight,
-  font,
+
   className,
-  fallbackColor = 'black',
 }: TypographyProps) {
   const textClassName = useMemo(
-    () => cn(textBaseVariants({ size, weight, font }), className),
-    [size, weight, font, className],
+    () => cn(textBaseVariants({ size }), className),
+    [size, className],
   )
 
   // Memoize style for performance
-  const textStyle = useMemo(() => {
-    const style: CSSProperties = {
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      WebkitBackgroundClip: 'text',
-      lineHeight: 1,
-      textAlign: 'center',
-      color: fallbackColor, // Always set the fallback color initially
-      WebkitTextFillColor: fallbackColor, // Safari fix
-    }
+  const textStyle: CSSProperties = {
 
-    return style
-  }, [fallbackColor])
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    WebkitBackgroundClip: 'text',
+    lineHeight: 1,
+    textAlign: 'center'
+  }
 
   return (
-    <div className='relative inline-block'>
+    <div className='relative inline-block' >
       <span className={textClassName} style={textStyle}>
         {children}
       </span>
-    </div>
+    </div >
   )
 }

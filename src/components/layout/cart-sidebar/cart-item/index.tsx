@@ -21,17 +21,18 @@ export default function CartItem({ name, image_url, base_price }: Product) {
         />
       </div>
 
-      <div className='flex flex-col flex-1'>
-        <div className='flex justify-between gap-1'>
+      <div className='flex justify-between flex-1'>
+        <div className='flex flex-col gap-1 font-'>
           {/* <h1 className='text-large font-semibold'>{name}</h1> */}
-          <Typography size='md'>{name}</Typography>
-          <span className='text-xs text-foreground/60'>
-            {typeof base_price === 'number' && (
-              <p className='font-bold'>{base_price?.toLocaleString('en-US')}</p>
-            )}
-          </span>
+          <Typography className='font-semibold' size='md'>{name}</Typography>
+          <Typography className='text-danger-600'>100% sugar</Typography>
         </div>
-        <div>
+        <div className='flex flex-col justify-between items-end'>
+          <Typography size='sm' className='font-semibold text-foreground/60'>
+            {typeof base_price === 'number' &&
+              base_price?.toLocaleString('en-US')
+            }
+          </Typography>
           <QuantityStepper value={quantity} onChange={setQuantity} />
         </div>
       </div>
