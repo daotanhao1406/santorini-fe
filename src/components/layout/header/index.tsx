@@ -1,6 +1,5 @@
 'use client'
 import {
-  Button,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -101,20 +100,18 @@ export default function Header({
         ))}
       </NavbarContent>
       <NavbarContent className='md:gap-6' justify='end'>
-        <NavbarItem>
-          <CartSidebar isOutOfHeroSection={isOutOfHeroSection} />
-        </NavbarItem>
+        {!isMenuOpen && (
+          <NavbarItem>
+            <CartSidebar isOutOfHeroSection={isOutOfHeroSection} />
+          </NavbarItem>
+        )}
         <NavbarItem>
           <LocaleSwitcher />
         </NavbarItem>
         <NavbarItem>
           <LoginButton isOutOfHeroSection={isOutOfHeroSection} />
         </NavbarItem>
-        <NavbarItem className='sm:hidden'>
-          <Button size='sm' className='min-w-8 px-1'>
-            <NavbarMenuToggle />
-          </Button>
-        </NavbarItem>
+        <NavbarMenuToggle className='sm:hidden' />
       </NavbarContent>
       <NavbarMenu>
         <div className='mt-2'>
