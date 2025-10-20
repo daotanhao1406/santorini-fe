@@ -1,6 +1,6 @@
 'use client'
 import { Chip } from '@heroui/react'
-import { useTranslations } from 'use-intl'
+import { useTranslations } from 'next-intl'
 
 import Typography from '@/components/ui/typography'
 

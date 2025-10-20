@@ -3,7 +3,7 @@
 import { Badge, useDisclosure } from '@heroui/react'
 import { Pencil, X } from 'lucide-react'
 import Image from 'next/image'
-import { useTranslations } from 'use-intl'
+import { useTranslations } from 'next-intl'
 
 import { useIsMobile } from '@/hooks/use-media-query'
 
