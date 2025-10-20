@@ -8,12 +8,14 @@ import Typography from '@/components/ui/typography'
 
 export default function QuantityStepper({
   value,
-  onChange,
+  onIncrease,
+  onDecrease,
   min,
   max,
 }: {
   value: number
-  onChange: (value: number) => void
+  onIncrease: () => void
+  onDecrease: () => void
   min?: number
   max?: number
 }) {
@@ -23,7 +25,7 @@ export default function QuantityStepper({
         isDisabled={typeof min === 'number' && value <= min}
         size='sm'
         isIconOnly
-        onPress={() => onChange(value - 1)}
+        onPress={onDecrease}
       >
         <Minus size={14} />
       </Button>
@@ -34,7 +36,7 @@ export default function QuantityStepper({
         isDisabled={typeof max === 'number' && value >= max}
         size='sm'
         isIconOnly
-        onPress={() => onChange(value + 1)}
+        onPress={onIncrease}
       >
         <Plus size={14} />
       </Button>

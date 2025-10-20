@@ -1,12 +1,12 @@
 import { Card, CardBody, CardFooter } from '@heroui/react'
 import Image from 'next/image'
 
-import { Category } from '@/types/category'
+import { ICategory } from '@/types/category'
 
 interface CategoryItemProps {
-  category: Category
+  category: ICategory
   isActive?: boolean
-  onCategoryClick: (category: Category) => void
+  onCategoryClick: (category: ICategory) => void
 }
 
 export default function CategoryItem({
