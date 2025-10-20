@@ -5,7 +5,7 @@ import { createServer } from '@/lib/supabase/server'
 import CategoryList from '@/elements/menu/category/category-list'
 import ProductList from '@/elements/menu/product/product-list'
 
-import { Product } from '@/types/product'
+import { IProduct } from '@/types/product'
 
 export default async function MenuPage({
   searchParams,
@@ -29,7 +29,7 @@ export default async function MenuPage({
     .eq('categories.slug', activeSlug)
     .eq('locale', locale)
 
-  const products = data as Product[]
+  const products = data as IProduct[]
   return (
     <div className='m-10'>
       <span className='text-xl font-bold'>Categories</span>

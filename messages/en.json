@@ -49,5 +49,13 @@
       "milk_tea": "Milk Tea",
       "snacks": "Snack"
     }
+  },
+  "MenuPage": {
+    "ice": {
+      "0": "Ice on side",
+      "1": "No ice",
+      "2": "Less ice",
+      "3": "Normal"
+    }
   }
 }

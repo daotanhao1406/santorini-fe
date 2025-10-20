@@ -49,5 +49,13 @@
       "milk_tea": "Trà sữa",
       "snacks": "Ăn vặt"
     }
+  },
+  "MenuPage": {
+    "ice": {
+      "0": "Đá riêng",
+      "1": "Không đá",
+      "2": "Ít đá",
+      "3": "Đá bình thường"
+    }
   }
 }

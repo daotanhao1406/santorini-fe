@@ -5,15 +5,19 @@ import React, { useMemo } from 'react'
 
 import { cn } from '@/lib/utils'
 
-// Define text style variants
+// get type of sizes from TypographyVariants
+
+export type TypographySize = VariantProps<typeof textBaseVariants>['size']
+export type TypographyType = VariantProps<typeof textBaseVariants>['type']
+
 const textBaseVariants = cva('', {
   variants: {
     size: {
       xxs: 'text-[8px] sm:text-[10px] lg:text-[10px]',
       xs: 'text-[10px] sm:text-xs lg:text-xs',
       sm: 'text-xs sm:text-sm lg:text-sm',
-      default: 'text-xs sm:text-sm lg:text-sm',
       md: 'text-sm sm:text-base lg:text-base',
+      default: 'text-sm sm:text-base lg:text-base',
       lg: 'text-base sm:text-lg lg:text-lg',
       xl: 'text-lg sm:text-xl lg:text-2xl',
       xxl: 'text-xl sm:text-2xl lg:text-3xl',
@@ -36,11 +40,28 @@ const textBaseVariants = cva('', {
   },
 })
 
-interface TypographyProps extends VariantProps<typeof textBaseVariants> {
+type TypographyElement =
+  | 'span'
+  | 'p'
+  | 'blockquote'
+  | 'code'
+  | 'strong'
+  | 'em'
+  | 'sup'
+  | 'sub'
+  | 'small'
+  | 'mark'
+  | 'del'
+  | 'ins'
+
+interface TypographyProps
+  extends VariantProps<typeof textBaseVariants>,
+    React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode
   className?: string
   fallbackColor?: string
   transitionDuration?: number
+  variant?: TypographyElement
 }
 
 export default function Typography({
@@ -48,11 +69,17 @@ export default function Typography({
   size,
   type,
   className,
+  variant = 'span',
+  ...rest
 }: TypographyProps) {
   const textClassName = useMemo(
     () => cn(textBaseVariants({ size, type }), className),
     [size, type, className],
   )
 
-  return <span className={textClassName}>{children}</span>
+  return React.createElement(
+    variant,
+    { className: textClassName, ...rest },
+    children,
+  )
 }

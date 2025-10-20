@@ -1,15 +1,15 @@
-import { Button, Card, CardBody } from '@heroui/react'
-import { ShoppingCart } from 'lucide-react'
+import { Card, CardBody } from '@heroui/react'
 import Image from 'next/image'
 
-import { Product } from '@/types/product'
+import PriceDisplay from '@/components/price-display'
+import Typography from '@/components/ui/typography'
 
-export default function ProductItem({
-  name,
-  description,
-  image_url,
-  base_price,
-}: Product) {
+import AddToCartButton from '@/elements/menu/product/add-to-cart-button'
+
+import { IProduct } from '@/types/product'
+
+export default function ProductItem(product: IProduct) {
+  const { name, description, image_url, base_price } = product
   return (
     <Card className='text-sm'>
       <CardBody className='p-5'>
@@ -31,23 +31,14 @@ export default function ProductItem({
             </div>
             <div className='flex justify-between items-end'>
               <div className='flex gap-1 pt-0 xl:pt-2'>
-                {typeof base_price === 'number' && (
-                  <>
-                    <h3 className='text-large font-bold'>
-                      {base_price?.toLocaleString('en-US')}
-                    </h3>
-                    <p className='font-bold text-sm mt-0.5'>đ</p>
-                  </>
-                )}
+                <Typography size='lg' className='font-bold'>
+                  <PriceDisplay value={base_price} />
+                </Typography>
+                <Typography size='sm' variant='sup' className='font-bold mt-2'>
+                  đ
+                </Typography>
               </div>
-              <Button
-                aria-label='Add to cart'
-                isIconOnly
-                color='primary'
-                size='sm'
-              >
-                <ShoppingCart size={14} />
-              </Button>
+              <AddToCartButton {...product} />
             </div>
           </div>
         </div>
