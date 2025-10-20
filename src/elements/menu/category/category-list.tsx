@@ -26,7 +26,7 @@ export default function CategoryList({
     return <div>There's no categories to display</div>
   }
   return (
-    <div className='flex gap-8'>
+    <div className='flex gap-4 lg:gap-8'>
       {items.map((item) => (
         <CategoryItem
           onCategoryClick={handleClick}

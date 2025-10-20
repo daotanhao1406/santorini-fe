@@ -63,10 +63,26 @@ export default function ProductOptionModal({
 
   const toppings = useProductOptionStore((s) => s.toppings)
   const fetchToppings = useProductOptionStore((s) => s.fetchToppings)
-  const addItem = useCartStore((s) => s.addItem)
+  // const addItem = useCartStore((s) => s.addItem)
   const updateItem = useCartStore((s) => s.updateItem)
 
-  const onSubmit = () => {
+  async function handleAddToCart(productId: string) {
+    const res = await fetch('/api/cart/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ productId, quantity: 1 }),
+    })
+
+    // const data = await res.json()
+    if (!res.ok) {
+      // console.error(data.error)
+      return
+    }
+
+    // console.log('Added to cart ✅')
+  }
+
+  const onSubmit = async () => {
     const formData = {
       id: cartItem ? cartItem.id : uuidv4(),
       product: product,
@@ -77,7 +93,7 @@ export default function ProductOptionModal({
       note,
       quantity,
     }
-    return cartItem ? updateItem(formData) : addItem(formData)
+    return cartItem ? updateItem(formData) : await handleAddToCart(product.id)
   }
 
   useEffect(() => {
