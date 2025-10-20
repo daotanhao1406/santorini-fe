@@ -11,38 +11,39 @@ import {
 } from '@heroui/react'
 import { ShoppingBag, X } from 'lucide-react'
 import { useLocale } from 'next-intl'
-import { useCallback, useEffect, useState } from 'react'
-
-import { createClient } from '@/lib/supabase/client'
+import { useCallback, useEffect } from 'react'
 
 import CartItem from '@/components/layout/cart-sidebar/cart-item'
 import PriceDisplay from '@/components/price-display'
 import Typography from '@/components/ui/typography'
 
-import { Product } from '@/types/product'
+import {
+  calcTotalCartItemsPrice,
+  calcTotalCartItemsQuantity,
+  useCartStore,
+} from '@/stores/use-cart-store'
+import { useProductOptionStore } from '@/stores/use-product-option-store'
 
 export default function CartSidebar({
   isOutOfHeroSection,
 }: {
   isOutOfHeroSection?: boolean
 }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [products, setProducts] = useState<Product[]>([])
   const locale = useLocale()
-  const supabase = createClient()
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const cartItems = useCartStore((state) => state.items)
+  const totalPrice = calcTotalCartItemsPrice(cartItems)
+  const totalQuantity = calcTotalCartItemsQuantity(cartItems)
+  const fetchToppings = useProductOptionStore((s) => s.fetchToppings)
 
-  const loadProducts = useCallback(async () => {
-    const { data } = await supabase
-      .from('products_with_translations')
-      .select('*, categories!inner(*)')
-      .eq('categories.slug', 'milk-tea')
-      .eq('locale', locale)
-
-    setProducts(data as Product[])
-  }, [locale, supabase])
+  useEffect(() => {
+    if (isOpen) {
+      fetchToppings(locale)
+    }
+  }, [isOpen, locale, fetchToppings])
 
   const renderCartItemList = useCallback(() => {
-    if (!Array.isArray(products) || products.length === 0) {
+    if (!Array.isArray(cartItems) || cartItems.length === 0) {
       return (
         <div className='flex flex-col items-center gap-4 mt-20'>
           <ShoppingBag size={40} />
@@ -55,56 +56,42 @@ export default function CartSidebar({
 
     return (
       <DrawerBody className='flex flex-col gap-6'>
-        {products.map((product) => (
-          <CartItem key={product.id} {...product} />
+        {cartItems.map((cartItem) => (
+          <CartItem key={cartItem.id} {...cartItem} />
         ))}
       </DrawerBody>
     )
-  }, [products])
+  }, [cartItems])
 
   const renderDrawerFooter = useCallback(() => {
-    if (!Array.isArray(products) || products.length === 0) return null
-
-    const totalPrice = products.reduce(
-      (total, product) => total + product.base_price,
-      0,
-    )
+    if (totalPrice === 0) return null
 
     return (
       <DrawerFooter className='flex flex-col w-full gap-4'>
         <div className='flex justify-between'>
-          <Typography size='sm' className='font-semibold'>
+          <Typography size='lg' className='font-semibold'>
             Total
           </Typography>
-          <Typography size='sm' className='font-semibold'>
+          <Typography size='lg' className='font-semibold'>
             <PriceDisplay value={totalPrice} />
           </Typography>
         </div>
         <Button color='primary'>Checkout</Button>
       </DrawerFooter>
     )
-  }, [products])
-
-  useEffect(() => {
-    loadProducts()
-  }, [loadProducts])
+  }, [totalPrice])
 
   return (
     <>
       <Badge
         size='sm'
         color='danger'
-        content='20'
+        content={totalQuantity}
+        isInvisible={totalQuantity === 0}
         shape='circle'
         showOutline={false}
       >
-        <Button
-          isIconOnly
-          aria-label='more than 99 notifications'
-          radius='full'
-          variant='light'
-          onPress={onOpen}
-        >
+        <Button isIconOnly radius='full' variant='light' onPress={onOpen}>
           <ShoppingBag
             color={isOutOfHeroSection ? 'black' : 'white'}
             size={22}

@@ -1,8 +1,8 @@
 import ProductItem from '@/elements/menu/product/product-item'
 
-import { Product } from '@/types/product'
+import { IProduct } from '@/types/product'
 
-export default async function ProductList({ items }: { items: Product[] }) {
+export default async function ProductList({ items }: { items: IProduct[] }) {
   if (!Array.isArray(items) || items.length === 0) {
     return <div>There's no products in this category</div>
   }
