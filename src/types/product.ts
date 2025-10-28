@@ -27,8 +27,8 @@ export enum SWEETNESS_LEVEL {
 
 export type ProductOptionsType = {
   size: SIZE
-  ice: ICE_LEVEL
-  sweetness: SWEETNESS_LEVEL
+  ice_level: ICE_LEVEL
+  sweetness_level: SWEETNESS_LEVEL
   toppings: string[]
   note: string
 }

@@ -12,6 +12,7 @@ interface DeleteComfirmationModalProps {
   okText?: string
   cancelText?: string
   isOpen: boolean
+  isLoading?: boolean
   onOpenChange: ModalProps['onOpenChange']
   onConfirm: () => void
   onCancel: () => void
@@ -22,6 +23,7 @@ export default function DeleteComfirmationModal({
   okText = 'Yes',
   cancelText = 'No',
   isOpen,
+  isLoading,
   onOpenChange,
   onConfirm,
   onCancel,
@@ -40,10 +42,15 @@ export default function DeleteComfirmationModal({
       <ModalContent>
         <ModalHeader className='pt-6'>{message}</ModalHeader>
         <ModalFooter className='pt-0'>
-          <Button color='danger' variant='light' onPress={onCancel}>
+          <Button
+            isDisabled={isLoading}
+            color='danger'
+            variant='light'
+            onPress={onCancel}
+          >
             {cancelText}
           </Button>
-          <Button color='primary' onPress={onConfirm}>
+          <Button isLoading={isLoading} color='primary' onPress={onConfirm}>
             {okText}
           </Button>
         </ModalFooter>

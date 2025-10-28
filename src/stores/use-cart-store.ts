@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash'
+import { addToast } from '@heroui/react'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -15,85 +15,189 @@ interface CartState {
 }
 
 interface CartActions {
-  addItem: (item: CartItemType) => void
-  updateItem: (item: CartItemType) => void
-  removeItem: (cartId: string) => void
+  addItem: (item: CartItemType) => Promise<void>
+  updateItem: (item: CartItemType) => Promise<void>
+  removeItem: (cartId: string) => Promise<void>
   increaseQuantity: (cartId: string) => void
   decreaseQuantity: (cartId: string) => void
   clearCart: () => void
+
+  //server-side actions
+  loadCartFromServer: () => Promise<void>
+  syncCartToServer: () => Promise<void>
 }
 
 export const useCartStore = create<CartState & CartActions>()(
   persist(
     (set, get) => ({
       items: [],
-      addItem: (item: CartItemType) => {
-        const items = get().items
-        const existingItem = items.find((i) => {
-          const itemWithProductId = {
-            ...item,
-            id: null, // delete id and quantity in item to compare
-            quantity: null,
-            product: item.product.id,
-            toppings: item.toppings.sort(),
-          }
-          const iWithProductId = {
-            ...i,
-            id: null,
-            quantity: null,
-            product: i.product.id,
-            toppings: i.toppings.sort(),
-          }
-          return (
-            i.product.id === item.product.id &&
-            isEqual(iWithProductId, itemWithProductId)
-          )
+      addItem: async (item: CartItemType) => {
+        const formData = {
+          ...item,
+          product_id: item.product.id,
+        }
+        const res = await fetch('/api/cart/items', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
         })
 
-        if (existingItem) {
-          set({
-            items: items.map((i) =>
-              i.id === existingItem.id
-                ? { ...i, quantity: i.quantity + item.quantity }
-                : i,
-            ),
+        const data = await res.json()
+        if (!res.ok) {
+          addToast({
+            title: data.error,
+            description: data.message,
+            color: 'danger',
           })
-        } else {
-          set({ items: [...items, { ...item, quantity: item.quantity }] })
         }
+
+        // addToast({
+        //   title: 'Successfully',
+        //   description: data.message,
+        //   color: 'success',
+        // })
       },
-      updateItem: (item: CartItemType) => {
+      updateItem: async (item: CartItemType) => {
         const items = get().items
         const existingItem = items.find((i) => i.id === item.id)
 
         if (existingItem) {
-          set({
-            items: items.map((i) =>
-              i.id === existingItem.id ? { ...existingItem, ...item } : i,
-            ),
+          const res = await fetch(`/api/cart/items/${existingItem.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(item),
+          })
+
+          const data = await res.json()
+          if (!res.ok) {
+            addToast({
+              title: data.error,
+              description: data.message,
+              color: 'danger',
+            })
+          }
+
+          // addToast({
+          //   title: 'Successfully',
+          //   description: data.message,
+          //   color: 'success',
+          // })
+        }
+      },
+      increaseQuantity: async (cartItemId: string) => {
+        const oldState = get().items
+        const item = oldState.find((i) => i.id === cartItemId)
+        set((state) => ({
+          items: state.items.map((i) =>
+            i.id === cartItemId ? { ...i, quantity: i.quantity + 1 } : i,
+          ),
+        }))
+        if (item) {
+          const res = await fetch(`/api/cart/items/${cartItemId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ quantity: item.quantity + 1 }),
+          })
+
+          const data = await res.json()
+          if (!res.ok) {
+            set({ items: oldState })
+            addToast({
+              title: data.error,
+              description: data.message,
+              color: 'danger',
+            })
+          }
+        }
+      },
+      decreaseQuantity: async (cartItemId: string) => {
+        const oldState = get().items
+        const item = oldState.find((i) => i.id === cartItemId)
+        set((state) => ({
+          items: state.items.map((i) =>
+            i.id === cartItemId ? { ...i, quantity: i.quantity - 1 } : i,
+          ),
+        }))
+        if (item) {
+          const res = await fetch(`/api/cart/items/${cartItemId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ quantity: item.quantity - 1 }),
+          })
+
+          const data = await res.json()
+          if (!res.ok) {
+            set({ items: oldState })
+            addToast({
+              title: data.error,
+              description: data.message,
+              color: 'danger',
+            })
+          }
+        }
+      },
+      removeItem: async (cartItemId: string) => {
+        const res = await fetch(`/api/cart/items/${cartItemId}`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+        })
+
+        const data = await res.json()
+        if (!res.ok) {
+          addToast({
+            title: data.error,
+            description: data.message,
+            color: 'danger',
+          })
+        }
+
+        addToast({
+          title: 'Successfully',
+          description: data.message,
+          color: 'success',
+        })
+      },
+      clearCart: () => set({ items: [] }),
+
+      // get cart from server
+      loadCartFromServer: async () => {
+        try {
+          const res = await fetch('/api/cart/items', { method: 'GET' })
+          if (!res.ok) throw new Error('Failed to load cart')
+          const { cart } = await res.json()
+          set({ items: cart || [] })
+        } catch {
+          addToast({
+            title: 'Error',
+            description: 'Failed to load cart',
+            color: 'danger',
           })
         }
       },
-      removeItem: (cartId: string) =>
-        set((state) => ({
-          items: state.items.filter((i) => i.id !== cartId),
-        })),
-      increaseQuantity: (cartId: string) =>
-        set((state) => ({
-          items: state.items.map((i) =>
-            i.id === cartId ? { ...i, quantity: i.quantity + 1 } : i,
-          ),
-        })),
-      decreaseQuantity: (cartId: string) =>
-        set((state) => ({
-          items: state.items.map((i) =>
-            i.id === cartId ? { ...i, quantity: i.quantity - 1 } : i,
-          ),
-        })),
-      clearCart: () => set({ items: [] }),
+
+      // 🔹 Gửi cart local lên Supabase để merge (sau khi login)
+      syncCartToServer: async () => {
+        const { items } = get()
+        if (!items.length) return
+
+        try {
+          await fetch('/api/cart/items/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items }),
+          })
+        } catch {
+          addToast({
+            title: 'Error',
+            description: 'Error syncing cart',
+            color: 'danger',
+          })
+        }
+      },
     }),
     {
       name: 'cart-store',
+      partialize: (state) => ({ items: state.items }),
     },
   ),
 )

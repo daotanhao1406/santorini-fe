@@ -4,6 +4,8 @@ import { HeroUIProvider, ToastProvider } from '@heroui/react'
 import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 
+import CartProvider from '@/providers/cart-provider'
+
 declare module '@react-types/shared' {
   interface RouterConfig {
     routerOptions: NonNullable<
@@ -17,8 +19,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   return (
     <HeroUIProvider navigate={router.push}>
-      <ToastProvider />
-      {children}
+      <ToastProvider placement='top-center' />
+      <CartProvider>{children}</CartProvider>
     </HeroUIProvider>
   )
 }
