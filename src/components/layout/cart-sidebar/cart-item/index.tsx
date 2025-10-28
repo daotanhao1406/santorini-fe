@@ -4,6 +4,7 @@ import { Badge, useDisclosure } from '@heroui/react'
 import { Pencil, X } from 'lucide-react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
+import { useState } from 'react'
 
 import { useIsMobile } from '@/hooks/use-media-query'
 
@@ -31,10 +32,21 @@ export default function CartItem(cartItem: CartItemType) {
   } = useDisclosure()
   const increaseQuantity = useCartStore((s) => s.increaseQuantity)
   const decreaseQuantity = useCartStore((s) => s.decreaseQuantity)
+  const loadCartFromServer = useCartStore((s) => s.loadCartFromServer)
   const removeItem = useCartStore((s) => s.removeItem)
   const toppings = useProductOptionStore((s) => s.toppings)
   const iceTranslations = useTranslations('MenuPage.ice')
   const isMobile = useIsMobile()
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+
+  const onDeleteItem = async (cartItemId: string) => {
+    setDeleteLoading(true)
+    return await removeItem(cartItemId)
+      .then(() => loadCartFromServer())
+      .finally(() => {
+        setDeleteLoading(false)
+      })
+  }
   return (
     <div className='group flex gap-3 md:gap-4 justify-center relative'>
       <Badge
@@ -62,15 +74,15 @@ export default function CartItem(cartItem: CartItemType) {
           <Typography className='font-semibold -mt-1' size='md'>
             {cartItem.product.name} ({cartItem.size})
           </Typography>
-          <Typography size='sm'>{cartItem.sweetness} sugar</Typography>
+          <Typography size='sm'>{cartItem.sweetness_level} sugar</Typography>
           <Typography size='sm'>
-            {iceTranslations(cartItem.ice.toString())}
+            {iceTranslations(cartItem.ice_level?.toString())}
           </Typography>
           {cartItem.toppings.length > 0 &&
-            cartItem.toppings.map((topping) => {
+            cartItem.toppings.map((topping, key) => {
               const toppingData = toppings.find((t) => t.id === topping)
               return (
-                <Typography key={topping} size='sm'>
+                <Typography key={key} size='sm'>
                   {toppingData?.name}
                 </Typography>
               )
@@ -105,8 +117,9 @@ export default function CartItem(cartItem: CartItemType) {
       <DeleteComfirmationModal
         message='Are you sure you want to delete this item from the shopping cart?'
         isOpen={isDeleteModalOpen}
+        isLoading={deleteLoading}
         onOpenChange={onDeleteModalOpenChange}
-        onConfirm={() => removeItem(cartItem.id)}
+        onConfirm={() => onDeleteItem(cartItem.id)}
         onCancel={onDeleteModalClose}
       />
       {isEditModalOpen && (

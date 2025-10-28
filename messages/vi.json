@@ -51,6 +51,9 @@
     }
   },
   "MenuPage": {
+    "title": "Thực Đơn",
+    "first_subtitle": "Khám phá thực đơn trà thủ công và đồ uống tươi mát sôi động của chúng tôi",
+    "second_subtitle": "để chinh phục vị giác và thỏa mãn cơn thèm của bạn.",
     "ice": {
       "0": "Đá riêng",
       "1": "Không đá",

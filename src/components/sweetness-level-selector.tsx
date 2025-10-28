@@ -9,8 +9,8 @@ export default function SweetnessLevelSelector({
   value,
   onChange,
 }: {
-  value: ProductOptionsType['sweetness']
-  onChange: (value: ProductOptionsType['sweetness']) => void
+  value: ProductOptionsType['sweetness_level']
+  onChange: (value: ProductOptionsType['sweetness_level']) => void
 }) {
   const sweetnessLevels = [
     SWEETNESS_LEVEL.NORMAL,

@@ -51,6 +51,9 @@
     }
   },
   "MenuPage": {
+    "title": "Our Menu",
+    "first_subtitle": "Explore our vibrant menu of handcrafted teas and refreshing drinks, all meticulously",
+    "second_subtitle": "prepared to captivate your senses and satisfy your cravings.",
     "ice": {
       "0": "Ice on side",
       "1": "No ice",

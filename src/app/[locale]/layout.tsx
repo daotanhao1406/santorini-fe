@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { Coiny, Montserrat, Pacifico } from 'next/font/google'
+import { Coiny, Montserrat, Pacifico, Playfair } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import { hasLocale, Locale, NextIntlClientProvider } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
@@ -11,7 +11,7 @@ import Footer from '@/components/layout/footer'
 
 import { siteConfig } from '@/constant/config'
 import { routing } from '@/i18n/routing'
-import { AppProvider } from '@/providers/AppProvider'
+import { AppProvider } from '@/providers/app-provider'
 
 type Props = {
   children: ReactNode
@@ -34,6 +34,12 @@ const coiny = Coiny({
   subsets: ['latin'],
   weight: '400',
   variable: '--font-coiny',
+})
+
+const playfair = Playfair({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-playfair',
 })
 
 export const metadata: Metadata = {
@@ -79,7 +85,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   setRequestLocale(locale)
   return (
     <html
-      className={`${montserrat.variable} ${pacifico.variable} ${coiny.variable} light`}
+      className={`${montserrat.variable} ${pacifico.variable} ${coiny.variable} ${playfair.variable} light`}
       suppressHydrationWarning
       lang={locale}
     >
