@@ -44,7 +44,7 @@ function Digit({ place, value, digitStyle }: DigitProps) {
   const defaultStyle: React.CSSProperties = {
     position: 'relative',
     width: '1ch',
-    height: '12px',
+    height: '13px',
     overflow: 'hidden',
     fontVariantNumeric: 'tabular-nums',
   }

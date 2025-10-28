@@ -18,7 +18,7 @@ export default function CategoryItem({
     <Card
       onClick={() => onCategoryClick(category)}
       isPressable
-      className={`text-sm ${isActive && 'border-2 border-primary/60 bg-primary-50 text-primary'}`}
+      className={`text-sm w-26 ${isActive && 'border-2 border-primary/60 bg-primary-50 text-primary'}`}
     >
       <CardBody className='p-5 px-7 pb-0 items-center justify-center flex'>
         <Image

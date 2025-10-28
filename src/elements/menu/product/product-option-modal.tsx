@@ -11,7 +11,6 @@ import {
 import Image from 'next/image'
 import { useLocale } from 'next-intl'
 import { useEffect, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 
 import IceLevelSelector from '@/components/ice-level-selector'
 import QuantityStepper from '@/components/layout/cart-sidebar/cart-item/quantity-stepper'
@@ -50,34 +49,51 @@ export default function ProductOptionModal({
     cartItem?.size || SIZE.M,
   )
   const [selectedIceLevel, setSelectedIceLevel] = useState<
-    ProductOptionsType['ice']
-  >(cartItem?.ice || ICE_LEVEL.NORMAL)
+    ProductOptionsType['ice_level']
+  >(cartItem?.ice_level || ICE_LEVEL.NORMAL)
   const [selectedSweetnessLevel, setSelectedSweetnessLevel] = useState<
-    ProductOptionsType['sweetness']
-  >(cartItem?.sweetness || SWEETNESS_LEVEL.NORMAL)
+    ProductOptionsType['sweetness_level']
+  >(cartItem?.sweetness_level || SWEETNESS_LEVEL.NORMAL)
   const [selectedToppings, setSelectedToppings] = useState<string[]>(
     cartItem?.toppings || [],
   )
   const [note, setNote] = useState<string>(cartItem?.note || '')
   const [quantity, setQuantity] = useState<number>(cartItem?.quantity || 1)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const toppings = useProductOptionStore((s) => s.toppings)
   const fetchToppings = useProductOptionStore((s) => s.fetchToppings)
   const addItem = useCartStore((s) => s.addItem)
   const updateItem = useCartStore((s) => s.updateItem)
+  const loadCartFromServer = useCartStore((s) => s.loadCartFromServer)
 
-  const onSubmit = () => {
-    const formData = {
-      id: cartItem ? cartItem.id : uuidv4(),
-      product: product,
+  const onSubmit = async () => {
+    setLoading(true)
+    const formData: CartItemType = {
+      id: cartItem?.id || '',
+      product,
       size: selectedSize,
-      ice: selectedIceLevel,
-      sweetness: selectedSweetnessLevel,
+      ice_level: selectedIceLevel,
+      sweetness_level: selectedSweetnessLevel,
       toppings: selectedToppings,
       note,
       quantity,
     }
-    return cartItem ? updateItem(formData) : addItem(formData)
+    return cartItem
+      ? await updateItem(formData)
+          .then(() => {
+            loadCartFromServer()
+          })
+          .finally(() => {
+            setLoading(false)
+          })
+      : await addItem(formData)
+          .then(() => {
+            loadCartFromServer()
+          })
+          .finally(() => {
+            setLoading(false)
+          })
   }
 
   useEffect(() => {
@@ -199,9 +215,9 @@ export default function ProductOptionModal({
               </div>
               <Button
                 color='primary'
-                onPress={() => {
-                  onSubmit()
-                  onClose()
+                isLoading={loading}
+                onPress={async () => {
+                  await onSubmit().finally(() => onClose())
                 }}
               >
                 {cartItem ? 'Update' : 'Add to cart'}

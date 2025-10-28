@@ -7,11 +7,12 @@ import {
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
+  Skeleton,
   useDisclosure,
 } from '@heroui/react'
 import { ShoppingBag, X } from 'lucide-react'
 import { useLocale } from 'next-intl'
-import { useCallback, useEffect } from 'react'
+import { Suspense, useCallback, useEffect } from 'react'
 
 import CartItem from '@/components/layout/cart-sidebar/cart-item'
 import PriceDisplay from '@/components/price-display'
@@ -38,7 +39,9 @@ export default function CartSidebar({
 
   useEffect(() => {
     if (isOpen) {
-      fetchToppings(locale)
+      setTimeout(() => {
+        fetchToppings(locale)
+      })
     }
   }, [isOpen, locale, fetchToppings])
 
@@ -117,7 +120,7 @@ export default function CartSidebar({
       >
         <DrawerContent>
           {(onClose) => (
-            <>
+            <Suspense fallback={<CartSidebarSkeleton />}>
               <DrawerHeader className='flex justify-between'>
                 <Typography size='lg'>Shoppping Cart</Typography>
                 <Button variant='light' isIconOnly size='sm' onPress={onClose}>
@@ -126,10 +129,24 @@ export default function CartSidebar({
               </DrawerHeader>
               {renderCartItemList()}
               {renderDrawerFooter()}
-            </>
+            </Suspense>
           )}
         </DrawerContent>
       </Drawer>
     </>
+  )
+}
+
+const CartSidebarSkeleton = () => {
+  return (
+    <div className='max-w-[300px] w-full flex items-center gap-3'>
+      <div>
+        <Skeleton className='flex rounded-sm w-12 h-12' />
+      </div>
+      <div className='w-full flex flex-col gap-2'>
+        <Skeleton className='h-3 w-3/5 rounded-lg' />
+        <Skeleton className='h-3 w-4/5 rounded-lg' />
+      </div>
+    </div>
   )
 }

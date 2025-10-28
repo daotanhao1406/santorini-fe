@@ -1,6 +1,8 @@
-import { getLocale } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 
 import { createServer } from '@/lib/supabase/server'
+
+import Typography from '@/components/ui/typography'
 
 import CategoryList from '@/elements/menu/category/category-list'
 import ProductList from '@/elements/menu/product/product-list'
@@ -15,6 +17,7 @@ export default async function MenuPage({
   const locale = await getLocale()
   const supabase = await createServer()
   const params = await searchParams
+  const menuTranslations = await getTranslations('MenuPage')
 
   const { data: categories } = await supabase
     .from('categories_with_translations')
@@ -31,13 +34,23 @@ export default async function MenuPage({
 
   const products = data as IProduct[]
   return (
-    <div className='m-10'>
-      <span className='text-xl font-bold'>Categories</span>
-      <div className='pt-8'>
+    <div className='m-10 flex flex-col'>
+      <Typography
+        className='text-center font-medium font-playfair'
+        size='xxxxl'
+      >
+        {menuTranslations('title')}
+      </Typography>
+      <Typography className='text-center mt-2'>
+        {menuTranslations('first_subtitle')} <br />{' '}
+        {menuTranslations('second_subtitle')}
+      </Typography>
+      {/* <span className='text-xl font-bold'>Categories</span> */}
+      <div className='pt-8 flex flex-col items-center'>
         <CategoryList items={categories} activeSlug={activeSlug} />
       </div>
-      <p className='text-xl font-bold mt-8'>Products</p>
-      <div className='pt-8'>
+      {/* <p className='text-xl font-bold mt-8'>Products</p> */}
+      <div className='pt-16'>
         <ProductList items={products} />
       </div>
     </div>

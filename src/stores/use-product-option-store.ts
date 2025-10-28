@@ -39,7 +39,7 @@ export const useProductOptionStore = create<OptionState>((set, get) => ({
       })
     }
 
-    if (Array.isArray(toppings)) {
+    if (Array.isArray(toppings) && toppings.length > 0) {
       set({ toppings, fetched: { topping: true } })
     }
   },

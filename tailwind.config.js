@@ -14,6 +14,7 @@ const config = {
         pacifico: ['Pacifico', 'cursive'],
         montserrat: ['Montserrat', 'sans-serif'],
         coiny: ['Coiny', 'cursive'],
+        playfair: ['Playfair', 'cursive'],
       },
     },
   },
