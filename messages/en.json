@@ -18,6 +18,15 @@
       "placeholder": "Enter your email"
     }
   },
+  "button": {
+    "add": "Add",
+    "update": "Update",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "no": "No",
+    "yes": "Yes"
+  },
   "HomePage": {
     "products": {
       "lemon": {
@@ -59,6 +68,10 @@
       "1": "No ice",
       "2": "Less ice",
       "3": "Normal"
+    },
+    "product_option_modal": {
+      "add_button_text": "Add to cart",
+      "note_placeholder": "Add note to this product"
     }
   }
 }

@@ -18,6 +18,15 @@
       "placeholder": "Nhập email của bạn"
     }
   },
+  "button": {
+    "add": "Thêm",
+    "update": "Cập nhật",
+    "edit": "Chỉnh sửa",
+    "delete": "Xóa",
+    "cancel": "Thoát",
+    "no": "Không",
+    "yes": "Có"
+  },
   "HomePage": {
     "products": {
       "lemon": {
@@ -59,6 +68,10 @@
       "1": "Không đá",
       "2": "Ít đá",
       "3": "Đá bình thường"
+    },
+    "product_option_modal": {
+      "add_button_text": "Thêm vào giỏ hàng",
+      "note_placeholder": "Ghi chú cho sản phẩm"
     }
   }
 }
