@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@heroui/react'
 import { ShoppingBag, X } from 'lucide-react'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Suspense, useCallback, useEffect } from 'react'
 
 import CartItem from '@/components/layout/cart-sidebar/cart-item'
@@ -36,6 +36,8 @@ export default function CartSidebar({
   const totalPrice = calcTotalCartItemsPrice(cartItems)
   const totalQuantity = calcTotalCartItemsQuantity(cartItems)
   const fetchToppings = useProductOptionStore((s) => s.fetchToppings)
+  const cartTranslations = useTranslations('cart')
+
 
   useEffect(() => {
     if (isOpen) {
@@ -51,7 +53,7 @@ export default function CartSidebar({
         <div className='flex flex-col items-center gap-4 mt-20'>
           <ShoppingBag size={40} />
           <Typography size='lg' className='font-bold'>
-            Your cart is empty
+            {cartTranslations('emptyMessage')}
           </Typography>
         </div>
       )
@@ -64,7 +66,7 @@ export default function CartSidebar({
         ))}
       </DrawerBody>
     )
-  }, [cartItems])
+  }, [cartItems, cartTranslations])
 
   const renderDrawerFooter = useCallback(() => {
     if (totalPrice === 0) return null
@@ -73,16 +75,16 @@ export default function CartSidebar({
       <DrawerFooter className='flex flex-col w-full gap-4'>
         <div className='flex justify-between'>
           <Typography size='lg' className='font-semibold'>
-            Total
+            {cartTranslations('total')}
           </Typography>
           <Typography size='lg' className='font-semibold'>
             <PriceDisplay value={totalPrice} />
           </Typography>
         </div>
-        <Button color='primary'>Checkout</Button>
+        <Button color='primary'>{cartTranslations('checkoutBtn')}</Button>
       </DrawerFooter>
     )
-  }, [totalPrice])
+  }, [totalPrice, cartTranslations])
 
   return (
     <>
@@ -122,7 +124,7 @@ export default function CartSidebar({
           {(onClose) => (
             <Suspense fallback={<CartSidebarSkeleton />}>
               <DrawerHeader className='flex justify-between'>
-                <Typography size='lg'>Shoppping Cart</Typography>
+                <Typography size='lg'>{cartTranslations('shoppingCartTitle')}</Typography>
                 <Button variant='light' isIconOnly size='sm' onPress={onClose}>
                   <X />
                 </Button>

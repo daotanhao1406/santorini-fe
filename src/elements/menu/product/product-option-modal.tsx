@@ -154,7 +154,7 @@ export default function ProductOptionModal({
                 <SizeSelector value={selectedSize} onChange={setSelectedSize} />
 
                 <Typography className='font-semibold mt-4 mb-2'>
-                  Ice Level
+                  {productModalTranslations('ice_level')}
                 </Typography>
                 <IceLevelSelector
                   value={selectedIceLevel}
@@ -162,7 +162,7 @@ export default function ProductOptionModal({
                 />
 
                 <Typography className='font-semibold mt-4 mb-2'>
-                  Sweetness Level
+                  {productModalTranslations('sweetness_level')}
                 </Typography>
                 <SweetnessLevelSelector
                   value={selectedSweetnessLevel}
@@ -180,7 +180,7 @@ export default function ProductOptionModal({
                 />
 
                 <Typography className='font-semibold mt-4 mb-2'>
-                  Notes
+                  {productModalTranslations('note')}
                 </Typography>
                 <Textarea
                   maxRows={3}

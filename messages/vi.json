@@ -71,7 +71,17 @@
     },
     "product_option_modal": {
       "add_button_text": "Thêm vào giỏ hàng",
-      "note_placeholder": "Ghi chú cho sản phẩm"
+      "note_placeholder": "Ghi chú cho sản phẩm",
+      "sweetness_level": "Đường",
+      "ice_level": "Đá",
+      "note": "Ghi chú"
     }
+  },
+  "cart": {
+    "shoppingCartTitle": "Giỏ Hàng",
+    "checkoutBtn": "Thanh toán",
+    "total": "Tổng tiền",
+    "emptyMessage": "Giỏ hàng đang trống",
+    "confirmDeleteMessage": "Bạn có muốn xóa sản phẩm {name} ra khỏi giỏ hàng không?"
   }
 }

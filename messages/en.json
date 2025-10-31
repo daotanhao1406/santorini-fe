@@ -71,7 +71,17 @@
     },
     "product_option_modal": {
       "add_button_text": "Add to cart",
-      "note_placeholder": "Add note to this product"
+      "note_placeholder": "Add note to this product",
+      "sweetness_level": "Sweetness level",
+      "ice_level": "Ice level",
+      "note": "Notes"
     }
+  },
+  "cart": {
+    "shoppingCartTitle": "Shopping Cart",
+    "checkoutBtn": "Check out",
+    "total": "Total",
+    "emptyMessage": "Your cart is empty",
+    "confirmDeleteMessage": "Are you sure you want to delete {name} from the shopping cart?"
   }
 }
