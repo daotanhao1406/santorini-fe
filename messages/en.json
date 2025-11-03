@@ -1,33 +1,39 @@
 {
-  "header": {
-    "home": "Home",
-    "about": "About",
-    "contact": "Contact",
-    "menu": "Menu",
-    "news": "News",
-    "login_button_text": "Login"
-  },
-  "footer": {
-    "opening_hours": "Opening hours",
-    "contact_us": {
-      "title": "Contact us",
-      "address": "88 Street 26, Hiep Binh Chanh, Thuc Duc, Ho Chi Minh City"
-    },
-    "subscribe": {
-      "title": "Subscribe now",
-      "placeholder": "Enter your email"
+  "common": {
+    "buttons": {
+      "create": "Create",
+      "add": "Add",
+      "save": "Save",
+      "update": "Update",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "no": "No",
+      "yes": "Yes"
     }
   },
-  "button": {
-    "add": "Add",
-    "update": "Update",
-    "edit": "Edit",
-    "delete": "Delete",
-    "cancel": "Cancel",
-    "no": "No",
-    "yes": "Yes"
+  "layout": {
+    "header": {
+      "home": "Home",
+      "about": "About",
+      "contact": "Contact",
+      "menu": "Menu",
+      "news": "News",
+      "login_button_text": "Login"
+    },
+    "footer": {
+      "opening_hours": "Opening hours",
+      "contact_us": {
+        "title": "Contact us",
+        "address": "88 Street 26, Hiep Binh Chanh, Thuc Duc, Ho Chi Minh City"
+      },
+      "subscribe": {
+        "title": "Subscribe now",
+        "placeholder": "Enter your email"
+      }
+    }
   },
-  "HomePage": {
+  "home": {
     "products": {
       "lemon": {
         "title": "Lemon Ginger",
@@ -59,7 +65,7 @@
       "snacks": "Snack"
     }
   },
-  "MenuPage": {
+  "menu": {
     "title": "Our Menu",
     "first_subtitle": "Explore our vibrant menu of handcrafted teas and refreshing drinks, all meticulously",
     "second_subtitle": "prepared to captivate your senses and satisfy your cravings.",
@@ -78,10 +84,10 @@
     }
   },
   "cart": {
-    "shoppingCartTitle": "Shopping Cart",
-    "checkoutBtn": "Check out",
+    "shopping_cart_title": "Shopping Cart",
+    "checkout_btn": "Check out",
     "total": "Total",
-    "emptyMessage": "Your cart is empty",
-    "confirmDeleteMessage": "Are you sure you want to delete {name} from the shopping cart?"
+    "empty_message": "Your cart is empty",
+    "confirm_delete_message": "Are you sure you want to delete {name} from the shopping cart?"
   }
 }

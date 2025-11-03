@@ -45,8 +45,8 @@ export default function ProductOptionModal({
   onOpenChange,
 }: ProductOptionModalProps) {
   const locale = useLocale()
-  const productModalTranslations = useTranslations('MenuPage.product_option_modal')
-  const buttonTranslations = useTranslations('button')
+  const productModalTranslations = useTranslations('menu.product_option_modal')
+  const buttonTranslations = useTranslations('common.buttons')
   const [selectedSize, setSelectedSize] = useState<ProductOptionsType['size']>(
     cartItem?.size || SIZE.M,
   )

@@ -13,7 +13,7 @@ export default function ProductInfo({ juiceData }: ProductInfoProps) {
   // Create stable refs for elements that shouldn't re-render
   const containerRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const t = useTranslations('HomePage.products')
+  const t = useTranslations('home.products')
   const juiceTitle = t(`${juiceData?.slug || 'lemon'}.title`)
   const juiceDescription = t(`${juiceData?.slug || 'lemon'}.description`)
   const seeMoreBtnText = t('see_more_button_text')

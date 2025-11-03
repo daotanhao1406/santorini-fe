@@ -53,7 +53,7 @@ export default function CartSidebar({
         <div className='flex flex-col items-center gap-4 mt-20'>
           <ShoppingBag size={40} />
           <Typography size='lg' className='font-bold'>
-            {cartTranslations('emptyMessage')}
+            {cartTranslations('empty_message')}
           </Typography>
         </div>
       )
@@ -81,7 +81,7 @@ export default function CartSidebar({
             <PriceDisplay value={totalPrice} />
           </Typography>
         </div>
-        <Button color='primary'>{cartTranslations('checkoutBtn')}</Button>
+        <Button color='primary'>{cartTranslations('checkout_btn')}</Button>
       </DrawerFooter>
     )
   }, [totalPrice, cartTranslations])
@@ -124,7 +124,7 @@ export default function CartSidebar({
           {(onClose) => (
             <Suspense fallback={<CartSidebarSkeleton />}>
               <DrawerHeader className='flex justify-between'>
-                <Typography size='lg'>{cartTranslations('shoppingCartTitle')}</Typography>
+                <Typography size='lg'>{cartTranslations('shopping_cart_title')}</Typography>
                 <Button variant='light' isIconOnly size='sm' onPress={onClose}>
                   <X />
                 </Button>

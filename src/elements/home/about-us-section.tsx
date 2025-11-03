@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
 export default function AboutUsSection() {
-  const aboutTranslation = useTranslations('HomePage.about')
+  const aboutTranslation = useTranslations('home.about')
   return (
     <div className='flex flex-col lg:flex-row gap-20 mt-32 w-full px-10'>
       <div className='flex flex-col gap-2 lg:w-1/2 w-full'>

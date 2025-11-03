@@ -35,7 +35,7 @@ export default function CartItem(cartItem: CartItemType) {
   const loadCartFromServer = useCartStore((s) => s.loadCartFromServer)
   const removeItem = useCartStore((s) => s.removeItem)
   const toppings = useProductOptionStore((s) => s.toppings)
-  const buttonTranslations = useTranslations('button')
+  const buttonTranslations = useTranslations('common.buttons')
   const cartTranslations = useTranslations('cart')
   const iceTranslations = useTranslations('MenuPage.ice')
   const isMobile = useIsMobile()
@@ -117,7 +117,7 @@ export default function CartItem(cartItem: CartItemType) {
         </div>
       </div>
       <DeleteComfirmationModal
-        message={cartTranslations('confirmDeleteMessage', { name: cartItem.product.name })}
+        message={cartTranslations('confirm_delete_message', { name: cartItem.product.name })}
         okText={buttonTranslations('yes')}
         cancelText={buttonTranslations('no')}
         isOpen={isDeleteModalOpen}

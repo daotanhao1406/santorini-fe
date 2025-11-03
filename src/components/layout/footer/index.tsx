@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 export default function Footer() {
-  const footerTranslation = useTranslations('footer')
+  const footerTranslation = useTranslations('layout.footer')
   const [email, setEmail] = useState('')
   const [isSubmitting] = useState(false)
   // const { toast } = useToast();
