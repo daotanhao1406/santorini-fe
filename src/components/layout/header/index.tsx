@@ -27,7 +27,7 @@ export default function Header({
   isOutOfHeroSection = true,
   bgColor,
 }: NavbarProps) {
-  const navbarTranslate = useTranslations('header')
+  const navbarTranslate = useTranslations('layout.header')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const menuItems = [

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 export default function CategorySection() {
-  const categoriesTranslation = useTranslations('HomePage.categories')
+  const categoriesTranslation = useTranslations('home.categories')
   return (
     <div className='flex flex-col md:flex-row justify-around mt-32 gap-20 px-10'>
       <div className='flex flex-col items-center gap-8'>

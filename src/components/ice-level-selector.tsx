@@ -11,7 +11,7 @@ export default function IceLevelSelector({
   value: number
   onChange: (value: number) => void
 }) {
-  const iceTranslation = useTranslations('MenuPage.ice')
+  const iceTranslation = useTranslations('menu.ice')
   const iceLevels = [
     { level: 3, label: iceTranslation('3') },
     { level: 2, label: iceTranslation('2') },

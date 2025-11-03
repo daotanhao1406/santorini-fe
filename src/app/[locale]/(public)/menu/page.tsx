@@ -17,7 +17,7 @@ export default async function MenuPage({
   const locale = await getLocale()
   const supabase = await createServer()
   const params = await searchParams
-  const menuTranslations = await getTranslations('MenuPage')
+  const menuTranslations = await getTranslations('menu')
 
   const { data: categories } = await supabase
     .from('categories_with_translations')

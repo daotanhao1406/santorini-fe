@@ -1,24 +1,39 @@
 {
-  "header": {
-    "home": "Trang chủ",
-    "about": "Về chúng tôi",
-    "contact": "Liên hệ",
-    "menu": "Menu",
-    "news": "Tin tức",
-    "login_button_text": "Đăng nhập"
-  },
-  "footer": {
-    "opening_hours": "Giờ mở cửa",
-    "contact_us": {
-      "title": "Liên hệ",
-      "address": "88 Đ. Số 26, Hiệp Bình Chánh, Thủ Đức, TP.Hồ Chí Minh"
-    },
-    "subscribe": {
-      "title": "Đăng ký ngay",
-      "placeholder": "Nhập email của bạn"
+  "common": {
+    "buttons": {
+      "create": "Tạo mới",
+      "add": "Thêm",
+      "save": "Lưu",
+      "update": "Cập nhật",
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa",
+      "cancel": "Huỷ",
+      "no": "Không",
+      "yes": "Có"
     }
   },
-  "HomePage": {
+  "layout": {
+    "header": {
+      "home": "Trang chủ",
+      "about": "Về chúng tôi",
+      "contact": "Liên hệ",
+      "menu": "Menu",
+      "news": "Tin tức",
+      "login_button_text": "Đăng nhập"
+    },
+    "footer": {
+      "opening_hours": "Giờ mở cửa",
+      "contact_us": {
+        "title": "Liên hệ",
+        "address": "88 Đ. Số 26, Hiệp Bình Chánh, Thủ Đức, TP.Hồ Chí Minh"
+      },
+      "subscribe": {
+        "title": "Đăng ký ngay",
+        "placeholder": "Nhập email của bạn"
+      }
+    }
+  },
+  "home": {
     "products": {
       "lemon": {
         "title": "Chanh Gừng",
@@ -50,7 +65,7 @@
       "snacks": "Ăn vặt"
     }
   },
-  "MenuPage": {
+  "menu": {
     "title": "Thực Đơn",
     "first_subtitle": "Khám phá thực đơn trà thủ công và đồ uống tươi mát sôi động của chúng tôi",
     "second_subtitle": "để chinh phục vị giác và thỏa mãn cơn thèm của bạn.",
@@ -59,6 +74,20 @@
       "1": "Không đá",
       "2": "Ít đá",
       "3": "Đá bình thường"
+    },
+    "product_option_modal": {
+      "add_button_text": "Thêm vào giỏ hàng",
+      "note_placeholder": "Ghi chú cho sản phẩm",
+      "sweetness_level": "Đường",
+      "ice_level": "Đá",
+      "note": "Ghi chú"
     }
+  },
+  "cart": {
+    "shopping_cart_title": "Giỏ Hàng",
+    "checkout_btn": "Thanh toán",
+    "total": "Tổng tiền",
+    "empty_message": "Giỏ hàng đang trống",
+    "confirm_delete_message": "Bạn có muốn xóa sản phẩm {name} ra khỏi giỏ hàng không?"
   }
 }

@@ -6,6 +6,8 @@ import { createClient } from '@/lib/supabase/client'
 import { ITopping } from '@/types/topping'
 
 interface OptionState {
+  lastLocaleFetched: string
+
   toppings: ITopping[]
 
   fetched: {
@@ -18,6 +20,7 @@ interface OptionState {
 const supabase = createClient()
 
 export const useProductOptionStore = create<OptionState>((set, get) => ({
+  lastLocaleFetched: 'vi',
   toppings: [],
 
   fetched: {
@@ -25,7 +28,7 @@ export const useProductOptionStore = create<OptionState>((set, get) => ({
   },
 
   fetchToppings: async (locale) => {
-    if (get().fetched.topping) return
+    if (get().fetched.topping && get().lastLocaleFetched === locale) return
     const { data: toppings, error } = await supabase
       .from('toppings_with_translations')
       .select('*')
@@ -40,7 +43,7 @@ export const useProductOptionStore = create<OptionState>((set, get) => ({
     }
 
     if (Array.isArray(toppings) && toppings.length > 0) {
-      set({ toppings, fetched: { topping: true } })
+      set({ toppings, fetched: { topping: true }, lastLocaleFetched: locale })
     }
   },
 }))
