@@ -37,7 +37,7 @@ export default function CartItem(cartItem: CartItemType) {
   const toppings = useProductOptionStore((s) => s.toppings)
   const buttonTranslations = useTranslations('common.buttons')
   const cartTranslations = useTranslations('cart')
-  const iceTranslations = useTranslations('MenuPage.ice')
+  const iceTranslations = useTranslations('menu.ice')
   const isMobile = useIsMobile()
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
