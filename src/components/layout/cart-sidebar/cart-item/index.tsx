@@ -117,7 +117,9 @@ export default function CartItem(cartItem: CartItemType) {
         </div>
       </div>
       <DeleteComfirmationModal
-        message={cartTranslations('confirm_delete_message', { name: cartItem.product.name })}
+        message={cartTranslations('confirm_delete_message', {
+          name: cartItem.product.name,
+        })}
         okText={buttonTranslations('yes')}
         cancelText={buttonTranslations('no')}
         isOpen={isDeleteModalOpen}

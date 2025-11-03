@@ -38,7 +38,6 @@ export default function CartSidebar({
   const fetchToppings = useProductOptionStore((s) => s.fetchToppings)
   const cartTranslations = useTranslations('cart')
 
-
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => {
@@ -124,7 +123,9 @@ export default function CartSidebar({
           {(onClose) => (
             <Suspense fallback={<CartSidebarSkeleton />}>
               <DrawerHeader className='flex justify-between'>
-                <Typography size='lg'>{cartTranslations('shopping_cart_title')}</Typography>
+                <Typography size='lg'>
+                  {cartTranslations('shopping_cart_title')}
+                </Typography>
                 <Button variant='light' isIconOnly size='sm' onPress={onClose}>
                   <X />
                 </Button>

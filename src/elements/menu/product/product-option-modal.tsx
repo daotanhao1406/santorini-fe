@@ -83,19 +83,19 @@ export default function ProductOptionModal({
     }
     return cartItem
       ? await updateItem(formData)
-        .then(() => {
-          loadCartFromServer()
-        })
-        .finally(() => {
-          setLoading(false)
-        })
+          .then(() => {
+            loadCartFromServer()
+          })
+          .finally(() => {
+            setLoading(false)
+          })
       : await addItem(formData)
-        .then(() => {
-          loadCartFromServer()
-        })
-        .finally(() => {
-          setLoading(false)
-        })
+          .then(() => {
+            loadCartFromServer()
+          })
+          .finally(() => {
+            setLoading(false)
+          })
   }
 
   useEffect(() => {
@@ -222,7 +222,9 @@ export default function ProductOptionModal({
                   await onSubmit().finally(() => onClose())
                 }}
               >
-                {cartItem ? buttonTranslations('update') : productModalTranslations('add_button_text')}
+                {cartItem
+                  ? buttonTranslations('update')
+                  : productModalTranslations('add_button_text')}
               </Button>
             </ModalFooter>
           </>
