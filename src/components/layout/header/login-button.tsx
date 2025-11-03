@@ -25,7 +25,7 @@ export default function LoginButton({
 }: LoginButtonProps) {
   const supabase = createClient()
   const router = useRouter()
-  const navTranslation = useTranslations('header')
+  const navTranslation = useTranslations('layout.header')
   const [loading, setLoading] = useState<boolean>(true)
   const [userProfile, setUserProfile] = useState<User | null>(null)
   const [error, setError] = useState<string>('')

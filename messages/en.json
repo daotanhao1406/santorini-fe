@@ -1,24 +1,39 @@
 {
-  "header": {
-    "home": "Home",
-    "about": "About",
-    "contact": "Contact",
-    "menu": "Menu",
-    "news": "News",
-    "login_button_text": "Login"
-  },
-  "footer": {
-    "opening_hours": "Opening hours",
-    "contact_us": {
-      "title": "Contact us",
-      "address": "88 Street 26, Hiep Binh Chanh, Thuc Duc, Ho Chi Minh City"
-    },
-    "subscribe": {
-      "title": "Subscribe now",
-      "placeholder": "Enter your email"
+  "common": {
+    "buttons": {
+      "create": "Create",
+      "add": "Add",
+      "save": "Save",
+      "update": "Update",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "no": "No",
+      "yes": "Yes"
     }
   },
-  "HomePage": {
+  "layout": {
+    "header": {
+      "home": "Home",
+      "about": "About",
+      "contact": "Contact",
+      "menu": "Menu",
+      "news": "News",
+      "login_button_text": "Login"
+    },
+    "footer": {
+      "opening_hours": "Opening hours",
+      "contact_us": {
+        "title": "Contact us",
+        "address": "88 Street 26, Hiep Binh Chanh, Thuc Duc, Ho Chi Minh City"
+      },
+      "subscribe": {
+        "title": "Subscribe now",
+        "placeholder": "Enter your email"
+      }
+    }
+  },
+  "home": {
     "products": {
       "lemon": {
         "title": "Lemon Ginger",
@@ -50,7 +65,7 @@
       "snacks": "Snack"
     }
   },
-  "MenuPage": {
+  "menu": {
     "title": "Our Menu",
     "first_subtitle": "Explore our vibrant menu of handcrafted teas and refreshing drinks, all meticulously",
     "second_subtitle": "prepared to captivate your senses and satisfy your cravings.",
@@ -59,6 +74,20 @@
       "1": "No ice",
       "2": "Less ice",
       "3": "Normal"
+    },
+    "product_option_modal": {
+      "add_button_text": "Add to cart",
+      "note_placeholder": "Add note to this product",
+      "sweetness_level": "Sweetness level",
+      "ice_level": "Ice level",
+      "note": "Notes"
     }
+  },
+  "cart": {
+    "shopping_cart_title": "Shopping Cart",
+    "checkout_btn": "Check out",
+    "total": "Total",
+    "empty_message": "Your cart is empty",
+    "confirm_delete_message": "Are you sure you want to delete {name} from the shopping cart?"
   }
 }

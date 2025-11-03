@@ -9,7 +9,7 @@ import {
   Textarea,
 } from '@heroui/react'
 import Image from 'next/image'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
 import IceLevelSelector from '@/components/ice-level-selector'
@@ -45,6 +45,8 @@ export default function ProductOptionModal({
   onOpenChange,
 }: ProductOptionModalProps) {
   const locale = useLocale()
+  const productModalTranslations = useTranslations('menu.product_option_modal')
+  const buttonTranslations = useTranslations('common.buttons')
   const [selectedSize, setSelectedSize] = useState<ProductOptionsType['size']>(
     cartItem?.size || SIZE.M,
   )
@@ -152,7 +154,7 @@ export default function ProductOptionModal({
                 <SizeSelector value={selectedSize} onChange={setSelectedSize} />
 
                 <Typography className='font-semibold mt-4 mb-2'>
-                  Ice Level
+                  {productModalTranslations('ice_level')}
                 </Typography>
                 <IceLevelSelector
                   value={selectedIceLevel}
@@ -160,7 +162,7 @@ export default function ProductOptionModal({
                 />
 
                 <Typography className='font-semibold mt-4 mb-2'>
-                  Sweetness Level
+                  {productModalTranslations('sweetness_level')}
                 </Typography>
                 <SweetnessLevelSelector
                   value={selectedSweetnessLevel}
@@ -178,7 +180,7 @@ export default function ProductOptionModal({
                 />
 
                 <Typography className='font-semibold mt-4 mb-2'>
-                  Notes
+                  {productModalTranslations('note')}
                 </Typography>
                 <Textarea
                   maxRows={3}
@@ -186,7 +188,7 @@ export default function ProductOptionModal({
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   variant='bordered'
-                  placeholder='Add a note for this product'
+                  placeholder={productModalTranslations('note_placeholder')}
                 />
               </div>
             </ModalBody>
@@ -220,7 +222,9 @@ export default function ProductOptionModal({
                   await onSubmit().finally(() => onClose())
                 }}
               >
-                {cartItem ? 'Update' : 'Add to cart'}
+                {cartItem
+                  ? buttonTranslations('update')
+                  : productModalTranslations('add_button_text')}
               </Button>
             </ModalFooter>
           </>

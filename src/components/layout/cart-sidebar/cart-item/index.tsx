@@ -35,7 +35,9 @@ export default function CartItem(cartItem: CartItemType) {
   const loadCartFromServer = useCartStore((s) => s.loadCartFromServer)
   const removeItem = useCartStore((s) => s.removeItem)
   const toppings = useProductOptionStore((s) => s.toppings)
-  const iceTranslations = useTranslations('MenuPage.ice')
+  const buttonTranslations = useTranslations('common.buttons')
+  const cartTranslations = useTranslations('cart')
+  const iceTranslations = useTranslations('menu.ice')
   const isMobile = useIsMobile()
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
@@ -97,7 +99,7 @@ export default function CartItem(cartItem: CartItemType) {
             type='primary'
           >
             <Pencil size={12} />
-            Edit
+            {buttonTranslations('edit')}
           </Typography>
         </div>
         <div className='flex flex-col justify-between items-end font-semibold'>
@@ -115,7 +117,11 @@ export default function CartItem(cartItem: CartItemType) {
         </div>
       </div>
       <DeleteComfirmationModal
-        message='Are you sure you want to delete this item from the shopping cart?'
+        message={cartTranslations('confirm_delete_message', {
+          name: cartItem.product.name,
+        })}
+        okText={buttonTranslations('yes')}
+        cancelText={buttonTranslations('no')}
         isOpen={isDeleteModalOpen}
         isLoading={deleteLoading}
         onOpenChange={onDeleteModalOpenChange}
