@@ -9,6 +9,8 @@ import { createClient } from '@/lib/supabase/client'
 
 import { MyButton } from '@/components/ui/button'
 
+import { useCartStore } from '@/stores/use-cart-store'
+
 export const LoginForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -16,6 +18,7 @@ export const LoginForm = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState({})
+  const loadCartFromServer = useCartStore((s) => s.loadCartFromServer)
 
   const continueUrl = searchParams.get('continueUrl') || '/'
 
@@ -45,6 +48,8 @@ export const LoginForm = () => {
         password: formData.password as string,
       })
       if (error) throw error
+      await fetch('/api/cart/merge', { method: 'POST' })
+      await loadCartFromServer()
       router.push(continueUrl)
     } catch (error: unknown) {
       addToast({

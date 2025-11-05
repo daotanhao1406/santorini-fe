@@ -2,6 +2,7 @@ import { cookies } from 'next/headers'
 import { v4 as uuidv4 } from 'uuid'
 
 import { createServer } from '@/lib/supabase/server'
+import { compareObjects } from '@/lib/utils'
 
 export async function getOrCreateCartSession() {
   const cookieStore = await cookies()
@@ -49,32 +50,79 @@ export async function mergeGuestCartIntoUserCart(
   userCartId: string,
 ) {
   const supabase = await createServer()
-  const { data: guestItems } = await getGuestCart(guestCartId)
+
+  // 1️⃣ Lấy toàn bộ item của guestCart và userCart
+  const { data: guestItems, error: guestError } = await supabase
+    .from('cart_items')
+    .select('*, cart_item_toppings(topping_id)')
+    .eq('cart_id', guestCartId)
+
+  const { data: userItems, error: userError } = await supabase
+    .from('cart_items')
+    .select('*, cart_item_toppings(topping_id)')
+    .eq('cart_id', userCartId)
+
+  if (guestError || userError)
+    throw new Error(guestError?.message || userError?.message)
 
   if (!guestItems?.length) return
 
-  for (const item of guestItems) {
-    // Kiểm tra xem userCart đã có item tương tự chưa
-    const { data: existing } = await supabase
-      .from('cart_items')
-      .select('id, quantity, options')
-      .eq('cart_id', userCartId)
-      .eq('product_id', item.product_id)
-      .eq('options', item.options) // so sánh JSON options (size, sugar,...)
-      .single()
+  // 2️⃣ Duyệt từng item trong guestCart
+  for (const guestItem of guestItems) {
+    const sameItem = userItems?.find((userItem) =>
+      compareObjects(
+        {
+          product_id: userItem.product_id,
+          size: userItem.size,
+          sweetness_level: userItem.sweetness_level,
+          ice_level: userItem.ice_level,
+          note: userItem.note,
+          cart_item_toppings: userItem.cart_item_toppings
+            ?.map((t: { topping_id: string }) => t.topping_id)
+            .sort(),
+        },
+        {
+          product_id: guestItem.product_id,
+          size: guestItem.size,
+          sweetness_level: guestItem.sweetness_level,
+          ice_level: guestItem.ice_level,
+          note: guestItem.note,
+          cart_item_toppings: guestItem.cart_item_toppings
+            ?.map((t: { topping_id: string }) => t.topping_id)
+            .sort(),
+        },
+        [
+          'product_id',
+          'size',
+          'sweetness_level',
+          'ice_level',
+          'note',
+          'cart_item_toppings',
+        ],
+      ),
+    )
 
-    if (existing) {
+    if (sameItem) {
+      // 3️⃣ Nếu trùng → cộng quantity
       await supabase
         .from('cart_items')
-        .update({ quantity: existing.quantity + item.quantity })
-        .eq('id', existing.id)
+        .update({ quantity: sameItem.quantity + guestItem.quantity })
+        .eq('id', sameItem.id)
+
+      // Xóa item guest này để không duplicate
+      await supabase.from('cart_items').delete().eq('id', guestItem.id)
     } else {
-      await supabase.from('cart_items').insert({
-        cart_id: userCartId,
-        product_id: item.product_id,
-        quantity: item.quantity,
-        options: item.options,
-      })
+      // 4️⃣ Nếu không trùng → chuyển item sang cart user
+      await supabase
+        .from('cart_items')
+        .update({ cart_id: userCartId })
+        .eq('id', guestItem.id)
     }
   }
+
+  // 5️⃣ Cập nhật lại cart_item_toppings (chúng vẫn giữ nguyên vì cart_item_id không đổi)
+  // Không cần chỉnh toppings vì item_id vẫn là cùng 1 id.
+
+  // 6️⃣ Xóa cart guest
+  await supabase.from('carts').delete().eq('id', guestCartId)
 }
