@@ -81,10 +81,8 @@ export default function Header({
       style={{ backgroundColor: navbarBgColor, color: navbarTextColor }}
     >
       <NavbarBrand>
-        <Link href='/'>
-          <div className='text-2xl font-black uppercase cursor-pointer'>
-            JUICY
-          </div>
+        <Link className='text-2xl font-black uppercase cursor-pointer' href='/'>
+          JUICY
         </Link>
       </NavbarBrand>
       <NavbarContent className='hidden sm:flex ' justify='end'>
