@@ -6,6 +6,21 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export const getSiteURL = () => {
+  let url =
+    process.env.NEXT_PUBLIC_SITE_URL ?? // Ưu tiên cấu hình trong Dashboard/Env
+    process.env.NEXT_PUBLIC_VERCEL_URL ?? // Tự động lấy URL preview của Vercel
+    'http://localhost:3000/' // Fallback cho localhost
+
+  // Đảm bảo có protocol (Vercel URL thường không có http/https ở đầu)
+  url = url.includes('http') ? url : `https://${url}`
+
+  // Xóa dấu / ở cuối nếu có để chuẩn hóa
+  url = url.charAt(url.length - 1) === '/' ? url.slice(0, -1) : url
+
+  return url
+}
+
 export const hasEnvVars =
   process.env.NEXT_PUBLIC_SUPABASE_URL &&
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY

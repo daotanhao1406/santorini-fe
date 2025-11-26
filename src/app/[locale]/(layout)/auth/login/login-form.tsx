@@ -1,13 +1,15 @@
 'use client'
-import { addToast, Button, Checkbox, Form, Input } from '@heroui/react'
+import { addToast, Button, Form, Input } from '@heroui/react'
 import { Eye, EyeOff, KeyRound, MailIcon } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
 
 import { MyButton } from '@/components/ui/button'
+import Typography from '@/components/ui/typography'
 
 import { useCartStore } from '@/stores/use-cart-store'
 
@@ -65,11 +67,13 @@ export const LoginForm = () => {
 
   return (
     <div className='w-full max-w-md space-y-6'>
-      <div className='space-y-2'>
-        <h1 className='text-2xl font-semibold text-foreground'>Login</h1>
-        <p className='text-sm text-content4-foreground'>
+      <div className='space-y-2 min-w-sm flex flex-col'>
+        <Typography size='xl' className='font-semibold'>
+          Login
+        </Typography>
+        <Typography size='sm'>
           Choose from 10,000+ products across 400+ categories
-        </p>
+        </Typography>
       </div>
 
       <div className='space-y-4'>
@@ -81,13 +85,13 @@ export const LoginForm = () => {
           <Image src='/svg/google.svg' alt='Google' width={22} height={22} />
           Sign in with Google
         </Button>
-        <div className='pb-6 pt-2'>
+        <div className='py-2'>
           <div className='relative text-foreground-400'>
             <div className='absolute inset-0 flex items-center'>
               <div className='w-full border-t border-border'></div>
             </div>
             <div className='relative flex justify-center text-xs uppercase'>
-              <span className='bg-background px-4'>OR</span>
+              <span className='bg-white px-4'>OR</span>
             </div>
           </div>
         </div>
@@ -109,14 +113,7 @@ export const LoginForm = () => {
               // classNames={{
               //   inputWrapper: 'h-12',
               // }}
-              errorMessage={({ validationDetails }) => {
-                if (validationDetails.valueMissing) {
-                  return 'Please enter your email'
-                }
-                if (validationDetails.typeMismatch) {
-                  return 'Please enter a valid email address'
-                }
-              }}
+              errorMessage='Please enter a valid username'
               variant='bordered'
               labelPlacement='outside'
               placeholder='Enter your email'
@@ -163,10 +160,10 @@ export const LoginForm = () => {
               onValueChange={setPassword}
             />
           </div>
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center space-x-2 '>
+          <div className='flex items-center justify-end'>
+            {/* <div className='flex items-center space-x-2 '>
               <Checkbox name='remember'>Remember me</Checkbox>
-            </div>
+            </div> */}
             <MyButton variant='linkHover2'>Forgot password?</MyButton>
           </div>
 
@@ -179,6 +176,12 @@ export const LoginForm = () => {
           >
             Login
           </Button>
+          <Typography className='text-center'>
+            Don't have an account?{' '}
+            <MyButton className='text-primary' variant='linkHover2'>
+              <Link href='/auth/register'>Sign up here</Link>
+            </MyButton>
+          </Typography>
         </Form>
       </div>
     </div>

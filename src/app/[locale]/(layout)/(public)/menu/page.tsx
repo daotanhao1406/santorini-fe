@@ -34,7 +34,7 @@ export default async function MenuPage({
 
   const products = data as IProduct[]
   return (
-    <div className='m-10 flex flex-col'>
+    <div className='m-10 flex flex-col h-full'>
       <Typography
         className='text-center font-medium font-playfair'
         size='xxxxl'
@@ -46,11 +46,11 @@ export default async function MenuPage({
         {menuTranslations('second_subtitle')}
       </Typography>
       {/* <span className='text-xl font-bold'>Categories</span> */}
-      <div className='pt-8 flex flex-col items-center'>
+      <div className='mt-8 flex flex-col items-center'>
         <CategoryList items={categories} activeSlug={activeSlug} />
       </div>
       {/* <p className='text-xl font-bold mt-8'>Products</p> */}
-      <div className='pt-16'>
+      <div className='mt-16 mb-16'>
         <ProductList items={products} />
       </div>
     </div>

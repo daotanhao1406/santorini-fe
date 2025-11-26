@@ -58,7 +58,7 @@ export default function HomePage() {
           onChangeJuiceData={handleChangeJuiceData}
         />
       </div>
-      <div className='max-w-[1440px] mx-auto'>
+      <div className='max-w-[1440px] mx-auto mb-20'>
         <AboutUsSection />
         <CategorySection />
       </div>
