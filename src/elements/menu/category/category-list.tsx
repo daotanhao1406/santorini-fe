@@ -25,7 +25,7 @@ export default function CategoryList({
   }
 
   if (!Array.isArray(items) || items.length === 0) {
-    return <div>There's no categories to display</div>
+    return null
   }
 
   return (
