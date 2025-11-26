@@ -96,12 +96,10 @@ export default async function LocaleLayout({ children, params }: Props) {
       >
         <NextIntlClientProvider>
           <AppProvider>
-            <div className='mx-auto relative flex flex-col min-h-screen w-full'>
+            <div className='mx-auto relative flex flex-col h-screen w-full'>
               <Suspense fallback={<div>Loading...</div>}>
-                <main className='flex-1'>{children}</main>
-                <div className='mt-20'>
-                  <Footer />
-                </div>
+                {children}
+                <Footer />
               </Suspense>
             </div>
           </AppProvider>

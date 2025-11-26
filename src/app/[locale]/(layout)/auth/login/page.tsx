@@ -1,7 +1,8 @@
 import { Card } from '@heroui/react'
 import { Metadata } from 'next'
 
-import { LoginForm } from '@/app/[locale]/auth/login/login-form'
+import { LoginForm } from '@/app/[locale]/(layout)/auth/login/login-form'
+
 export const metadata: Metadata = {
   title: {
     default: 'Login',
@@ -12,9 +13,9 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <div className='min-h-screen bg-background flex items-center justify-center'>
+    <div className='flex flex-col h-full items-center justify-center py-8'>
       <Card>
-        <div className='flex items-center justify-center p-8 lg:p-12'>
+        <div className='flex items-center justify-center p-8 lg:p-10'>
           <LoginForm />
         </div>
       </Card>

@@ -85,7 +85,7 @@ export default function Header({
           JUICY
         </Link>
       </NavbarBrand>
-      <NavbarContent className='hidden sm:flex ' justify='end'>
+      <NavbarContent className='hidden sm:flex' justify='end'>
         {menuItems.map((item, index) => (
           <NavbarItem className='ml-8 xl:px-4' key={`${item.label}-${index}`}>
             <Link className='font-medium relative group' href={item.href}>
