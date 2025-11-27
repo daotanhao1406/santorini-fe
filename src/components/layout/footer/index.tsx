@@ -2,58 +2,11 @@
 import { Input } from '@heroui/react'
 import { Facebook, Instagram, SendHorizontal, Twitter } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+
+import Typography from '@/components/ui/typography'
 
 export default function Footer() {
   const footerTranslation = useTranslations('layout.footer')
-  const [email, setEmail] = useState('')
-  const [isSubmitting] = useState(false)
-  // const { toast } = useToast();
-
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!email.trim()) {
-      // toast({
-      //   title: "Error",
-      //   description: "Please enter your email address",
-      //   variant: "destructive",
-      // });
-      return
-    }
-
-    // setIsSubmitting(true);
-
-    // try {
-    //   await apiRequest("POST", "/api/newsletter", { email });
-
-    //   toast({
-    //     title: "Success!",
-    //     description: "You've been subscribed to our newsletter",
-    //   });
-
-    //   setEmail("");
-    // } catch (error) {
-    //   const errorMessage = error instanceof Error ? error.message : "Failed to subscribe";
-
-    //   if (errorMessage.includes("409")) {
-    //     toast({
-    //       title: "Already subscribed",
-    //       description: "This email is already subscribed to our newsletter",
-    //       variant: "destructive",
-    //     });
-    //   } else {
-    //     toast({
-    //       title: "Error",
-    //       description: "Failed to subscribe. Please try again.",
-    //       variant: "destructive",
-    //     });
-    //   }
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
-  }
-
   const socialLinks = [
     { icon: Facebook, label: 'Facebook', href: '#' },
     { icon: Instagram, label: 'Instagram', href: '#' },
@@ -73,7 +26,10 @@ export default function Footer() {
               {/* <div className='w-8 h-8 bg-primary rounded-full flex items-center justify-center'>
                 <Coffee className='text-primary-foreground text-sm' />
               </div> */}
-              <h2 className='text-5xl font-extrabold ml-2'>JUICY</h2>
+              {/* <h2 className='text-5xl font-extrabold ml-2'>JUICY</h2> */}
+              <Typography size='xxxl' className='font-extrabold ml-2'>
+                JUICY
+              </Typography>
             </div>
 
             {/* Social Media Icons */}
@@ -94,82 +50,54 @@ export default function Footer() {
 
           {/* Opening Hours */}
           <div className='lg:col-span-1'>
-            <h3
-              className='text-lg font-semibold text-foreground mb-4'
-              data-testid='heading-opening-hours'
-            >
-              {footerTranslation('opening_hours')}
-            </h3>
-            <div className='space-y-2'>
-              <div className='flex flex-col'>
-                <span className='text-sm' data-testid='text-hours-weekday'>
-                  Mon-Fri: 08:00 AM - 08:00 PM
-                </span>
-              </div>
-              <div className='flex flex-col'>
-                <span className='text-sm' data-testid='text-hours-weekend'>
-                  Sat-Sun: 09:00 AM - 05:00 PM
-                </span>
-              </div>
+            <div className='md:mb-4 mb-2'>
+              <Typography size='lg' className='font-semibold'>
+                {footerTranslation('opening_hours')}
+              </Typography>
+            </div>
+            <div className='md:space-y-2 space-y-1 flex flex-col'>
+              <Typography>Mon-Fri: 08:00 AM - 08:00 PM</Typography>
+              <Typography>Sat-Sun: 09:00 AM - 05:00 PM</Typography>
             </div>
           </div>
 
           {/* Contact Info */}
           <div className='lg:col-span-1'>
-            <h3
-              className='text-lg font-semibold text-foreground mb-4'
-              data-testid='heading-contact'
-            >
-              {footerTranslation('contact_us.title')}
-            </h3>
-            <div className='space-y-2'>
-              <p className='text-sm' data-testid='text-address-1'>
-                {footerTranslation('contact_us.address')}
-              </p>
+            <div className='md:mb-4 mb-2'>
+              <Typography size='lg' className='font-semibold'>
+                {footerTranslation('contact_us.title')}
+              </Typography>
+            </div>
 
-              <p className='text-sm' data-testid='text-phone'>
-                093 248 5756
-              </p>
-              <p className='text-sm' data-testid='text-email'>
-                info@juicy.com
-              </p>
+            <div className='md:space-y-2 space-y-1 flex flex-col'>
+              <Typography>{footerTranslation('contact_us.address')}</Typography>
+              <Typography>093 248 5756</Typography>
+              <Typography>info@juicy.com</Typography>
             </div>
           </div>
 
           {/* Newsletter Subscription */}
           <div className='lg:col-span-1'>
-            <h3
-              className='text-lg font-semibold text-foreground mb-4'
-              data-testid='heading-newsletter'
-            >
-              {footerTranslation('subscribe.title')}
-            </h3>
-            <form
-              onSubmit={handleNewsletterSubmit}
-              className='space-y-4'
-              data-testid='form-newsletter'
-            >
-              <div className='flex'>
-                <Input
-                  type='email'
-                  placeholder={footerTranslation('subscribe.placeholder')}
-                  value={email}
-                  size='lg'
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={isSubmitting}
-                  variant='bordered'
-                  endContent={
-                    <button
-                      aria-label='toggle password visibility'
-                      className='focus:outline-solid outline-transparent'
-                      type='button'
-                    >
-                      <SendHorizontal className='w-4 h-4' />
-                    </button>
-                  }
-                />
-              </div>
-            </form>
+            <div className='md:mb-4 mb-2'>
+              <Typography size='lg' className='font-semibold'>
+                {footerTranslation('subscribe.title')}
+              </Typography>
+            </div>
+            <Input
+              type='email'
+              placeholder={footerTranslation('subscribe.placeholder')}
+              size='lg'
+              variant='bordered'
+              endContent={
+                <button
+                  aria-label='toggle password visibility'
+                  className='focus:outline-solid outline-transparent'
+                  type='button'
+                >
+                  <SendHorizontal className='w-4 h-4' />
+                </button>
+              }
+            />
           </div>
         </div>
       </div>
