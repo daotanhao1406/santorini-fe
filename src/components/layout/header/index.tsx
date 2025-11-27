@@ -15,6 +15,7 @@ import { useMemo, useState } from 'react'
 import CartSidebar from '@/components/layout/cart-sidebar'
 import LocaleSwitcher from '@/components/layout/header/locale-switcher'
 import LoginButton from '@/components/layout/header/login-button'
+import Typography from '@/components/ui/typography'
 
 import { Link } from '@/i18n/navigation'
 
@@ -81,15 +82,20 @@ export default function Header({
       style={{ backgroundColor: navbarBgColor, color: navbarTextColor }}
     >
       <NavbarBrand>
-        <Link className='text-2xl font-black uppercase cursor-pointer' href='/'>
-          JUICY
+        <Link href='/'>
+          <Typography
+            size='xxl'
+            className='font-black uppercase cursor-pointer'
+          >
+            JUICY
+          </Typography>
         </Link>
       </NavbarBrand>
       <NavbarContent className='hidden sm:flex' justify='end'>
         {menuItems.map((item, index) => (
           <NavbarItem className='ml-8 xl:px-4' key={`${item.label}-${index}`}>
             <Link className='font-medium relative group' href={item.href}>
-              {item.label}
+              <Typography>{item.label}</Typography>
               <span
                 className={`absolute ${isOutOfHeroSection ? 'bg-black' : 'bg-white'} left-0 -bottom-[2px] w-0 h-[1px] group-hover:w-full transition-all duration-300`}
               />
