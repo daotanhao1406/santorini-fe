@@ -1,8 +1,6 @@
 'use client'
-import { addToast, Button, Form, Input } from '@heroui/react'
-import { Eye, EyeOff, KeyRound, MailIcon, UserRound } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
+import { addToast, Button, Divider, Form, Input } from '@heroui/react'
+import { Eye, EyeOff, KeyRound, MailIcon, Phone, UserRound } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
@@ -11,6 +9,9 @@ import { createClient } from '@/lib/supabase/client'
 import { MyButton } from '@/components/ui/button'
 import Typography from '@/components/ui/typography'
 
+import GoogleAuthButton from '@/elements/auth/google-auth-button'
+import { Link } from '@/i18n/navigation'
+
 export const RegisterForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -18,7 +19,7 @@ export const RegisterForm = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
   const continueUrl = searchParams.get('continueUrl') || '/'
 
@@ -42,6 +43,35 @@ export const RegisterForm = () => {
 
       return setIsLoading(false)
     }
+
+    let phoneNumber = formData.phoneNumber as string
+
+    // BƯỚC 1: Sanitize (Làm sạch dữ liệu)
+    // Xóa tất cả khoảng trắng, dấu chấm, gạch ngang... chỉ giữ lại số
+    // Ví dụ: "090 123-4567" -> "0901234567"
+    phoneNumber = phoneNumber.replace(/\D/g, '')
+
+    // BƯỚC 2: Chuẩn hóa về định dạng 10 số (nếu họ nhập 84...)
+    if (phoneNumber.startsWith('84')) {
+      phoneNumber = '0' + phoneNumber.slice(2)
+    }
+
+    // BƯỚC 3: Validate kỹ thuật (Regex cho mạng VN: Viettel, Vina, Mobi, Vietnamobile...)
+    // Giải thích Regex:
+    // ^0: Bắt đầu bằng số 0
+    // [3|5|7|8|9]: Số thứ 2 phải là 3, 5, 7, 8 hoặc 9 (Các đầu số di động hiện tại)
+    // [0-9]{8}: Theo sau là 8 chữ số bất kỳ
+    const vnPhoneRegex = /(03|05|07|08|09)+([0-9]{8})\b/
+
+    if (phoneNumber.length !== 10) {
+      // Validate độ dài sau khi đã làm sạch
+      setErrors({ phoneNumber: 'Phone number must be exactly 10 digits' })
+      return setIsLoading(false)
+    } else if (!vnPhoneRegex.test(phoneNumber)) {
+      // Validate đầu số (tránh trường hợp 10 số nhưng là 0123456789)
+      setErrors({ phoneNumber: 'Invalid phone number format (Vietnam only)' })
+      return setIsLoading(false)
+    }
     // Clear errors and submit
     setErrors({})
     try {
@@ -51,6 +81,7 @@ export const RegisterForm = () => {
         options: {
           data: {
             full_name: formData.fullName,
+            phone_number: phoneNumber,
           },
           // Chỉ dùng cách này bên trong useEffect hoặc event handler (onClick, onSubmit)
           emailRedirectTo: `${window.location.origin}/auth/callback`,
@@ -88,24 +119,14 @@ export const RegisterForm = () => {
         </Typography>
       </div>
 
-      <div className='space-y-4'>
-        <Button
-          color='default'
-          variant='solid'
-          className='w-full font-semibold'
-        >
-          <Image src='/svg/google.svg' alt='Google' width={22} height={22} />
-          Sign in with Google
-        </Button>
-        <div className='py-2'>
-          <div className='relative text-foreground-400'>
-            <div className='absolute inset-0 flex items-center'>
-              <div className='w-full border-t border-border'></div>
-            </div>
-            <div className='relative flex justify-center text-xs uppercase'>
-              <span className='bg-white px-4'>OR</span>
-            </div>
-          </div>
+      <div className='space-y-4 flex flex-col'>
+        <GoogleAuthButton text='Sign up with Google' />
+        <div className='py-2 flex items-center justify-center'>
+          <Divider className='flex-1' />
+          <Typography size='xs' type='secondary' className='px-4'>
+            OR
+          </Typography>
+          <Divider className='flex-1' />
         </div>
         <Form
           validationErrors={errors}
@@ -135,12 +156,9 @@ export const RegisterForm = () => {
               }}
             />
 
-            {/* <Input
-              label={
-                <div className='text-content4-foreground font-medium content-stretch'>
-                  Phone number
-                </div>
-              }
+            <Input
+              label='Phone number'
+              isRequired
               name='phoneNumber'
               type='tel'
               errorMessage={({ validationDetails }) => {
@@ -150,6 +168,7 @@ export const RegisterForm = () => {
                 if (validationDetails.typeMismatch) {
                   return 'Please enter a valid phone number'
                 }
+                return errors?.phoneNumber
               }}
               variant='bordered'
               labelPlacement='outside'
@@ -160,16 +179,13 @@ export const RegisterForm = () => {
                   className='text-xl text-default-400 pointer-events-none shrink-0'
                 />
               }
-            /> */}
+            />
 
             <Input
               isRequired
               label='Email'
               name='email'
               type='email'
-              // classNames={{
-              //   inputWrapper: 'h-12',
-              // }}
               errorMessage={({ validationDetails }) => {
                 if (validationDetails.valueMissing) {
                   return 'Please enter your email'
@@ -276,13 +292,13 @@ export const RegisterForm = () => {
           >
             Sign Up
           </Button>
-          <Typography className='text-center'>
-            Already have an account?{' '}
-            <MyButton className='text-primary' variant='linkHover2'>
-              <Link href='/auth/login'>Log in here</Link>
-            </MyButton>
-          </Typography>
         </Form>
+        <Typography className='text-center -mt-2'>
+          Already have an account?{' '}
+          <MyButton className='text-primary' variant='linkHover2'>
+            <Link href='/auth/login'>Log in here</Link>
+          </MyButton>
+        </Typography>
       </div>
     </div>
   )
