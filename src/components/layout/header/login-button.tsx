@@ -3,16 +3,21 @@
 import {
   Avatar,
   Button,
+  cn,
   Dropdown,
   DropdownItem,
   DropdownMenu,
+  DropdownSection,
   DropdownTrigger,
 } from '@heroui/react'
 import { User } from '@supabase/supabase-js'
+import { ClipboardList, LogOut, Settings, User as UserIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
+
+import { useCartStore } from '@/stores/use-cart-store'
 
 import { Link, useRouter } from '@/i18n/navigation'
 
@@ -29,6 +34,9 @@ export default function LoginButton({
   const [loading, setLoading] = useState<boolean>(true)
   const [userProfile, setUserProfile] = useState<User | null>(null)
   const [error, setError] = useState<string>('')
+  const clearCart = useCartStore((state) => state.clearCart)
+
+  const iconClasses = 'text-default-700 pointer-events-none shrink-0'
 
   const getProfile = useCallback(async () => {
     try {
@@ -77,22 +85,73 @@ export default function LoginButton({
           as='button'
           className='transition-transform cursor-pointer'
           color='secondary'
-          name={userProfile.email?.toUpperCase().charAt(0)}
+          name={userProfile.user_metadata?.full_name?.toUpperCase().charAt(0)}
           size='sm'
         />
       </DropdownTrigger>
       <DropdownMenu aria-label='Profile Actions' variant='flat'>
-        <DropdownItem key='profile' className='h-14 gap-2'>
-          <p className='font-semibold'>Signed in as</p>
-          <p className='font-semibold'>{userProfile.email}</p>
-        </DropdownItem>
-        <DropdownItem key='settings'>My Settings</DropdownItem>
-        <DropdownItem key='configurations'>Configurations</DropdownItem>
+        <DropdownSection
+          showDivider
+          classNames={{ divider: '-mb-1 mt-1' }}
+          aria-label='Profile'
+        >
+          <DropdownItem key='name' className='h-14 gap-2 max-w-52'>
+            <p className='font-semibold truncate'>
+              {userProfile.user_metadata?.full_name || 'Signed in as'}
+            </p>
+            <p className='font-medium truncate'>{userProfile.email}</p>
+          </DropdownItem>
+        </DropdownSection>
+
+        <DropdownSection
+          showDivider
+          classNames={{ divider: '-mb-1 mt-1' }}
+          aria-label='Actions'
+        >
+          <DropdownItem
+            startContent={<UserIcon size={16} className={iconClasses} />}
+            key='profile'
+            classNames={{
+              title: 'font-medium',
+            }}
+            onClick={() => {
+              router.push('/profile')
+            }}
+          >
+            View Profile
+          </DropdownItem>
+          <DropdownItem
+            startContent={<ClipboardList size={16} className={iconClasses} />}
+            classNames={{
+              title: 'font-medium',
+            }}
+            key='order-history'
+          >
+            Order History
+          </DropdownItem>
+          <DropdownItem
+            startContent={<Settings size={16} className={iconClasses} />}
+            key='settings'
+            classNames={{
+              title: 'font-medium',
+            }}
+          >
+            Settings
+          </DropdownItem>
+        </DropdownSection>
+
         <DropdownItem
+          classNames={{
+            title: 'font-medium text-danger',
+          }}
+          startContent={
+            <LogOut size={16} className={cn(iconClasses, 'text-danger')} />
+          }
           key='logout'
           color='danger'
           onClick={() => {
             supabase.auth.signOut().then(() => {
+              clearCart()
               getProfile()
               router.replace('/auth/login')
             })
