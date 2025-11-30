@@ -1,8 +1,6 @@
 'use client'
-import { addToast, Button, Form, Input } from '@heroui/react'
+import { addToast, Button, Divider, Form, Input } from '@heroui/react'
 import { Eye, EyeOff, KeyRound, MailIcon } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
@@ -12,6 +10,9 @@ import { MyButton } from '@/components/ui/button'
 import Typography from '@/components/ui/typography'
 
 import { useCartStore } from '@/stores/use-cart-store'
+
+import GoogleAuthButton from '@/elements/auth/google-auth-button'
+import { Link } from '@/i18n/navigation'
 
 export const LoginForm = () => {
   const router = useRouter()
@@ -69,31 +70,21 @@ export const LoginForm = () => {
     <div className='w-full max-w-md space-y-6'>
       <div className='space-y-2 min-w-sm flex flex-col'>
         <Typography size='xl' className='font-semibold'>
-          Login
+          Log In
         </Typography>
         <Typography size='sm'>
           Choose from 10,000+ products across 400+ categories
         </Typography>
       </div>
 
-      <div className='space-y-4'>
-        <Button
-          color='default'
-          variant='solid'
-          className='w-full font-semibold'
-        >
-          <Image src='/svg/google.svg' alt='Google' width={22} height={22} />
-          Sign in with Google
-        </Button>
-        <div className='py-2'>
-          <div className='relative text-foreground-400'>
-            <div className='absolute inset-0 flex items-center'>
-              <div className='w-full border-t border-border'></div>
-            </div>
-            <div className='relative flex justify-center text-xs uppercase'>
-              <span className='bg-white px-4'>OR</span>
-            </div>
-          </div>
+      <div className='space-y-4 flex flex-col'>
+        <GoogleAuthButton />
+        <div className='py-2 flex items-center justify-center'>
+          <Divider className='flex-1' />
+          <Typography size='xs' type='secondary' className='px-4'>
+            OR
+          </Typography>
+          <Divider className='flex-1' />
         </div>
         <Form
           validationErrors={errors}
@@ -110,9 +101,6 @@ export const LoginForm = () => {
               size='lg'
               name='email'
               type='email'
-              // classNames={{
-              //   inputWrapper: 'h-12',
-              // }}
               errorMessage='Please enter a valid username'
               variant='bordered'
               labelPlacement='outside'
@@ -128,11 +116,6 @@ export const LoginForm = () => {
                   Password
                 </div>
               }
-              // errorMessage={({ validationDetails }) => {
-              //   if (validationDetails.valueMissing) {
-              //     return 'Please enter your email'
-              //   }
-              // }}
               name='password'
               variant='bordered'
               labelPlacement='outside'
@@ -161,9 +144,6 @@ export const LoginForm = () => {
             />
           </div>
           <div className='flex items-center justify-end'>
-            {/* <div className='flex items-center space-x-2 '>
-              <Checkbox name='remember'>Remember me</Checkbox>
-            </div> */}
             <MyButton variant='linkHover2'>Forgot password?</MyButton>
           </div>
 
@@ -176,13 +156,13 @@ export const LoginForm = () => {
           >
             Login
           </Button>
-          <Typography className='text-center'>
-            Don't have an account?{' '}
-            <MyButton className='text-primary' variant='linkHover2'>
-              <Link href='/auth/register'>Sign up here</Link>
-            </MyButton>
-          </Typography>
         </Form>
+        <Typography className='text-center -mt-2'>
+          Don't have an account?{' '}
+          <MyButton className='text-primary' variant='linkHover2'>
+            <Link href='/auth/register'>Sign up here</Link>
+          </MyButton>
+        </Typography>
       </div>
     </div>
   )
