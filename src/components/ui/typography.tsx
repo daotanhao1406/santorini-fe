@@ -19,7 +19,7 @@ const textBaseVariants = cva('', {
       md: 'text-sm sm:text-base lg:text-base',
       default: 'text-sm sm:text-base lg:text-base',
       lg: 'text-base sm:text-lg lg:text-lg',
-      xl: 'text-lg sm:text-xl lg:text-2xl',
+      xl: 'text-lg sm:text-xl lg:text-xl',
       xxl: 'text-xl sm:text-2xl lg:text-3xl',
       xll: 'text-2xl sm:text-3xl lg:text-4xl',
       xxxl: 'text-3xl sm:text-4xl lg:text-5xl',

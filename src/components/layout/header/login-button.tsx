@@ -10,14 +10,10 @@ import {
   DropdownSection,
   DropdownTrigger,
 } from '@heroui/react'
-import { User } from '@supabase/supabase-js'
 import { ClipboardList, LogOut, Settings, User as UserIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useCallback, useEffect, useState } from 'react'
 
-import { createClient } from '@/lib/supabase/client'
-
-import { useCartStore } from '@/stores/use-cart-store'
+import { useUserStore } from '@/stores/use-user-store'
 
 import { Link, useRouter } from '@/i18n/navigation'
 
@@ -28,46 +24,17 @@ interface LoginButtonProps {
 export default function LoginButton({
   isOutOfHeroSection = true,
 }: LoginButtonProps) {
-  const supabase = createClient()
   const router = useRouter()
   const navTranslation = useTranslations('layout.header')
-  const [loading, setLoading] = useState<boolean>(true)
-  const [userProfile, setUserProfile] = useState<User | null>(null)
-  const [error, setError] = useState<string>('')
-  const clearCart = useCartStore((state) => state.clearCart)
+  const { user: userProfile, isLoading, signOut } = useUserStore()
 
   const iconClasses = 'text-default-700 pointer-events-none shrink-0'
 
-  const getProfile = useCallback(async () => {
-    try {
-      setLoading(true)
-      const {
-        data: { user },
-        error,
-      } = await supabase.auth.getUser()
-
-      if (error) {
-        setError(error.message)
-      }
-      if (user) {
-        setUserProfile(user)
-      }
-    } catch {
-      setError('Failed to get user profile')
-    } finally {
-      setLoading(false)
-    }
-  }, [supabase])
-
-  useEffect(() => {
-    getProfile()
-  }, [getProfile])
-
-  if (error || !userProfile) {
+  if (!userProfile) {
     return (
       <Link href='/auth/login'>
         <Button
-          isLoading={loading}
+          isLoading={isLoading}
           variant={isOutOfHeroSection ? 'light' : 'solid'}
           className='h-9 font-medium'
         >
@@ -80,7 +47,7 @@ export default function LoginButton({
     <Dropdown placement='bottom-end'>
       <DropdownTrigger>
         <Avatar
-          showFallback={loading}
+          showFallback={isLoading}
           isBordered
           as='button'
           className='transition-transform cursor-pointer'
@@ -149,13 +116,7 @@ export default function LoginButton({
           }
           key='logout'
           color='danger'
-          onClick={() => {
-            supabase.auth.signOut().then(() => {
-              clearCart()
-              getProfile()
-              router.replace('/auth/login')
-            })
-          }}
+          onClick={() => signOut()}
         >
           Log Out
         </DropdownItem>

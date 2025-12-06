@@ -1,9 +1,10 @@
 'use client'
 
 import { HeroUIProvider, ToastProvider } from '@heroui/react'
-import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 
+import { useRouter } from '@/i18n/navigation'
+import AuthProvider from '@/providers/auth-provider'
 import CartProvider from '@/providers/cart-provider'
 
 declare module '@react-types/shared' {
@@ -20,7 +21,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   return (
     <HeroUIProvider navigate={router.push}>
       <ToastProvider placement='top-center' />
-      <CartProvider>{children}</CartProvider>
+      <AuthProvider>
+        <CartProvider>{children}</CartProvider>
+      </AuthProvider>
     </HeroUIProvider>
   )
 }
