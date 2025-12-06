@@ -1,7 +1,7 @@
 'use client'
 import { addToast, Button, Divider, Form, Input } from '@heroui/react'
 import { Eye, EyeOff, KeyRound, MailIcon } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
@@ -12,7 +12,7 @@ import Typography from '@/components/ui/typography'
 import { useCartStore } from '@/stores/use-cart-store'
 
 import GoogleAuthButton from '@/elements/auth/google-auth-button'
-import { Link } from '@/i18n/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
 
 export const LoginForm = () => {
   const router = useRouter()

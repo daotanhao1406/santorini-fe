@@ -1,0 +1,112 @@
+'use client'
+import { Divider, Tab, Tabs } from '@heroui/react'
+import { useMemo, useState } from 'react'
+
+import { cn } from '@/lib/utils'
+
+import Typography from '@/components/ui/typography'
+
+import { useUserStore } from '@/stores/use-user-store'
+
+import CartStep from '@/elements/checkout/cart-step'
+
+export default function CheckoutStepper({
+  currentStep,
+}: {
+  currentStep: number
+}) {
+  const { isAuthenticated } = useUserStore()
+  const [selectedTab, setSelectedTab] = useState<number>(currentStep)
+
+  const stepList = useMemo(() => {
+    if (!isAuthenticated) {
+      return [
+        {
+          label: 'Cart',
+          key: 1,
+          children: <CartStep />,
+        },
+        {
+          label: 'Login',
+          key: 2,
+          children: <div></div>,
+        },
+        {
+          label: 'Checkout',
+          key: 3,
+          children: <div></div>,
+        },
+        {
+          label: 'Payment',
+          key: 4,
+          children: <div></div>,
+        },
+      ]
+    }
+    return [
+      {
+        label: 'Cart',
+        key: 1,
+        children: <CartStep />,
+      },
+      {
+        label: 'Checkout',
+        key: 2,
+        children: <div></div>,
+      },
+      {
+        label: 'Payment',
+        key: 3,
+        children: <div></div>,
+      },
+    ]
+  }, [isAuthenticated])
+
+  return (
+    <div className='flex w-full flex-col'>
+      <Tabs
+        aria-label='Options'
+        classNames={{
+          tabList: 'gap-0 relative rounded-none p-0',
+          cursor: 'bg-transparent',
+          tab: 'max-w-full pr-1 md:pr-4',
+          tabContent: `group-data-[selected=true]:font-semibold text-inherit`,
+          tabWrapper: 'p-0',
+          base: 'p-0',
+        }}
+        // selectedKey={selectedTab}
+        color='primary'
+        variant='underlined'
+        onSelectionChange={(key) => setSelectedTab(Number(key))}
+      >
+        {stepList.map((item) => {
+          return (
+            <Tab
+              key={item.key}
+              title={
+                <div className='flex items-center space-x-3 md:space-x-6'>
+                  <Typography
+                    type={item.key > selectedTab ? 'secondary' : 'default'}
+                    className={item.key < selectedTab ? 'font-medium' : ''}
+                  >
+                    {item.key}. {item.label}
+                  </Typography>
+                  {item.key !== stepList.length && (
+                    <Divider
+                      className={cn(
+                        'xl:w-16 md:w-12 w-8',
+                        item.key < selectedTab && 'bg-[#11181c]',
+                      )}
+                    />
+                  )}
+                </div>
+              }
+            >
+              {item.children}
+            </Tab>
+          )
+        })}
+      </Tabs>
+    </div>
+  )
+}
