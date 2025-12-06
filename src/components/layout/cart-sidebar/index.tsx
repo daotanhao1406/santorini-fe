@@ -25,13 +25,16 @@ import {
 } from '@/stores/use-cart-store'
 import { useProductOptionStore } from '@/stores/use-product-option-store'
 
+import { useRouter } from '@/i18n/navigation'
+
 export default function CartSidebar({
   isOutOfHeroSection,
 }: {
   isOutOfHeroSection?: boolean
 }) {
+  const router = useRouter()
   const locale = useLocale()
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure()
   const cartItems = useCartStore((state) => state.items)
   const totalPrice = calcTotalCartItemsPrice(cartItems)
   const totalQuantity = calcTotalCartItemsQuantity(cartItems)
@@ -80,10 +83,18 @@ export default function CartSidebar({
             <PriceDisplay value={totalPrice} />
           </Typography>
         </div>
-        <Button color='primary'>{cartTranslations('checkout_btn')}</Button>
+        <Button
+          onPress={() => {
+            router.push('/checkout')
+            onClose()
+          }}
+          color='primary'
+        >
+          {cartTranslations('checkout_btn')}
+        </Button>
       </DrawerFooter>
     )
-  }, [totalPrice, cartTranslations])
+  }, [totalPrice, cartTranslations, router, onClose])
 
   return (
     <>

@@ -29,7 +29,7 @@ export async function PUT(
     )
   }
 
-  if (Array.isArray(toppings) && toppings.length > 0) {
+  if (Array.isArray(toppings)) {
     // update toppings
     const { data: oldToppingsData, error: oldToppingsError } = await supabase
       .from('cart_item_toppings')
