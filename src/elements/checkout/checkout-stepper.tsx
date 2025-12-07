@@ -9,6 +9,7 @@ import Typography from '@/components/ui/typography'
 import { useUserStore } from '@/stores/use-user-store'
 
 import CartStep from '@/elements/checkout/cart-step'
+import { useTranslations } from 'next-intl'
 
 export default function CheckoutStepper({
   currentStep,
@@ -16,28 +17,29 @@ export default function CheckoutStepper({
   currentStep: number
 }) {
   const { isAuthenticated } = useUserStore()
+  const checkoutStepperTranslations = useTranslations('checkout.checkout_stepper')
   const [selectedTab, setSelectedTab] = useState<number>(currentStep)
 
   const stepList = useMemo(() => {
     if (!isAuthenticated) {
       return [
         {
-          label: 'Cart',
+          label: checkoutStepperTranslations('cart'),
           key: 1,
           children: <CartStep />,
         },
         {
-          label: 'Login',
+          label: checkoutStepperTranslations('login'),
           key: 2,
           children: <div></div>,
         },
         {
-          label: 'Checkout',
+          label: checkoutStepperTranslations('checkout'),
           key: 3,
           children: <div></div>,
         },
         {
-          label: 'Payment',
+          label: checkoutStepperTranslations('payment'),
           key: 4,
           children: <div></div>,
         },
@@ -45,17 +47,17 @@ export default function CheckoutStepper({
     }
     return [
       {
-        label: 'Cart',
+        label: checkoutStepperTranslations('cart'),
         key: 1,
         children: <CartStep />,
       },
       {
-        label: 'Checkout',
+        label: checkoutStepperTranslations('checkout'),
         key: 2,
         children: <div></div>,
       },
       {
-        label: 'Payment',
+        label: checkoutStepperTranslations('checkout'),
         key: 3,
         children: <div></div>,
       },

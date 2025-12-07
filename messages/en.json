@@ -9,7 +9,8 @@
       "delete": "Delete",
       "cancel": "Cancel",
       "no": "No",
-      "yes": "Yes"
+      "yes": "Yes",
+      "apply": "Apply"
     }
   },
   "layout": {
@@ -32,6 +33,68 @@
         "placeholder": "Enter your email"
       }
     }
+  },
+  "login": {
+    "title": "Log In",
+    "subtitle": "abc",
+    "sign_in_with_google": "Sign in with Google",
+    "or": "OR",
+    "form": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email",
+        "value_missing_error": "Please enter your email",
+        "value_invalid_error": "Please enter a valid email address"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      }
+    },
+    "forgot_password": "Forgot password?",
+    "dont_have_account": "Don't have an account?",
+    "sign_up_here": "Sign up here"
+  },
+  "register": {
+    "title": "Sign Up",
+    "subtitle": "Create your account to start shopping with us",
+    "sign_up_with_google": "Sign up with Google",
+    "or": "OR",
+    "form": {
+      "full_name": {
+        "label": "Full name",
+        "placeholder": "Enter your full name",
+        "value_missing_error": "Please enter your full name"
+      },
+      "phone_number": {
+        "label": "Phone number",
+        "placeholder": "Enter your phone number",
+        "value_missing_error": "Please enter your phone number",
+        "value_invalid_error": "Please enter a valid phone number",
+        "value_length_error": "Phone number must be exactly 10 digits",
+        "value_format_error": "Invalid phone number format (Vietnam only)"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email",
+        "value_missing_error": "Please enter your email",
+        "value_invalid_error": "Please enter a valid email address"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password",
+        "value_missing_error": "Please enter your password",
+        "value_length_error": "Password must be at least 6 characters long"
+      },
+      "confirm_password": {
+        "label": "Confirm password",
+        "placeholder": "Enter your password again",
+        "value_missing_error": "Please enter your password again",
+        "value_matching_error": "Passwords do not match"
+      }
+    },
+    "already_have_account": "Already have an account?",
+    "log_in_here": "Log in here"
   },
   "home": {
     "products": {
@@ -89,5 +152,31 @@
     "total": "Total",
     "empty_message": "Your cart is empty",
     "confirm_delete_message": "Are you sure you want to delete {name} from the shopping cart?"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "checkout_stepper": {
+      "cart": "Cart",
+      "login": "Login",
+      "checkout": "Checkout",
+      "payment": "Payment"
+    },
+    "checkout_cart_item": {
+      "empty": "Empty"
+    },
+    "order_summary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "shipping": "Shipping",
+      "total": "Total",
+      "free": "Free",
+      "proceed_to_checkout_btn": "Proceed to Checkout",
+      "estimated_delivery_at": "Estimated delivery at"
+    },
+    "coupon": {
+      "title": "Have a coupon?",
+      "coupon_input_placeholder": "Coupon code"
+    }
   }
 }

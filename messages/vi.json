@@ -9,7 +9,8 @@
       "delete": "Xóa",
       "cancel": "Huỷ",
       "no": "Không",
-      "yes": "Có"
+      "yes": "Có",
+      "apply": "Áp dụng"
     }
   },
   "layout": {
@@ -32,6 +33,68 @@
         "placeholder": "Nhập email của bạn"
       }
     }
+  },
+  "login": {
+    "title": "Đăng nhập",
+    "subtitle": "abc",
+    "sign_in_with_google": "Đăng nhập với Google",
+    "or": "HOẶC",
+    "form": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Nhập email của bạn",
+        "value_missing_error": "Vui lòng nhập email của bạn",
+        "value_invalid_error": "Vui lòng nhập một địa chỉ email hợp lệ"
+      },
+      "password": {
+        "label": "Mật khẩu",
+        "placeholder": "Nhập mật khẩu của bạn"
+      }
+    },
+    "forgot_password": "Quên mật khẩu?",
+    "dont_have_account": "Chưa có tài khoản?",
+    "sign_up_here": "Đăng ký ngay"
+  },
+  "register": {
+    "title": "Đăng ký",
+    "subtitle": "Tạo tài khoản để bắt đầu mua sắm cùng chúng tôi",
+    "sign_up_with_google": "Đăng kí với Google",
+    "or": "HOẶC",
+    "form": {
+      "full_name": {
+        "label": "Họ và tên",
+        "placeholder": "Nhập họ và tên của bạn",
+        "value_missing_error": "Vui lòng nhập họ và tên"
+      },
+      "phone_number": {
+        "label": "Số điện thoại",
+        "placeholder": "Nhập số điện thoại của bạn",
+        "value_missing_error": "Vui lòng nhập số điện thoại của bạn",
+        "value_invalid_error": "Số điện thoại không hợp lệ",
+        "value_length_error": "Số điện thoại phải có đúng 10 chữ số",
+        "value_format_error": "Định dạng số điện thoại không hợp lệ (chỉ áp dụng tại Việt Nam)"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Nhập email của bạn",
+        "value_missing_error": "Vui lòng nhập email của bạn",
+        "value_invalid_error": "Vui lòng nhập một địa chỉ email hợp lệ"
+      },
+      "password": {
+        "label": "Mật khẩu",
+        "placeholder": "Nhập mật khẩu của bạn",
+        "value_missing_error": "Vui lòng nhập mật khẩu của bạn",
+        "value_length_error": "Mật khẩu phải có ít nhất 6 ký tự"
+      },
+      "confirm_password": {
+        "label": "Xác nhận mật khẩu",
+        "placeholder": "Nhập lại mật khẩu của bạn",
+        "value_missing_error": "Vui lòng nhập lại mật khẩu",
+        "value_matching_error": "Mật khẩu không khớp"
+      }
+    },
+    "already_have_account": "Đã có tài khoản?",
+    "log_in_here": "Đăng nhập"
   },
   "home": {
     "products": {
@@ -89,5 +152,31 @@
     "total": "Tổng tiền",
     "empty_message": "Giỏ hàng đang trống",
     "confirm_delete_message": "Bạn có muốn xóa sản phẩm {name} ra khỏi giỏ hàng không?"
+  },
+  "checkout": {
+    "title": "Thanh toán",
+    "checkout_stepper": {
+      "cart": "Giỏ hàng",
+      "login": "Đăng nhập",
+      "checkout": "Đặt hàng",
+      "payment": "Thanh toán"
+    },
+    "checkout_cart_item": {
+      "empty": "Không có"
+    },
+    "order_summary": {
+      "title": "Tổng cộng giỏ hàng",
+      "subtotal": "Tạm tính",
+      "discount": "Giảm giá",
+      "shipping": "Phí vận chuyển",
+      "total": "Tổng tiền",
+      "free": "Miễn phí",
+      "proceed_to_checkout_btn": "Tiến hành thanh toán",
+      "estimated_delivery_at": "Dự kiến giao hàng lúc"
+    },
+    "coupon": {
+      "title": "Mã giảm giá",
+      "coupon_input_placeholder": "Nhập mã giảm giá"
+    }
   }
 }

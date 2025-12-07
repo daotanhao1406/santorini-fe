@@ -12,8 +12,10 @@ import PriceDisplay from '@/components/price-display'
 import Typography from '@/components/ui/typography'
 
 import { calcTotalCartItemsPrice, useCartStore } from '@/stores/use-cart-store'
+import { useTranslations } from 'next-intl'
 
 export default function OrderSummaryCard() {
+  const orderSummaryTranslations = useTranslations('checkout.order_summary')
   const cartItems = useCartStore((state) => state.items)
   const subTotalPrice = calcTotalCartItemsPrice(cartItems)
   const shippingPrice = 15000
@@ -22,14 +24,14 @@ export default function OrderSummaryCard() {
       classNames={{ base: 'bg-default-100 px-3 py-1.5 w-full md:w-84' }}
       shadow='none'
     >
-      <CardHeader className='font-semibold pb-1'>Order Summary</CardHeader>
+      <CardHeader className='font-semibold pb-1'>{orderSummaryTranslations('title')}</CardHeader>
       <CardBody>
         <div className='flex justify-between'>
           <div className='flex flex-col gap-2.5'>
-            <Typography>Subtotal</Typography>
-            <Typography>Discount</Typography>
-            <Typography>Shipping</Typography>
-            <Typography>Total</Typography>
+            <Typography>{orderSummaryTranslations('subtotal')}</Typography>
+            <Typography>{orderSummaryTranslations('discount')}</Typography>
+            <Typography>{orderSummaryTranslations('shipping')}</Typography>
+            <Typography>{orderSummaryTranslations('total')}</Typography>
           </div>
           <div className='flex flex-col items-end gap-2.5'>
             <Typography className='font-semibold'>
@@ -39,7 +41,7 @@ export default function OrderSummaryCard() {
               <PriceDisplay value={shippingPrice} />
             </Typography>
             <Typography type='primary' className='font-semibold'>
-              Free
+              {orderSummaryTranslations('free')}
             </Typography>
             <Typography className='font-semibold'>
               <PriceDisplay value={subTotalPrice + shippingPrice} />
@@ -47,13 +49,13 @@ export default function OrderSummaryCard() {
           </div>
         </div>
         <Button color='primary' radius='full' className='font-medium mt-6'>
-          Proceed to Checkout
+          {orderSummaryTranslations('proceed_to_checkout_btn')}
         </Button>
       </CardBody>
       <Divider className='max-w-[95%] mx-auto my-2' />
       <CardFooter className='justify-center'>
         <Typography>
-          Estimated Delivery at <span className='font-semibold'>10:41 AM</span>
+          {orderSummaryTranslations('estimated_delivery_at')} <span className='font-semibold'>10:41 AM</span>
         </Typography>
       </CardFooter>
     </Card>

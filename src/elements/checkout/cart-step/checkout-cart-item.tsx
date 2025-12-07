@@ -35,6 +35,8 @@ export default function CheckoutCartItem(cartItem: CartItemType) {
   const buttonTranslations = useTranslations('common.buttons')
   const cartTranslations = useTranslations('cart')
   const iceTranslations = useTranslations('menu.ice')
+  const productOptionsTranslations = useTranslations('menu.product_option_modal')
+  const checkoutCartItemTranslations = useTranslations('checkout.checkout_cart_item')
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
   const onDeleteItem = async (cartItemId: string) => {
@@ -63,7 +65,7 @@ export default function CheckoutCartItem(cartItem: CartItemType) {
           <Typography className='font-semibold -mt-1' size='lg'>
             {cartItem.product.name}
           </Typography>
-          <div className='flex gap-2'>
+          <div className='flex gap-1'>
             <Typography size='sm' type='secondary'>
               Toppings:
             </Typography>
@@ -81,7 +83,7 @@ export default function CheckoutCartItem(cartItem: CartItemType) {
               </Typography>
             ) : (
               <Typography className='italic' size='sm'>
-                Empty
+                {checkoutCartItemTranslations('empty')}
               </Typography>
             )}
           </div>
@@ -96,7 +98,7 @@ export default function CheckoutCartItem(cartItem: CartItemType) {
               /
             </Typography>
             <Typography size='sm' type='secondary'>
-              Sweet
+              {productOptionsTranslations('sweetness_level')}
             </Typography>
             <Typography size='sm' className='font-semibold'>
               {cartItem.sweetness_level}
@@ -105,7 +107,7 @@ export default function CheckoutCartItem(cartItem: CartItemType) {
               /
             </Typography>
             <Typography size='sm' type='secondary'>
-              Ice
+              {productOptionsTranslations('ice_level')}
             </Typography>
             <Typography size='sm' className='font-semibold'>
               {iceTranslations(cartItem.ice_level?.toString())}

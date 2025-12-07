@@ -3,12 +3,14 @@ import Typography from '@/components/ui/typography'
 import CheckoutStepper from '@/elements/checkout/checkout-stepper'
 import CouponCard from '@/elements/checkout/coupon-card'
 import OrderSummary from '@/elements/checkout/order-summary-card'
+import { getTranslations } from 'next-intl/server'
 
-export default function CheckoutPage() {
+export default async function CheckoutPage() {
+  const checkoutTranslations = await getTranslations('checkout')
   return (
     <div className='md:m-8 m-4 flex flex-col overflow-auto'>
       <Typography className='text-start font-medium font-playfair' size='xxxl'>
-        Payment
+        {checkoutTranslations('title')}
       </Typography>
       <div className='grid grid-cols-1 md:grid-cols-3 mt-4 lg:mt-6 xl:mt-8'>
         <div className='md:col-span-2 col-span-1'>

@@ -13,6 +13,7 @@ import { useCartStore } from '@/stores/use-cart-store'
 
 import GoogleAuthButton from '@/elements/auth/google-auth-button'
 import { Link, useRouter } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
 export const LoginForm = () => {
   const router = useRouter()
@@ -22,6 +23,7 @@ export const LoginForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState({})
   const loadCartFromServer = useCartStore((s) => s.loadCartFromServer)
+  const loginTranslations = useTranslations('login')
 
   const continueUrl = searchParams.get('continueUrl') || '/'
 
@@ -34,12 +36,12 @@ export const LoginForm = () => {
     const formData = Object.fromEntries(new FormData(e.currentTarget))
     // Custom validation checks
     if (!formData.email) {
-      setErrors({ email: 'Please enter your email' })
+      setErrors({ email: loginTranslations('form.email.value_missing_error') })
 
       return setIsLoading(false)
     }
     if (!formData.password) {
-      setErrors({ password: 'Please enter your password' })
+      setErrors({ password: loginTranslations('form.password.value_missing_error') })
 
       return setIsLoading(false)
     }
@@ -70,19 +72,20 @@ export const LoginForm = () => {
     <div className='w-full max-w-md space-y-6'>
       <div className='space-y-2 min-w-sm flex flex-col'>
         <Typography size='xl' className='font-semibold'>
-          Log In
+          {loginTranslations('title')}
         </Typography>
         <Typography size='sm'>
-          Choose from 10,000+ products across 400+ categories
+          {loginTranslations('subtitle')}
+          {/* Choose from 10,000+ products across 400+ categories */}
         </Typography>
       </div>
 
       <div className='space-y-4 flex flex-col'>
-        <GoogleAuthButton />
+        <GoogleAuthButton text={loginTranslations('sign_in_with_google')} />
         <div className='py-2 flex items-center justify-center'>
           <Divider className='flex-1' />
           <Typography size='xs' type='secondary' className='px-4'>
-            OR
+            {loginTranslations('or')}
           </Typography>
           <Divider className='flex-1' />
         </div>
@@ -95,16 +98,17 @@ export const LoginForm = () => {
             <Input
               label={
                 <div className='text-content4-foreground font-medium content-stretch'>
-                  Email
+                  {loginTranslations('form.email.label')}
+
                 </div>
               }
               size='lg'
               name='email'
               type='email'
-              errorMessage='Please enter a valid username'
+              errorMessage={loginTranslations('form.email.value_invalid_error')}
               variant='bordered'
               labelPlacement='outside'
-              placeholder='Enter your email'
+              placeholder={loginTranslations('form.password.placeholder')}
               startContent={
                 <MailIcon className='text-xl text-default-400 pointer-events-none shrink-0' />
               }
@@ -113,13 +117,13 @@ export const LoginForm = () => {
             <Input
               label={
                 <div className='text-content4-foreground font-medium'>
-                  Password
+                  {loginTranslations('form.password.label')}
                 </div>
               }
               name='password'
               variant='bordered'
               labelPlacement='outside'
-              placeholder='Enter your password'
+              placeholder={loginTranslations('form.password.placeholder')}
               startContent={
                 <KeyRound className='text-xl text-default-400 pointer-events-none shrink-0' />
               }
@@ -144,7 +148,7 @@ export const LoginForm = () => {
             />
           </div>
           <div className='flex items-center justify-end'>
-            <MyButton variant='linkHover2'>Forgot password?</MyButton>
+            <MyButton variant='linkHover2'>{loginTranslations('forgot_password')}</MyButton>
           </div>
 
           <Button
@@ -154,13 +158,13 @@ export const LoginForm = () => {
             color='primary'
             className='w-full'
           >
-            Login
+            {loginTranslations('title')}
           </Button>
         </Form>
         <Typography className='text-center -mt-2'>
-          Don't have an account?{' '}
+          {loginTranslations('dont_have_account')}{' '}
           <MyButton className='text-primary' variant='linkHover2'>
-            <Link href='/auth/register'>Sign up here</Link>
+            <Link href='/auth/register'>{loginTranslations('sign_up_here')}</Link>
           </MyButton>
         </Typography>
       </div>

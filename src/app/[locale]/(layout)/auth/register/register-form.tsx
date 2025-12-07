@@ -11,10 +11,12 @@ import Typography from '@/components/ui/typography'
 
 import GoogleAuthButton from '@/elements/auth/google-auth-button'
 import { Link, useRouter } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
 export const RegisterForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const registerTranslations = useTranslations('register')
   const [password, setPassword] = useState<string>('')
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [isVisible, setIsVisible] = useState<boolean>(false)
@@ -34,12 +36,12 @@ export const RegisterForm = () => {
 
     // Custom validation checks
     if (!formData.email) {
-      setErrors({ email: 'Please enter your email' })
+      setErrors({ email: registerTranslations('form.email.value_missing_error') })
 
       return setIsLoading(false)
     }
     if (!formData.password) {
-      setErrors({ password: 'Please enter your password' })
+      setErrors({ password: registerTranslations('form.password.value_missing_error') })
 
       return setIsLoading(false)
     }
@@ -65,11 +67,11 @@ export const RegisterForm = () => {
 
     if (phoneNumber.length !== 10) {
       // Validate độ dài sau khi đã làm sạch
-      setErrors({ phoneNumber: 'Phone number must be exactly 10 digits' })
+      setErrors({ phoneNumber: registerTranslations('form.phone_number.value_length_error') })
       return setIsLoading(false)
     } else if (!vnPhoneRegex.test(phoneNumber)) {
       // Validate đầu số (tránh trường hợp 10 số nhưng là 0123456789)
-      setErrors({ phoneNumber: 'Invalid phone number format (Vietnam only)' })
+      setErrors({ phoneNumber: registerTranslations('form.phone_number.value_format_error') })
       return setIsLoading(false)
     }
     // Clear errors and submit
@@ -112,19 +114,19 @@ export const RegisterForm = () => {
     <div className='w-full space-y-6'>
       <div className='space-y-2 min-w-sm flex flex-col'>
         <Typography size='xl' className='font-semibold'>
-          Sign Up
+          {registerTranslations('title')}
         </Typography>
         <Typography size='sm'>
-          Create your account to start shopping with us.
+          {registerTranslations('subtitle')}
         </Typography>
       </div>
 
       <div className='space-y-4 flex flex-col'>
-        <GoogleAuthButton text='Sign up with Google' />
+        <GoogleAuthButton text={registerTranslations('sign_up_with_google')} />
         <div className='py-2 flex items-center justify-center'>
           <Divider className='flex-1' />
           <Typography size='xs' type='secondary' className='px-4'>
-            OR
+            {registerTranslations('or')}
           </Typography>
           <Divider className='flex-1' />
         </div>
@@ -136,13 +138,13 @@ export const RegisterForm = () => {
         >
           <div className='space-y-12'>
             <Input
-              label='Full name'
+              label={registerTranslations('form.full_name.label')}
               isRequired
               name='fullName'
               type='fullName'
               variant='bordered'
               labelPlacement='outside'
-              placeholder='Enter your full name'
+              placeholder={registerTranslations('form.full_name.placeholder')}
               startContent={
                 <UserRound
                   size={20}
@@ -151,28 +153,28 @@ export const RegisterForm = () => {
               }
               errorMessage={({ validationDetails }) => {
                 if (validationDetails.valueMissing) {
-                  return 'Please enter your full name'
+                  return registerTranslations('form.full_name.value_missing_error')
                 }
               }}
             />
 
             <Input
-              label='Phone number'
+              label={registerTranslations('form.phone_number.label')}
               isRequired
               name='phoneNumber'
               type='tel'
               errorMessage={({ validationDetails }) => {
                 if (validationDetails.valueMissing) {
-                  return 'Please enter your phone number'
+                  return registerTranslations('form.phone_number.value_missing_error')
                 }
                 if (validationDetails.typeMismatch) {
-                  return 'Please enter a valid phone number'
+                  return registerTranslations('form.phone_number.value_invalid_error')
                 }
                 return errors?.phoneNumber
               }}
               variant='bordered'
               labelPlacement='outside'
-              placeholder='Enter your phone number'
+              placeholder={registerTranslations('form.phone_number.placeholder')}
               startContent={
                 <Phone
                   size={20}
@@ -183,20 +185,20 @@ export const RegisterForm = () => {
 
             <Input
               isRequired
-              label='Email'
+              label={registerTranslations('form.email.label')}
               name='email'
               type='email'
               errorMessage={({ validationDetails }) => {
                 if (validationDetails.valueMissing) {
-                  return 'Please enter your email'
+                  return registerTranslations('form.email.value_missing_error')
                 }
                 if (validationDetails.typeMismatch) {
-                  return 'Please enter a valid email address'
+                  return registerTranslations('form.email.value_invalid_error')
                 }
               }}
               variant='bordered'
               labelPlacement='outside'
-              placeholder='Enter your email'
+              placeholder={registerTranslations('form.email.placeholder')}
               startContent={
                 <MailIcon
                   size={20}
@@ -207,20 +209,20 @@ export const RegisterForm = () => {
 
             <Input
               isRequired
-              label='Password'
+              label={registerTranslations('form.password.label')}
               errorMessage={({ validationDetails }) => {
                 if (validationDetails.valueMissing) {
-                  return 'Please enter your password'
+                  return registerTranslations('form.password.value_missing_error')
                 }
                 if (validationDetails.tooShort) {
-                  return 'Password must be at least 6 characters long'
+                  return registerTranslations('form.password.value_length_error')
                 }
               }}
               minLength={6}
               name='password'
               variant='bordered'
               labelPlacement='outside'
-              placeholder='Enter your password'
+              placeholder={registerTranslations('form.password.placeholder')}
               startContent={
                 <KeyRound
                   size={20}
@@ -247,16 +249,16 @@ export const RegisterForm = () => {
             />
             <Input
               isRequired
-              label='Confirm Password'
+              label={registerTranslations('form.confirm_password.label')}
               validate={(value) => {
                 if (value !== password) {
-                  return 'Passwords do not match'
+                  return registerTranslations('form.confirm_password.value_matching_error')
                 }
               }}
               name='confirmPassword'
               variant='bordered'
               labelPlacement='outside'
-              placeholder='Enter your password'
+              placeholder={registerTranslations('form.confirm_password.placeholder')}
               startContent={
                 <KeyRound
                   size={20}
@@ -290,13 +292,13 @@ export const RegisterForm = () => {
             color='primary'
             className='w-full mt-4'
           >
-            Sign Up
+            {registerTranslations('title')}
           </Button>
         </Form>
         <Typography className='text-center -mt-2'>
-          Already have an account?{' '}
+          {registerTranslations('already_have_account')}{' '}
           <MyButton className='text-primary' variant='linkHover2'>
-            <Link href='/auth/login'>Log in here</Link>
+            <Link href='/auth/login'>{registerTranslations('log_in_here')}</Link>
           </MyButton>
         </Typography>
       </div>
