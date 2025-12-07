@@ -1,8 +1,8 @@
 'use client'
 import { Card, CardBody, CardHeader, Input } from '@heroui/react'
+import { useTranslations } from 'next-intl'
 
 import Typography from '@/components/ui/typography'
-import { useTranslations } from 'next-intl'
 
 export default function CouponCard() {
   const couponTranslations = useTranslations('checkout.coupon')
@@ -12,7 +12,9 @@ export default function CouponCard() {
       classNames={{ base: 'bg-default-100 px-3 py-1.5 w-full md:w-84' }}
       shadow='none'
     >
-      <CardHeader className='font-semibold pb-0'>{couponTranslations('title')}</CardHeader>
+      <CardHeader className='font-semibold pb-0'>
+        {couponTranslations('title')}
+      </CardHeader>
       <CardBody>
         <Input
           placeholder={couponTranslations('coupon_input_placeholder')}
@@ -20,7 +22,7 @@ export default function CouponCard() {
           size='lg'
           classNames={{
             inputWrapper:
-              'bg-white data-[hover=true]:bg-default-50 group-data-[focus=true]:bg-white'
+              'bg-white data-[hover=true]:bg-default-50 group-data-[focus=true]:bg-white',
           }}
           endContent={
             <Typography
