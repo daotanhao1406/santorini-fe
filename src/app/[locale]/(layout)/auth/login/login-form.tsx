@@ -2,6 +2,7 @@
 import { addToast, Button, Divider, Form, Input } from '@heroui/react'
 import { Eye, EyeOff, KeyRound, MailIcon } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
@@ -13,7 +14,6 @@ import { useCartStore } from '@/stores/use-cart-store'
 
 import GoogleAuthButton from '@/elements/auth/google-auth-button'
 import { Link, useRouter } from '@/i18n/navigation'
-import { useTranslations } from 'next-intl'
 
 export const LoginForm = () => {
   const router = useRouter()
@@ -41,7 +41,9 @@ export const LoginForm = () => {
       return setIsLoading(false)
     }
     if (!formData.password) {
-      setErrors({ password: loginTranslations('form.password.value_missing_error') })
+      setErrors({
+        password: loginTranslations('form.password.value_missing_error'),
+      })
 
       return setIsLoading(false)
     }
@@ -99,7 +101,6 @@ export const LoginForm = () => {
               label={
                 <div className='text-content4-foreground font-medium content-stretch'>
                   {loginTranslations('form.email.label')}
-
                 </div>
               }
               size='lg'
@@ -148,7 +149,9 @@ export const LoginForm = () => {
             />
           </div>
           <div className='flex items-center justify-end'>
-            <MyButton variant='linkHover2'>{loginTranslations('forgot_password')}</MyButton>
+            <MyButton variant='linkHover2'>
+              {loginTranslations('forgot_password')}
+            </MyButton>
           </div>
 
           <Button
@@ -164,7 +167,9 @@ export const LoginForm = () => {
         <Typography className='text-center -mt-2'>
           {loginTranslations('dont_have_account')}{' '}
           <MyButton className='text-primary' variant='linkHover2'>
-            <Link href='/auth/register'>{loginTranslations('sign_up_here')}</Link>
+            <Link href='/auth/register'>
+              {loginTranslations('sign_up_here')}
+            </Link>
           </MyButton>
         </Typography>
       </div>

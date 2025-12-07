@@ -2,6 +2,7 @@
 import { addToast, Button, Divider, Form, Input } from '@heroui/react'
 import { Eye, EyeOff, KeyRound, MailIcon, Phone, UserRound } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
@@ -11,7 +12,6 @@ import Typography from '@/components/ui/typography'
 
 import GoogleAuthButton from '@/elements/auth/google-auth-button'
 import { Link, useRouter } from '@/i18n/navigation'
-import { useTranslations } from 'next-intl'
 
 export const RegisterForm = () => {
   const router = useRouter()
@@ -36,12 +36,16 @@ export const RegisterForm = () => {
 
     // Custom validation checks
     if (!formData.email) {
-      setErrors({ email: registerTranslations('form.email.value_missing_error') })
+      setErrors({
+        email: registerTranslations('form.email.value_missing_error'),
+      })
 
       return setIsLoading(false)
     }
     if (!formData.password) {
-      setErrors({ password: registerTranslations('form.password.value_missing_error') })
+      setErrors({
+        password: registerTranslations('form.password.value_missing_error'),
+      })
 
       return setIsLoading(false)
     }
@@ -67,11 +71,19 @@ export const RegisterForm = () => {
 
     if (phoneNumber.length !== 10) {
       // Validate độ dài sau khi đã làm sạch
-      setErrors({ phoneNumber: registerTranslations('form.phone_number.value_length_error') })
+      setErrors({
+        phoneNumber: registerTranslations(
+          'form.phone_number.value_length_error',
+        ),
+      })
       return setIsLoading(false)
     } else if (!vnPhoneRegex.test(phoneNumber)) {
       // Validate đầu số (tránh trường hợp 10 số nhưng là 0123456789)
-      setErrors({ phoneNumber: registerTranslations('form.phone_number.value_format_error') })
+      setErrors({
+        phoneNumber: registerTranslations(
+          'form.phone_number.value_format_error',
+        ),
+      })
       return setIsLoading(false)
     }
     // Clear errors and submit
@@ -116,9 +128,7 @@ export const RegisterForm = () => {
         <Typography size='xl' className='font-semibold'>
           {registerTranslations('title')}
         </Typography>
-        <Typography size='sm'>
-          {registerTranslations('subtitle')}
-        </Typography>
+        <Typography size='sm'>{registerTranslations('subtitle')}</Typography>
       </div>
 
       <div className='space-y-4 flex flex-col'>
@@ -153,7 +163,9 @@ export const RegisterForm = () => {
               }
               errorMessage={({ validationDetails }) => {
                 if (validationDetails.valueMissing) {
-                  return registerTranslations('form.full_name.value_missing_error')
+                  return registerTranslations(
+                    'form.full_name.value_missing_error',
+                  )
                 }
               }}
             />
@@ -165,16 +177,22 @@ export const RegisterForm = () => {
               type='tel'
               errorMessage={({ validationDetails }) => {
                 if (validationDetails.valueMissing) {
-                  return registerTranslations('form.phone_number.value_missing_error')
+                  return registerTranslations(
+                    'form.phone_number.value_missing_error',
+                  )
                 }
                 if (validationDetails.typeMismatch) {
-                  return registerTranslations('form.phone_number.value_invalid_error')
+                  return registerTranslations(
+                    'form.phone_number.value_invalid_error',
+                  )
                 }
                 return errors?.phoneNumber
               }}
               variant='bordered'
               labelPlacement='outside'
-              placeholder={registerTranslations('form.phone_number.placeholder')}
+              placeholder={registerTranslations(
+                'form.phone_number.placeholder',
+              )}
               startContent={
                 <Phone
                   size={20}
@@ -212,10 +230,14 @@ export const RegisterForm = () => {
               label={registerTranslations('form.password.label')}
               errorMessage={({ validationDetails }) => {
                 if (validationDetails.valueMissing) {
-                  return registerTranslations('form.password.value_missing_error')
+                  return registerTranslations(
+                    'form.password.value_missing_error',
+                  )
                 }
                 if (validationDetails.tooShort) {
-                  return registerTranslations('form.password.value_length_error')
+                  return registerTranslations(
+                    'form.password.value_length_error',
+                  )
                 }
               }}
               minLength={6}
@@ -252,13 +274,24 @@ export const RegisterForm = () => {
               label={registerTranslations('form.confirm_password.label')}
               validate={(value) => {
                 if (value !== password) {
-                  return registerTranslations('form.confirm_password.value_matching_error')
+                  return registerTranslations(
+                    'form.confirm_password.value_matching_error',
+                  )
+                }
+              }}
+              errorMessage={({ validationDetails }) => {
+                if (validationDetails.valueMissing) {
+                  return registerTranslations(
+                    'form.confirm_password.value_missing_error',
+                  )
                 }
               }}
               name='confirmPassword'
               variant='bordered'
               labelPlacement='outside'
-              placeholder={registerTranslations('form.confirm_password.placeholder')}
+              placeholder={registerTranslations(
+                'form.confirm_password.placeholder',
+              )}
               startContent={
                 <KeyRound
                   size={20}
@@ -298,7 +331,9 @@ export const RegisterForm = () => {
         <Typography className='text-center -mt-2'>
           {registerTranslations('already_have_account')}{' '}
           <MyButton className='text-primary' variant='linkHover2'>
-            <Link href='/auth/login'>{registerTranslations('log_in_here')}</Link>
+            <Link href='/auth/login'>
+              {registerTranslations('log_in_here')}
+            </Link>
           </MyButton>
         </Typography>
       </div>
