@@ -36,7 +36,7 @@
   },
   "login": {
     "title": "Log In",
-    "subtitle": "abc",
+    "subtitle": "Welcome back! Log in to order your favorite drinks",
     "sign_in_with_google": "Sign in with Google",
     "or": "OR",
     "form": {
@@ -162,7 +162,10 @@
       "payment": "Payment"
     },
     "checkout_cart_item": {
-      "empty": "Empty"
+      "empty": "Empty",
+      "sweetness": "Sweetness",
+      "ice": "Ice",
+      "note": "Notes"
     },
     "order_summary": {
       "title": "Order Summary",

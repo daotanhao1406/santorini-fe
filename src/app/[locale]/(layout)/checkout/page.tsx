@@ -1,9 +1,10 @@
+import { getTranslations } from 'next-intl/server'
+
 import Typography from '@/components/ui/typography'
 
 import CheckoutStepper from '@/elements/checkout/checkout-stepper'
 import CouponCard from '@/elements/checkout/coupon-card'
 import OrderSummary from '@/elements/checkout/order-summary-card'
-import { getTranslations } from 'next-intl/server'
 
 export default async function CheckoutPage() {
   const checkoutTranslations = await getTranslations('checkout')

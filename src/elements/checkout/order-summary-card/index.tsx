@@ -7,12 +7,12 @@ import {
   CardHeader,
   Divider,
 } from '@heroui/react'
+import { useTranslations } from 'next-intl'
 
 import PriceDisplay from '@/components/price-display'
 import Typography from '@/components/ui/typography'
 
 import { calcTotalCartItemsPrice, useCartStore } from '@/stores/use-cart-store'
-import { useTranslations } from 'next-intl'
 
 export default function OrderSummaryCard() {
   const orderSummaryTranslations = useTranslations('checkout.order_summary')
@@ -24,7 +24,9 @@ export default function OrderSummaryCard() {
       classNames={{ base: 'bg-default-100 px-3 py-1.5 w-full md:w-84' }}
       shadow='none'
     >
-      <CardHeader className='font-semibold pb-1'>{orderSummaryTranslations('title')}</CardHeader>
+      <CardHeader className='font-semibold pb-1'>
+        {orderSummaryTranslations('title')}
+      </CardHeader>
       <CardBody>
         <div className='flex justify-between'>
           <div className='flex flex-col gap-2.5'>
@@ -55,7 +57,8 @@ export default function OrderSummaryCard() {
       <Divider className='max-w-[95%] mx-auto my-2' />
       <CardFooter className='justify-center'>
         <Typography>
-          {orderSummaryTranslations('estimated_delivery_at')} <span className='font-semibold'>10:41 AM</span>
+          {orderSummaryTranslations('estimated_delivery_at')}{' '}
+          <span className='font-semibold'>10:41 AM</span>
         </Typography>
       </CardFooter>
     </Card>

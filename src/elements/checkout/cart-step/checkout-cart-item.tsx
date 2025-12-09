@@ -35,8 +35,9 @@ export default function CheckoutCartItem(cartItem: CartItemType) {
   const buttonTranslations = useTranslations('common.buttons')
   const cartTranslations = useTranslations('cart')
   const iceTranslations = useTranslations('menu.ice')
-  const productOptionsTranslations = useTranslations('menu.product_option_modal')
-  const checkoutCartItemTranslations = useTranslations('checkout.checkout_cart_item')
+  const checkoutCartItemTranslations = useTranslations(
+    'checkout.checkout_cart_item',
+  )
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
   const onDeleteItem = async (cartItemId: string) => {
@@ -98,7 +99,7 @@ export default function CheckoutCartItem(cartItem: CartItemType) {
               /
             </Typography>
             <Typography size='sm' type='secondary'>
-              {productOptionsTranslations('sweetness_level')}
+              {checkoutCartItemTranslations('sweetness')}
             </Typography>
             <Typography size='sm' className='font-semibold'>
               {cartItem.sweetness_level}
@@ -107,7 +108,7 @@ export default function CheckoutCartItem(cartItem: CartItemType) {
               /
             </Typography>
             <Typography size='sm' type='secondary'>
-              {productOptionsTranslations('ice_level')}
+              {checkoutCartItemTranslations('ice')}
             </Typography>
             <Typography size='sm' className='font-semibold'>
               {iceTranslations(cartItem.ice_level?.toString())}

@@ -1,5 +1,6 @@
 'use client'
 import { Divider, Tab, Tabs } from '@heroui/react'
+import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 
 import { cn } from '@/lib/utils'
@@ -9,7 +10,6 @@ import Typography from '@/components/ui/typography'
 import { useUserStore } from '@/stores/use-user-store'
 
 import CartStep from '@/elements/checkout/cart-step'
-import { useTranslations } from 'next-intl'
 
 export default function CheckoutStepper({
   currentStep,
@@ -17,7 +17,9 @@ export default function CheckoutStepper({
   currentStep: number
 }) {
   const { isAuthenticated } = useUserStore()
-  const checkoutStepperTranslations = useTranslations('checkout.checkout_stepper')
+  const checkoutStepperTranslations = useTranslations(
+    'checkout.checkout_stepper',
+  )
   const [selectedTab, setSelectedTab] = useState<number>(currentStep)
 
   const stepList = useMemo(() => {
@@ -62,7 +64,7 @@ export default function CheckoutStepper({
         children: <div></div>,
       },
     ]
-  }, [isAuthenticated])
+  }, [isAuthenticated, checkoutStepperTranslations])
 
   return (
     <div className='flex w-full flex-col'>

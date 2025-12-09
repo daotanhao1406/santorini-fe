@@ -36,7 +36,7 @@
   },
   "login": {
     "title": "Đăng nhập",
-    "subtitle": "abc",
+    "subtitle": "Đăng nhập để thưởng thức món nước yêu thích ngay",
     "sign_in_with_google": "Đăng nhập với Google",
     "or": "HOẶC",
     "form": {
@@ -162,7 +162,10 @@
       "payment": "Thanh toán"
     },
     "checkout_cart_item": {
-      "empty": "Không có"
+      "empty": "Không có",
+      "sweetness": "Đường",
+      "ice": "Đá",
+      "note": "Ghi chú"
     },
     "order_summary": {
       "title": "Tổng cộng giỏ hàng",
