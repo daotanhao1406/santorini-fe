@@ -9,15 +9,15 @@ import OrderSummary from '@/elements/checkout/order-summary-card'
 export default async function CheckoutPage() {
   const checkoutTranslations = await getTranslations('checkout')
   return (
-    <div className='md:m-8 m-4 flex flex-col overflow-auto'>
+    <div className='md:m-8 m-4 flex flex-col flex-1'>
       <Typography className='text-start font-medium font-playfair' size='xxxl'>
         {checkoutTranslations('title')}
       </Typography>
-      <div className='grid grid-cols-1 md:grid-cols-3 mt-4 lg:mt-6 xl:mt-8'>
-        <div className='md:col-span-2 col-span-1'>
+      <div className='flex mt-4 lg:mt-6 xl:mt-8 gap-4'>
+        <div className='max-w-5xl'>
           <CheckoutStepper currentStep={2} />
         </div>
-        <div className='col-span-1 flex flex-col md:items-end gap-6 mt-6 md:mt-0'>
+        <div className='flex flex-col md:items-end gap-6 mt-6 md:mt-0'>
           <OrderSummary />
           <CouponCard />
         </div>

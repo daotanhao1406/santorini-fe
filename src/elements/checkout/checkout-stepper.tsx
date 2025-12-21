@@ -1,5 +1,5 @@
 'use client'
-import { Divider, Tab, Tabs } from '@heroui/react'
+import { Card, Divider, Tab, Tabs } from '@heroui/react'
 import { useTranslations } from 'next-intl'
 import { useMemo, useState } from 'react'
 
@@ -9,7 +9,10 @@ import Typography from '@/components/ui/typography'
 
 import { useUserStore } from '@/stores/use-user-store'
 
+import { LoginForm } from '@/app/[locale]/(layout)/auth/login/login-form'
 import CartStep from '@/elements/checkout/cart-step'
+import CheckoutStep from '@/elements/checkout/checkout-step'
+import PaymentStep from '@/elements/checkout/payment-step'
 
 export default function CheckoutStepper({
   currentStep,
@@ -33,17 +36,25 @@ export default function CheckoutStepper({
         {
           label: checkoutStepperTranslations('login'),
           key: 2,
-          children: <div></div>,
+          children: (
+            <div className='flex justify-center'>
+              <Card>
+                <div className='flex items-center justify-center p-8 lg:p-10'>
+                  <LoginForm />
+                </div>
+              </Card>
+            </div>
+          ),
         },
         {
           label: checkoutStepperTranslations('checkout'),
           key: 3,
-          children: <div></div>,
+          children: <CheckoutStep />,
         },
         {
           label: checkoutStepperTranslations('payment'),
           key: 4,
-          children: <div></div>,
+          children: <PaymentStep />,
         },
       ]
     }

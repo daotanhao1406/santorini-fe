@@ -14,6 +14,8 @@ import Typography from '@/components/ui/typography'
 
 import { calcTotalCartItemsPrice, useCartStore } from '@/stores/use-cart-store'
 
+import OrderSummaryItem from '@/elements/checkout/order-summary-card/order-summary-item'
+
 export default function OrderSummaryCard() {
   const orderSummaryTranslations = useTranslations('checkout.order_summary')
   const cartItems = useCartStore((state) => state.items)
@@ -21,13 +23,19 @@ export default function OrderSummaryCard() {
   const shippingPrice = 15000
   return (
     <Card
-      classNames={{ base: 'bg-default-100 px-3 py-1.5 w-full md:w-84' }}
+      classNames={{ base: 'bg-default-100 px-3 py-1.5 w-full' }}
       shadow='none'
     >
       <CardHeader className='font-semibold pb-1'>
         {orderSummaryTranslations('title')}
       </CardHeader>
       <CardBody>
+        <div className='flex flex-col gap-4'>
+          {cartItems.map((cartItem) => (
+            <OrderSummaryItem key={cartItem.id} {...cartItem} />
+          ))}
+        </div>
+        <Divider className='max-w-full my-4' />
         <div className='flex justify-between'>
           <div className='flex flex-col gap-2.5'>
             <Typography>{orderSummaryTranslations('subtotal')}</Typography>

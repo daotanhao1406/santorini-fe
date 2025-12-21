@@ -1,8 +1,9 @@
 import { heroui } from '@heroui/react'
 
-/** @type {import('tailwindcss').Config} */
 const config = {
   content: [
+    // Nếu bạn dùng thư mục src (khuyến nghị cho Next.js mới), hãy sửa lại đường dẫn nếu cần
+    // Ví dụ: "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
@@ -72,4 +73,4 @@ const config = {
   ],
 }
 
-module.exports = config
+export default config
