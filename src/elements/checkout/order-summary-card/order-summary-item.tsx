@@ -15,7 +15,7 @@ export default function OrderSummaryItem(cartItem: CartItemType) {
 
   return (
     <div className='group flex gap-3 md:gap-4 justify-center relative'>
-      <div className='relative hidden lg:block lg:h-16 aspect-[7/8]'>
+      <div className='relative hidden lg:block lg:h-14 aspect-[7/8]'>
         <Image
           alt='Cart image'
           className='object-cover rounded-lg'
@@ -32,16 +32,14 @@ export default function OrderSummaryItem(cartItem: CartItemType) {
           </Typography>
           <div className='flex items-start gap-1'>
             <Typography className='font-semibold'>
-              <PriceDisplay
-                value={cartItem.product.base_price * cartItem.quantity}
-              />
+              <PriceDisplay value={cartItem.product.base_price} />
             </Typography>
             <Typography
               className='font-semibold mt-0.75'
               size='xs'
               type='secondary'
             >
-              x 2
+              x {cartItem.quantity}
             </Typography>
           </div>
         </div>

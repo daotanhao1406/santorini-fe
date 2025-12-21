@@ -1,7 +1,7 @@
 'use client'
 import { Card, Divider, Tab, Tabs } from '@heroui/react'
 import { useTranslations } from 'next-intl'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
 import { cn } from '@/lib/utils'
 
@@ -16,14 +16,19 @@ import PaymentStep from '@/elements/checkout/payment-step'
 
 export default function CheckoutStepper({
   currentStep,
+  onStepChange,
 }: {
   currentStep: number
+  onStepChange?: (step: number) => void
 }) {
   const { isAuthenticated } = useUserStore()
   const checkoutStepperTranslations = useTranslations(
     'checkout.checkout_stepper',
   )
-  const [selectedTab, setSelectedTab] = useState<number>(currentStep)
+
+  const handleTabChange = (tab: number) => {
+    if (onStepChange) onStepChange(tab)
+  }
 
   const stepList = useMemo(() => {
     if (!isAuthenticated) {
@@ -82,17 +87,20 @@ export default function CheckoutStepper({
       <Tabs
         aria-label='Options'
         classNames={{
-          tabList: 'gap-0 relative rounded-none p-0',
+          tabList:
+            'gap-0 relative rounded-none p-0 pointer-events-none cursor-default',
           cursor: 'bg-transparent',
           tab: 'max-w-full pr-1 md:pr-4',
           tabContent: `group-data-[selected=true]:font-semibold text-inherit`,
           tabWrapper: 'p-0',
           base: 'p-0',
         }}
-        // selectedKey={selectedTab}
+        selectedKey={String(currentStep)}
         color='primary'
         variant='underlined'
-        onSelectionChange={(key) => setSelectedTab(Number(key))}
+        onSelectionChange={(key) => {
+          handleTabChange(Number(key))
+        }}
       >
         {stepList.map((item) => {
           return (
@@ -101,8 +109,14 @@ export default function CheckoutStepper({
               title={
                 <div className='flex items-center space-x-3 md:space-x-6'>
                   <Typography
-                    type={item.key > selectedTab ? 'secondary' : 'default'}
-                    className={item.key < selectedTab ? 'font-medium' : ''}
+                    type={item.key > currentStep ? 'secondary' : 'default'}
+                    className={
+                      item.key === currentStep
+                        ? 'font-semibold'
+                        : item.key < currentStep
+                          ? 'font-medium'
+                          : ''
+                    }
                   >
                     {item.key}. {item.label}
                   </Typography>
@@ -110,7 +124,7 @@ export default function CheckoutStepper({
                     <Divider
                       className={cn(
                         'xl:w-16 md:w-12 w-8',
-                        item.key < selectedTab && 'bg-[#11181c]',
+                        item.key < currentStep && 'bg-[#11181c]',
                       )}
                     />
                   )}
