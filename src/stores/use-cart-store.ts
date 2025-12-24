@@ -20,7 +20,7 @@ interface CartActions {
   removeItem: (cartId: string) => Promise<void>
   increaseQuantity: (cartId: string) => void
   decreaseQuantity: (cartId: string) => void
-  clearCart: () => void
+  clearCart: () => Promise<void>
 
   //server-side actions
   loadCartFromServer: () => Promise<void>
@@ -157,7 +157,23 @@ export const useCartStore = create<CartState & CartActions>()(
           color: 'success',
         })
       },
-      clearCart: () => set({ items: [] }),
+      clearCart: async () => {
+        // 1. Xóa ngay lập tức ở Client để UI phản hồi nhanh
+        set({ items: [] })
+
+        try {
+          // 2. Gọi API để xóa trong Database dựa trên cookie
+          await fetch('/api/cart/items', {
+            method: 'DELETE',
+          })
+        } catch {
+          addToast({
+            title: 'Error',
+            description: 'Failed to clear cart',
+            color: 'danger',
+          })
+        }
+      },
 
       // get cart from server
       loadCartFromServer: async () => {

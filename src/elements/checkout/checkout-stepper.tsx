@@ -1,87 +1,60 @@
 'use client'
 import { Divider, Tab, Tabs } from '@heroui/react'
 import { useTranslations } from 'next-intl'
-import { useMemo, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 
 import Typography from '@/components/ui/typography'
 
-import { useUserStore } from '@/stores/use-user-store'
+import { useCheckoutStore } from '@/stores/use-checkout-store'
 
 import CartStep from '@/elements/checkout/cart-step'
+import CheckoutStep from '@/elements/checkout/checkout-step'
+import PaymentStep from '@/elements/checkout/payment-step'
 
-export default function CheckoutStepper({
-  currentStep,
-}: {
-  currentStep: number
-}) {
-  const { isAuthenticated } = useUserStore()
+export default function CheckoutStepper() {
   const checkoutStepperTranslations = useTranslations(
     'checkout.checkout_stepper',
   )
-  const [selectedTab, setSelectedTab] = useState<number>(currentStep)
+  const { currentStep, setStep } = useCheckoutStore()
 
-  const stepList = useMemo(() => {
-    if (!isAuthenticated) {
-      return [
-        {
-          label: checkoutStepperTranslations('cart'),
-          key: 1,
-          children: <CartStep />,
-        },
-        {
-          label: checkoutStepperTranslations('login'),
-          key: 2,
-          children: <div></div>,
-        },
-        {
-          label: checkoutStepperTranslations('checkout'),
-          key: 3,
-          children: <div></div>,
-        },
-        {
-          label: checkoutStepperTranslations('payment'),
-          key: 4,
-          children: <div></div>,
-        },
-      ]
-    }
-    return [
-      {
-        label: checkoutStepperTranslations('cart'),
-        key: 1,
-        children: <CartStep />,
-      },
-      {
-        label: checkoutStepperTranslations('checkout'),
-        key: 2,
-        children: <div></div>,
-      },
-      {
-        label: checkoutStepperTranslations('checkout'),
-        key: 3,
-        children: <div></div>,
-      },
-    ]
-  }, [isAuthenticated, checkoutStepperTranslations])
+  const stepList = [
+    {
+      label: checkoutStepperTranslations('cart'),
+      key: 1,
+      children: <CartStep />,
+    },
+    {
+      label: checkoutStepperTranslations('checkout'),
+      key: 2,
+      children: <CheckoutStep />,
+    },
+    {
+      label: checkoutStepperTranslations('payment'),
+      key: 3,
+      children: <PaymentStep />,
+    },
+  ]
 
   return (
     <div className='flex w-full flex-col'>
       <Tabs
         aria-label='Options'
         classNames={{
-          tabList: 'gap-0 relative rounded-none p-0',
+          tabList:
+            'gap-0 relative rounded-none p-0 pointer-events-none cursor-default',
           cursor: 'bg-transparent',
           tab: 'max-w-full pr-1 md:pr-4',
           tabContent: `group-data-[selected=true]:font-semibold text-inherit`,
           tabWrapper: 'p-0',
           base: 'p-0',
         }}
-        // selectedKey={selectedTab}
+        selectedKey={String(currentStep)}
         color='primary'
         variant='underlined'
-        onSelectionChange={(key) => setSelectedTab(Number(key))}
+        onSelectionChange={(key) => {
+          setStep(Number(key))
+        }}
       >
         {stepList.map((item) => {
           return (
@@ -90,8 +63,14 @@ export default function CheckoutStepper({
               title={
                 <div className='flex items-center space-x-3 md:space-x-6'>
                   <Typography
-                    type={item.key > selectedTab ? 'secondary' : 'default'}
-                    className={item.key < selectedTab ? 'font-medium' : ''}
+                    type={item.key > currentStep ? 'secondary' : 'default'}
+                    className={
+                      item.key === currentStep
+                        ? 'font-semibold'
+                        : item.key < currentStep
+                          ? 'font-medium'
+                          : ''
+                    }
                   >
                     {item.key}. {item.label}
                   </Typography>
@@ -99,7 +78,7 @@ export default function CheckoutStepper({
                     <Divider
                       className={cn(
                         'xl:w-16 md:w-12 w-8',
-                        item.key < selectedTab && 'bg-[#11181c]',
+                        item.key < currentStep && 'bg-[#11181c]',
                       )}
                     />
                   )}

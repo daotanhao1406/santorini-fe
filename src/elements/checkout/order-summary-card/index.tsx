@@ -1,33 +1,57 @@
 'use client'
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Divider,
-} from '@heroui/react'
+import { Card, CardBody, CardFooter, CardHeader, Divider } from '@heroui/react'
 import { useTranslations } from 'next-intl'
+import { useCallback, useMemo } from 'react'
 
 import PriceDisplay from '@/components/price-display'
 import Typography from '@/components/ui/typography'
 
-import { calcTotalCartItemsPrice, useCartStore } from '@/stores/use-cart-store'
+import { calcTotalCartItemsPrice, CartItemType } from '@/stores/use-cart-store'
 
-export default function OrderSummaryCard() {
+import OrderSummaryItem from '@/elements/checkout/order-summary-card/order-summary-item'
+
+interface OrderSummaryCardProps {
+  checkoutItems?: CartItemType[]
+  showOrderSummaryItems?: boolean
+  renderCheckoutBtn?: React.ReactNode
+  renderStepBackBtn?: React.ReactNode
+}
+
+export default function OrderSummaryCard(props: OrderSummaryCardProps) {
   const orderSummaryTranslations = useTranslations('checkout.order_summary')
-  const cartItems = useCartStore((state) => state.items)
-  const subTotalPrice = calcTotalCartItemsPrice(cartItems)
   const shippingPrice = 15000
+
+  const checkoutItems = useMemo(() => {
+    if (!Array.isArray(props.checkoutItems)) return []
+    return props.checkoutItems
+  }, [props.checkoutItems])
+
+  const subTotalPrice = calcTotalCartItemsPrice(checkoutItems)
+
+  const renderOrderSummaryItems = useCallback(() => {
+    if (!props.showOrderSummaryItems) return null
+    if (!Array.isArray(checkoutItems) || checkoutItems.length === 0) return null
+
+    return (
+      <div className='flex flex-col gap-5'>
+        {checkoutItems.map((cartItem) => (
+          <OrderSummaryItem key={cartItem.id} {...cartItem} />
+        ))}
+        <Divider className='max-w-full mb-4' />
+      </div>
+    )
+  }, [checkoutItems, props.showOrderSummaryItems])
+
   return (
     <Card
-      classNames={{ base: 'bg-default-100 px-3 py-1.5 w-full md:w-84' }}
+      classNames={{ base: 'bg-default-100 px-3 py-1.5 w-full' }}
       shadow='none'
     >
       <CardHeader className='font-semibold pb-1'>
         {orderSummaryTranslations('title')}
       </CardHeader>
       <CardBody>
+        {renderOrderSummaryItems()}
         <div className='flex justify-between'>
           <div className='flex flex-col gap-2.5'>
             <Typography>{orderSummaryTranslations('subtotal')}</Typography>
@@ -50,9 +74,8 @@ export default function OrderSummaryCard() {
             </Typography>
           </div>
         </div>
-        <Button color='primary' radius='full' className='font-medium mt-6'>
-          {orderSummaryTranslations('proceed_to_checkout_btn')}
-        </Button>
+        {props.renderCheckoutBtn}
+        {props.renderStepBackBtn}
       </CardBody>
       <Divider className='max-w-[95%] mx-auto my-2' />
       <CardFooter className='justify-center'>

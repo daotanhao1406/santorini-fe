@@ -1,17 +1,15 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-const createNextIntlPlugin = require('next-intl/plugin')
+import type { NextConfig } from 'next'
+import createNextIntlPlugin from 'next-intl/plugin'
 
 const withNextIntl = createNextIntlPlugin()
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   eslint: {
     dirs: ['src'],
   },
 
   reactStrictMode: true,
 
-  // Uncoment to add domain whitelist
   images: {
     remotePatterns: [
       {
@@ -21,9 +19,25 @@ const nextConfig = {
     ],
   },
 
-  webpack(config) {
-    // Grab the existing rule that handles SVG imports
-    const fileLoaderRule = config.module.rules.find((rule) =>
+  webpack(config, { isServer, webpack }) {
+    // --- PHẦN 1: Xử lý Warning Supabase Realtime ---
+    // Chỉ áp dụng khi build phía server để tránh lỗi thiếu module 'ws'
+    if (isServer) {
+      config.externals.push({
+        bufferutil: 'commonjs bufferutil',
+        'utf-8-validate': 'commonjs utf-8-validate',
+      })
+    }
+
+    // Bỏ qua cảnh báo cho các module optional này
+    config.plugins.push(
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^bufferutil|utf-8-validate$/,
+      }),
+    )
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const fileLoaderRule = config.module.rules.find((rule: any) =>
       rule.test?.test?.('.svg'),
     )
 
@@ -54,4 +68,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withNextIntl(nextConfig)
+export default withNextIntl(nextConfig)

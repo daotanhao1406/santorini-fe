@@ -211,3 +211,41 @@ export async function POST(request: Request) {
     return Response.json({ error: 'Internal Server Error' }, { status: 500 })
   }
 }
+
+export async function DELETE() {
+  const supabase = await createServer()
+  const sessionId = await getOrCreateCartSession()
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (!sessionId) {
+    return NextResponse.json(
+      { error: 'Cart session not found' },
+      { status: 400 },
+    )
+  }
+
+  let cartId = null
+
+  if (user) {
+    const { data: existingCart } = await getUserCart(user.id)
+    cartId = existingCart?.id
+  } else {
+    const { data: guestCart } = await getGuestCart(sessionId)
+    cartId = guestCart?.id
+  }
+
+  // Xóa tất cả items thuộc về cart_id này
+  const { error } = await supabase
+    .from('cart_items')
+    .delete()
+    .eq('cart_id', cartId)
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  return NextResponse.json({ message: 'Cart cleared successfully' })
+}
