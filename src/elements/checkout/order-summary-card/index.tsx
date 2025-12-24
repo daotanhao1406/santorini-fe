@@ -12,6 +12,7 @@ import OrderSummaryItem from '@/elements/checkout/order-summary-card/order-summa
 
 interface OrderSummaryCardProps {
   checkoutItems?: CartItemType[]
+  showOrderSummaryItems?: boolean
   renderCheckoutBtn?: React.ReactNode
   renderStepBackBtn?: React.ReactNode
 }
@@ -28,6 +29,7 @@ export default function OrderSummaryCard(props: OrderSummaryCardProps) {
   const subTotalPrice = calcTotalCartItemsPrice(checkoutItems)
 
   const renderOrderSummaryItems = useCallback(() => {
+    if (!props.showOrderSummaryItems) return null
     if (!Array.isArray(checkoutItems) || checkoutItems.length === 0) return null
 
     return (
@@ -38,7 +40,7 @@ export default function OrderSummaryCard(props: OrderSummaryCardProps) {
         <Divider className='max-w-full mb-4' />
       </div>
     )
-  }, [checkoutItems])
+  }, [checkoutItems, props.showOrderSummaryItems])
 
   return (
     <Card

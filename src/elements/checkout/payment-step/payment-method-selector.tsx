@@ -3,6 +3,7 @@
 import {
   cn,
   RadioGroup,
+  RadioGroupProps,
   RadioProps,
   useRadio,
   VisuallyHidden,
@@ -15,7 +16,7 @@ import Typography from '@/components/ui/typography'
 // --- 1. Định nghĩa Component Custom Radio (Ô chọn tùy biến) ---
 export const CustomRadio = (props: RadioProps) => {
   const {
-    Component,
+    // Component, // <-- Chúng ta không dùng biến Component do hook trả về nữa
     children,
     description,
     getBaseProps,
@@ -27,12 +28,16 @@ export const CustomRadio = (props: RadioProps) => {
   } = useRadio(props)
 
   return (
-    <Component
+    // THAY ĐỔI Ở ĐÂY: Dùng trực tiếp thẻ <label>
+    // Ép kiểu baseProps về any nếu TypeScript vẫn báo lỗi ở prop className (do xung đột type nội bộ thư viện)
+    <label
       {...getBaseProps()}
       className={cn(
         'group inline-flex items-center justify-between hover:bg-content2 flex-row-reverse',
         'flex cursor-pointer border-2 border-default rounded-lg gap-4 p-4',
         'data-[selected=true]:border-primary',
+        // Merge thêm className được truyền từ props nếu có
+        props.className,
       )}
     >
       <VisuallyHidden>
@@ -49,22 +54,20 @@ export const CustomRadio = (props: RadioProps) => {
           </span>
         )}
       </div>
-    </Component>
+    </label>
   )
 }
 
 // --- 2. Định nghĩa Component Chính: PaymentMethodSelector ---
-export default function PaymentMethodSelector() {
-  const [selected, setSelected] = React.useState('cod')
-
+export default function PaymentMethodSelector({ name }: RadioGroupProps) {
   return (
     <div className='flex flex-col gap-4 w-full mt-4'>
       <RadioGroup
-        value={selected}
-        onValueChange={setSelected}
         classNames={{
           wrapper: 'gap-4 flex', // Khoảng cách giữa các ô
         }}
+        defaultValue='cod'
+        name={name}
       >
         {/* Option 1: COD */}
         <CustomRadio classNames={{ label: 'flex gap-4' }} value='cod'>
@@ -84,7 +87,7 @@ export default function PaymentMethodSelector() {
               Thanh toán khi nhận hàng
             </Typography>
             <Typography size='sm' type='secondary'>
-              Trả bằng tiền mặt - đơn hàng dưới 1.000.000đ
+              Trả bằng tiền mặt - Chúng tôi sẽ gọi điện đến bạn để xác nhận
             </Typography>
           </div>
         </CustomRadio>

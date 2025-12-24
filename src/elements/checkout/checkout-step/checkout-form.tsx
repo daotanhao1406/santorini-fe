@@ -1,8 +1,10 @@
 'use client'
 
-import { addToast, Form, Input, Select, SelectItem } from '@heroui/react'
+import { Form, Input, Select, SelectItem } from '@heroui/react'
 
 import Typography from '@/components/ui/typography'
+
+import { useCheckoutStore } from '@/stores/use-checkout-store'
 
 // Dữ liệu mẫu cho Country - Trong thực tế có thể fetch từ API
 const COUNTRIES = [
@@ -12,36 +14,23 @@ const COUNTRIES = [
 ]
 
 export default function CheckoutForm() {
+  const { nextStep, setShippingInfo, shippingInfo } = useCheckoutStore()
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     // Lấy dữ liệu từ form native
-    // const formData = Object.fromEntries(new FormData(e.currentTarget))
+    const formData = Object.fromEntries(new FormData(e.currentTarget)) as any
+    setShippingInfo(formData)
 
-    // Giả lập call API submit đơn hàng
-    try {
-      // Simulate delay
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-
-      addToast({
-        title: 'Order Placed Successfully',
-        description: 'Thank you for your purchase!',
-        color: 'success',
-      })
-    } catch {
-      addToast({
-        title: 'Checkout Failed',
-        description: 'Something went wrong. Please try again.',
-        color: 'danger',
-      })
-    }
+    nextStep()
   }
 
   return (
-    <div className='w-full max-w-5/6 mt-4'>
+    <div className='w-full mt-4'>
       <Form
+        id='checkout-form'
         className='w-full flex flex-col gap-8'
-        validationBehavior='native'
+        // validationBehavior='native'
         onSubmit={handleSubmit}
       >
         {/* --- Section: Contact Information --- */}
@@ -58,6 +47,7 @@ export default function CheckoutForm() {
             placeholder='Enter your email'
             type='email'
             variant='bordered'
+            defaultValue={shippingInfo?.email}
             autoComplete='email' // Quan trọng cho UX/SEO
             errorMessage='Please enter a valid email address'
           />
@@ -73,12 +63,14 @@ export default function CheckoutForm() {
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
             <Input
               isRequired
+              errorMessage='Please enter your first name'
               label='First name'
               labelPlacement='outside'
               name='firstName'
               placeholder='Enter your first name'
               variant='bordered'
               autoComplete='given-name'
+              defaultValue={shippingInfo?.firstName}
             />
             <Input
               isRequired
@@ -88,6 +80,7 @@ export default function CheckoutForm() {
               placeholder='Enter your last name'
               variant='bordered'
               autoComplete='family-name'
+              defaultValue={shippingInfo?.lastName}
             />
           </div>
 
@@ -101,6 +94,7 @@ export default function CheckoutForm() {
             type='tel'
             variant='bordered'
             autoComplete='tel'
+            defaultValue={shippingInfo?.phone}
           />
 
           {/* Row 3: Address Line 1 */}
@@ -108,10 +102,11 @@ export default function CheckoutForm() {
             isRequired
             label='Address'
             labelPlacement='outside'
-            name='address1'
+            name='address'
             placeholder='Street address, P.O. box, etc.'
             variant='bordered'
-            autoComplete='address-line1'
+            autoComplete='address-line'
+            defaultValue={shippingInfo?.address}
           />
 
           {/* Row 5: Country & City */}
@@ -123,7 +118,9 @@ export default function CheckoutForm() {
               name='country'
               placeholder='Select country'
               variant='bordered'
-              defaultSelectedKeys={['vn']} // Mặc định là Việt Nam
+              defaultSelectedKeys={
+                shippingInfo?.country ? [shippingInfo.country] : ['vn']
+              }
               autoComplete='country'
             >
               {COUNTRIES.map((country) => (
@@ -138,7 +135,8 @@ export default function CheckoutForm() {
               name='city'
               placeholder='Enter city'
               variant='bordered'
-              autoComplete='address-level2'
+              autoComplete='address-level'
+              defaultValue={shippingInfo?.city}
             />
           </div>
 
@@ -151,7 +149,8 @@ export default function CheckoutForm() {
               name='state'
               placeholder='Enter state'
               variant='bordered'
-              autoComplete='address-level1'
+              autoComplete='address-level'
+              defaultValue={shippingInfo?.state}
             />
             <Input
               isRequired
@@ -161,6 +160,7 @@ export default function CheckoutForm() {
               placeholder='Enter postal code'
               variant='bordered'
               autoComplete='postal-code'
+              defaultValue={shippingInfo?.postalCode}
             />
           </div>
         </div>

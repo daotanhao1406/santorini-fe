@@ -15,7 +15,7 @@ export default function OrderSummaryItem(cartItem: CartItemType) {
 
   return (
     <div className='group flex gap-3 md:gap-4 justify-center relative'>
-      <div className='relative hidden lg:block lg:h-14 aspect-[7/8]'>
+      <div className='relative h-12 lg:h-14 aspect-[7/8]'>
         <Image
           alt='Cart image'
           className='object-cover rounded-lg'

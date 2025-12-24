@@ -1,86 +1,40 @@
 'use client'
-import { Card, Divider, Tab, Tabs } from '@heroui/react'
+import { Divider, Tab, Tabs } from '@heroui/react'
 import { useTranslations } from 'next-intl'
-import { useMemo } from 'react'
 
 import { cn } from '@/lib/utils'
 
 import Typography from '@/components/ui/typography'
 
-import { useUserStore } from '@/stores/use-user-store'
+import { useCheckoutStore } from '@/stores/use-checkout-store'
 
-import { LoginForm } from '@/app/[locale]/(layout)/auth/login/login-form'
 import CartStep from '@/elements/checkout/cart-step'
 import CheckoutStep from '@/elements/checkout/checkout-step'
 import PaymentStep from '@/elements/checkout/payment-step'
 
-export default function CheckoutStepper({
-  currentStep,
-  onStepChange,
-}: {
-  currentStep: number
-  onStepChange?: (step: number) => void
-}) {
-  const { isAuthenticated } = useUserStore()
+export default function CheckoutStepper() {
   const checkoutStepperTranslations = useTranslations(
     'checkout.checkout_stepper',
   )
+  const { currentStep, setStep } = useCheckoutStore()
 
-  const handleTabChange = (tab: number) => {
-    if (onStepChange) onStepChange(tab)
-  }
-
-  const stepList = useMemo(() => {
-    if (!isAuthenticated) {
-      return [
-        {
-          label: checkoutStepperTranslations('cart'),
-          key: 1,
-          children: <CartStep />,
-        },
-        {
-          label: checkoutStepperTranslations('login'),
-          key: 2,
-          children: (
-            <div className='flex justify-center'>
-              <Card>
-                <div className='flex items-center justify-center p-8 lg:p-10'>
-                  <LoginForm />
-                </div>
-              </Card>
-            </div>
-          ),
-        },
-        {
-          label: checkoutStepperTranslations('checkout'),
-          key: 3,
-          children: <CheckoutStep />,
-        },
-        {
-          label: checkoutStepperTranslations('payment'),
-          key: 4,
-          children: <PaymentStep />,
-        },
-      ]
-    }
-    return [
-      {
-        label: checkoutStepperTranslations('cart'),
-        key: 1,
-        children: <CartStep />,
-      },
-      {
-        label: checkoutStepperTranslations('checkout'),
-        key: 2,
-        children: <div></div>,
-      },
-      {
-        label: checkoutStepperTranslations('checkout'),
-        key: 3,
-        children: <div></div>,
-      },
-    ]
-  }, [isAuthenticated, checkoutStepperTranslations])
+  const stepList = [
+    {
+      label: checkoutStepperTranslations('cart'),
+      key: 1,
+      children: <CartStep />,
+    },
+    {
+      label: checkoutStepperTranslations('checkout'),
+      key: 2,
+      children: <CheckoutStep />,
+    },
+    {
+      label: checkoutStepperTranslations('payment'),
+      key: 3,
+      children: <PaymentStep />,
+    },
+  ]
 
   return (
     <div className='flex w-full flex-col'>
@@ -99,7 +53,7 @@ export default function CheckoutStepper({
         color='primary'
         variant='underlined'
         onSelectionChange={(key) => {
-          handleTabChange(Number(key))
+          setStep(Number(key))
         }}
       >
         {stepList.map((item) => {
