@@ -1,17 +1,10 @@
 'use client'
 
-import { Form, Input, Select, SelectItem } from '@heroui/react'
+import { Form, Input } from '@heroui/react'
 
 import Typography from '@/components/ui/typography'
 
 import { useCheckoutStore } from '@/stores/use-checkout-store'
-
-// Dữ liệu mẫu cho Country - Trong thực tế có thể fetch từ API
-const COUNTRIES = [
-  { key: 'vn', label: 'Vietnam' },
-  { key: 'us', label: 'United States' },
-  { key: 'sg', label: 'Singapore' },
-]
 
 export default function CheckoutForm() {
   const { nextStep, setShippingInfo, shippingInfo } = useCheckoutStore()
@@ -110,7 +103,7 @@ export default function CheckoutForm() {
           />
 
           {/* Row 5: Country & City */}
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 items-start'>
+          {/* <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 items-start'>
             <Select
               isRequired
               label='Country'
@@ -138,10 +131,10 @@ export default function CheckoutForm() {
               autoComplete='address-level'
               defaultValue={shippingInfo?.city}
             />
-          </div>
+          </div> */}
 
           {/* Row 6: State & Postal Code */}
-          <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+          {/* <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
             <Input
               isRequired
               label='State / Province'
@@ -162,21 +155,8 @@ export default function CheckoutForm() {
               autoComplete='postal-code'
               defaultValue={shippingInfo?.postalCode}
             />
-          </div>
+          </div> */}
         </div>
-
-        {/* Submit Button */}
-        {/* <div className='mt-4'>
-          <Button
-            className='w-full font-medium text-white'
-            color='primary'
-            isLoading={isLoading}
-            size='lg'
-            type='submit'
-          >
-            Continue to Payment
-          </Button>
-        </div> */}
       </Form>
     </div>
   )

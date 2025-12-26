@@ -1,7 +1,8 @@
 import { type ClassValue, clsx } from 'clsx'
+import { format } from 'date-fns'
+import { vi } from 'date-fns/locale'
 import isEqual from 'fast-deep-equal'
 import { twMerge } from 'tailwind-merge'
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -95,4 +96,27 @@ export function compareObjects<T extends Record<string, any>>(
   } catch {
     return false
   }
+}
+
+/**
+ * Hàm format ngày tháng trả về string
+ * @param date - Chuỗi ISO hoặc Date object
+ * @param formatStr - Định dạng mong muốn (Mặc định: dd/MM/yyyy HH:mm)
+ * @returns string đã format
+ */
+export const formatDate = (
+  date: string | Date | null | undefined,
+  formatStr: string = 'dd/MM/yyyy HH:mm',
+): string => {
+  // 1. Kiểm tra đầu vào
+  if (!date) return ''
+
+  // 2. Chuyển đổi sang Date object
+  const dateObj = new Date(date)
+
+  // 3. Kiểm tra tính hợp lệ của ngày
+  if (isNaN(dateObj.getTime())) return ''
+
+  // 4. Trả về string (Sử dụng locale tiếng Việt)
+  return format(dateObj, formatStr, { locale: vi })
 }

@@ -26,7 +26,7 @@ export default function OrderSummaryItem(cartItem: CartItemType) {
       </div>
 
       <div className='flex flex-col justify-between flex-1'>
-        <div className='flex items-center justify-between w-full flex-1'>
+        <div className='flex items-center justify-between w-full flex-1 gap-2'>
           <Typography className='font-semibold'>
             {cartItem.product.name}
           </Typography>

@@ -20,6 +20,9 @@ interface CheckoutState {
   setShippingInfo: (info: ShippingInfo) => void
   nextStep: () => void
   prevStep: () => void
+
+  loading: boolean
+  setLoading: (loading: boolean) => void
 }
 
 export const useCheckoutStore = create<CheckoutState>((set) => ({
@@ -31,4 +34,7 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
     set((state) => ({ currentStep: Math.min(state.currentStep + 1, 3) })),
   prevStep: () =>
     set((state) => ({ currentStep: Math.max(state.currentStep - 1, 1) })),
+
+  loading: false,
+  setLoading: (loading) => set({ loading }),
 }))
