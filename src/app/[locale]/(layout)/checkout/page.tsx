@@ -17,7 +17,7 @@ export default function CheckoutPage() {
   const orderSummaryTranslations = useTranslations('checkout.order_summary')
 
   const checkoutItems = useCartStore((state) => state.items)
-  const { currentStep, nextStep, prevStep } = useCheckoutStore()
+  const { currentStep, nextStep, prevStep, loading } = useCheckoutStore()
 
   const renderSubmitButton = () => {
     // STEP 1: CART REVIEW
@@ -58,7 +58,8 @@ export default function CheckoutPage() {
           color='primary'
           radius='full'
           className='w-full mt-6'
-          type='submit' // <--- Type submit
+          isLoading={loading}
+          type='submit'
           form='payment-form' // <--- Link tới ID của form bên
         >
           {orderSummaryTranslations('proceed_to_checkout_btn') || 'Place Order'}
@@ -84,6 +85,7 @@ export default function CheckoutPage() {
             renderStepBackBtn={
               currentStep > 1 && (
                 <Button
+                  disabled={loading}
                   variant='faded'
                   radius='full'
                   className='font-medium mt-2 bg-white'

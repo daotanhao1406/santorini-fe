@@ -1,6 +1,6 @@
 'use client'
 import { addToast, Form, Textarea } from '@heroui/react'
-import { Mail, MapPin, Phone, UserRound } from 'lucide-react'
+import { UserRound } from 'lucide-react'
 
 import Typography from '@/components/ui/typography'
 
@@ -9,14 +9,16 @@ import { useCheckoutStore } from '@/stores/use-checkout-store'
 
 import { placeOrder } from '@/actions/order'
 import PaymentMethodSelector from '@/elements/checkout/payment-step/payment-method-selector'
+import DeliveryInformation from '@/elements/order/delivery-information'
 import { useRouter } from '@/i18n/navigation'
 
 export default function PaymentStep() {
-  const { shippingInfo } = useCheckoutStore()
+  const { shippingInfo, setLoading } = useCheckoutStore()
   const { items, clearCart } = useCartStore() // Giả sử bạn có hàm clearCart
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true)
     e.preventDefault()
 
     const formData = Object.fromEntries(new FormData(e.currentTarget)) as any
@@ -47,6 +49,8 @@ export default function PaymentStep() {
         description: error.message || 'Something went wrong',
         color: 'danger',
       })
+    } finally {
+      setLoading(false)
     }
   }
   return (
@@ -60,29 +64,7 @@ export default function PaymentStep() {
             <UserRound size={16} strokeWidth={2.75} /> {shippingInfo?.firstName}{' '}
             {shippingInfo?.lastName}
           </Typography>
-          <div className='flex flex-col gap-2 w-full'>
-            <Typography
-              size='sm'
-              className='flex items-center gap-1.5'
-              type='secondary'
-            >
-              <Phone size={14} /> {shippingInfo?.phone}
-            </Typography>
-            <Typography
-              size='sm'
-              className='flex items-center gap-1.5'
-              type='secondary'
-            >
-              <Mail size={14} /> {shippingInfo?.email}
-            </Typography>
-            <Typography
-              size='sm'
-              className='flex items-start gap-1.5'
-              type='secondary'
-            >
-              <MapPin className='mt-0.5' size={14} /> {shippingInfo?.address}
-            </Typography>
-          </div>
+          <DeliveryInformation {...shippingInfo} />
           <Textarea
             name='shippingNote'
             className='mt-1'
