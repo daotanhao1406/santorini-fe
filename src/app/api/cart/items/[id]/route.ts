@@ -7,11 +7,11 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const supabase = await createServer()
-  const { id } = await params
+  const { id } = await params // Cart Item ID
   const { size, ice_level, sweetness_level, toppings, note, quantity } =
     await request.json()
 
-  // update options
+  // 1. Update thông tin cơ bản
   const { error: updateOptionsError } = await supabase
     .from('cart_items')
     .update({
@@ -22,6 +22,7 @@ export async function PUT(
       quantity,
     })
     .eq('id', id)
+
   if (updateOptionsError) {
     return NextResponse.json(
       { error: updateOptionsError.message },
@@ -29,8 +30,9 @@ export async function PUT(
     )
   }
 
+  // 2. Update Toppings (Logic diffing: tìm cái cần xóa và cái cần thêm)
   if (Array.isArray(toppings)) {
-    // update toppings
+    // Lấy toppings hiện tại trong DB
     const { data: oldToppingsData, error: oldToppingsError } = await supabase
       .from('cart_item_toppings')
       .select('topping_id')

@@ -1,9 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useEffect, useRef } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
 
+import { useCartStore } from '@/stores/use-cart-store'
 import { useUserStore } from '@/stores/use-user-store'
 
 import { useRouter } from '@/i18n/navigation'
@@ -13,60 +15,110 @@ export default function AuthProvider({
 }: {
   children: React.ReactNode
 }) {
-  // Lấy các actions từ store
   const setUser = useUserStore((s) => s.setUser)
   const fetchProfile = useUserStore((s) => s.fetchProfile)
   const setProfile = useUserStore((s) => s.setProfile)
 
+  const syncCart = useCartStore((s) => s.syncCartToServer)
+  const loadCart = useCartStore((s) => s.loadCartFromServer)
+
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+
+  // Dùng ref để đảm bảo chỉ chạy logic sync 1 lần duy nhất khi mount
+  const isSyncingRef = useRef(false)
 
   useEffect(() => {
     const supabase = createClient()
 
-    // 1. Hàm xử lý logic khi có session
     const handleUserSession = async (session: any) => {
       const user = session?.user ?? null
-      setUser(user) // Cập nhật User Metadata vào store
+      setUser(user)
 
-      if (user) {
-        // Nếu có user thì đi lấy Profile (điểm, hạng...)
+      if (user && !user.is_anonymous) {
         await fetchProfile()
       } else {
-        // Nếu không có user (logout) thì xóa profile
         setProfile(null)
       }
     }
 
-    // 2. Chạy ngay lần đầu mount (để check F5)
+    // Hàm xử lý Sync Cart riêng biệt
+    const handleSyncCartIfNeeded = async () => {
+      // Điều kiện vàng: Có cờ synccart=true VÀ chưa đang sync
+      if (searchParams.get('synccart') === 'true' && !isSyncingRef.current) {
+        isSyncingRef.current = true // Lock lại để không chạy 2 lần
+        try {
+          await syncCart() // Merge Local -> Server
+          await loadCart() // Load Server -> Local
+
+          // 2. ✅ XÓA PARAM ÂM THẦM (Silent URL Cleanup)
+          // Lấy URL hiện tại trực tiếp từ window để đảm bảo chính xác
+          const url = new URL(window.location.href)
+
+          // Xóa param
+          url.searchParams.delete('synccart')
+
+          // Thay thế URL trên thanh địa chỉ mà KHÔNG trigger Next.js Router
+          // Tham số thứ 3 là URL mới
+          window.history.replaceState(null, '', url.toString())
+        } finally {
+          isSyncingRef.current = false
+        }
+      }
+    }
+
     const init = async () => {
+      // 1. Lấy session hiện tại (quan trọng cho trường hợp vừa redirect về)
       const {
         data: { session },
       } = await supabase.auth.getSession()
-      await handleUserSession(session)
+
+      if (!session) {
+        const { data } = await supabase.auth.signInAnonymously()
+        if (data.session) {
+          await handleUserSession(data.session)
+        }
+      } else {
+        // Đã có session (User thật từ Google về hoặc F5)
+        await handleUserSession(session)
+
+        // 🔥 KIỂM TRA SYNC NGAY TẠI ĐÂY
+        // Không chờ onAuthStateChange, vì session đã có sẵn rồi
+        await handleSyncCartIfNeeded()
+      }
     }
+
     init()
 
-    // 3. Lắng nghe sự thay đổi (Login, Logout, Token Refreshed)
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      // console.log('Auth event:', event) // Debug nếu cần
-
       if (event === 'SIGNED_OUT') {
-        // Xử lý riêng cho logout để clear sạch sẽ
         setUser(null)
         setProfile(null)
-        router.refresh() // Refresh để server component (nếu có) cập nhật lại
+        router.refresh()
+        init()
       } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-        // Token thay đổi hoặc mới đăng nhập -> Cập nhật lại store
         await handleUserSession(session)
+        // Vẫn giữ check ở đây phòng trường hợp login SPA (không reload)
+        // Nhưng trường hợp Google Redirect sẽ được xử lý bởi hàm init() bên trên rồi
       }
     })
 
     return () => {
       subscription.unsubscribe()
     }
-  }, [setUser, fetchProfile, setProfile, router])
+  }, [
+    setUser,
+    fetchProfile,
+    setProfile,
+    router,
+    searchParams,
+    pathname,
+    syncCart,
+    loadCart,
+  ])
 
   return <>{children}</>
 }
