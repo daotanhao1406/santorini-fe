@@ -191,21 +191,25 @@ export const useCartStore = create<CartState & CartActions>()(
         }
       },
 
-      // 🔹 Gửi cart local lên Supabase để merge (sau khi login)
       syncCartToServer: async () => {
         const { items } = get()
         if (!items.length) return
 
         try {
-          await fetch('/api/cart/items/sync', {
+          // Gọi API sync chúng ta vừa viết ở trên
+          await fetch('/api/cart/sync', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items }),
+            body: JSON.stringify({ items }), // Gửi toàn bộ item local lên
           })
+
+          // Sau khi sync xong, set items về rỗng để chuẩn bị load data chuẩn từ server về
+          // (Hoặc bạn có thể giữ nguyên nếu muốn optimistic, nhưng clear đi load lại cho chuẩn ID từ DB)
+          set({ items: [] })
         } catch {
           addToast({
             title: 'Error',
-            description: 'Error syncing cart',
+            description: 'Failed to sync cart',
             color: 'danger',
           })
         }

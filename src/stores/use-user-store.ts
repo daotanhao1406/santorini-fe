@@ -11,6 +11,9 @@ interface IUserState {
   user: (User & { user_metadata: IUserMetadata }) | null
   profile: IUserProfile | null
   isLoading: boolean
+
+  // isAuthenticated: True nếu có user (kể cả Guest).
+  // Muốn check User thật thì dùng computed.isGuest
   isAuthenticated: boolean
 
   // Actions
@@ -19,15 +22,14 @@ interface IUserState {
   fetchProfile: () => Promise<void>
   signOut: () => Promise<void>
 
-  // Computed values (Getter tiện lợi)
+  // Computed values
   computed: {
     displayName: string
     avatar: string
     isAdmin: boolean
+    isGuest: boolean // <-- MỚI: Check xem có phải khách vãng lai không
   }
 }
-
-// --- 2. TẠO STORE ---
 
 export const useUserStore = create<IUserState>((set, get) => ({
   user: null,
@@ -49,11 +51,16 @@ export const useUserStore = create<IUserState>((set, get) => ({
   // --- Fetch Profile từ DB ---
   fetchProfile: async () => {
     const { user } = get()
-    if (!user) return
+
+    // 1. Guard clause: Nếu không có user HOẶC là user ẩn danh thì không fetch profile
+    // Vì bảng 'profiles' chỉ chứa thông tin của user đã đăng ký
+    if (!user || user.is_anonymous) {
+      set({ profile: null })
+      return
+    }
 
     const supabase = createClient()
     try {
-      // Giả sử bảng tên là 'profiles'
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
@@ -61,7 +68,7 @@ export const useUserStore = create<IUserState>((set, get) => ({
         .single()
 
       if (error) {
-        // Mã lỗi PGRST116 nghĩa là không tìm thấy dòng nào (User mới chưa có profile)
+        // Mã PGRST116: Không tìm thấy data (User mới đăng ký chưa kịp tạo profile)
         // if (error.code !== 'PGRST116') {
         //   console.error('Lỗi khi tải profile:', error.message)
         // }
@@ -86,14 +93,17 @@ export const useUserStore = create<IUserState>((set, get) => ({
     set({ isLoading: true })
     try {
       await supabase.auth.signOut()
-      // Reset toàn bộ state về null
+
       set({
         user: null,
         profile: null,
         isAuthenticated: false,
         isLoading: false,
       })
-      // Reload trang để xóa sạch cache của các component khác
+
+      // Reload lại trang.
+      // Lưu ý: AuthProvider sẽ chạy lại sau khi reload -> Tự động login Anonymous mới -> Tạo guest session mới.
+      // Đây là hành vi đúng để reset giỏ hàng/session của khách.
       window.location.href = '/'
     } catch (error) {
       addToast({
@@ -106,20 +116,26 @@ export const useUserStore = create<IUserState>((set, get) => ({
   },
 
   // --- Computed Properties ---
-  // Lưu ý: Đây là getter object, nó sẽ tính toán dựa trên state hiện tại khi bạn gọi
   get computed() {
     const state = get()
-    const metadata = state.user?.user_metadata
+    const user = state.user
+    const metadata = user?.user_metadata
 
     return {
+      get isGuest() {
+        // Check kỹ thuộc tính is_anonymous của Supabase User
+        return user?.is_anonymous ?? false
+      },
       get displayName() {
-        return metadata?.full_name || state.user?.email || 'Khách hàng'
+        if (user?.is_anonymous) return 'Guest' // Hoặc 'Khách vãng lai'
+        return metadata?.full_name || user?.email || 'User'
       },
       get avatar() {
+        if (user?.is_anonymous) return '' // Guest không có avatar
         return metadata?.avatar_url || ''
       },
       get isAdmin() {
-        // Ví dụ logic check admin
+        if (user?.is_anonymous) return false
         return metadata?.role === 'admin'
       },
     }

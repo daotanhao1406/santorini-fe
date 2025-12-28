@@ -30,7 +30,12 @@ export default function LoginButton({
 
   const iconClasses = 'text-default-700 pointer-events-none shrink-0'
 
-  if (!userProfile) {
+  // --- LOGIC THAY ĐỔI TẠI ĐÂY ---
+  // Kiểm tra xem user có phải là ẩn danh không
+  const isAnonymous = userProfile?.is_anonymous
+
+  // Nếu chưa có user (đang load) HOẶC là user ẩn danh -> Hiển thị nút Login
+  if (!userProfile || isAnonymous) {
     return (
       <Link href='/auth/login'>
         <Button
@@ -43,17 +48,24 @@ export default function LoginButton({
       </Link>
     )
   }
+  // ------------------------------
+
+  // Phần dưới này chỉ dành cho User thật (Email/Google...)
   return (
     <Dropdown placement='bottom-end'>
       <DropdownTrigger>
         <Avatar
           showFallback={isLoading}
-          isBordered
+          isBordered={userProfile.user_metadata?.avatar_url ? false : true}
           as='button'
           className='transition-transform cursor-pointer'
           color='secondary'
-          name={userProfile.user_metadata?.full_name?.toUpperCase().charAt(0)}
+          // User thật thì mới có full_name trong metadata, còn không thì fallback
+          name={
+            userProfile.user_metadata?.full_name?.toUpperCase().charAt(0) || 'U'
+          }
           size='sm'
+          src={userProfile.user_metadata?.avatar_url} // Nếu có avatar google thì hiện luôn
         />
       </DropdownTrigger>
       <DropdownMenu aria-label='Profile Actions' variant='flat'>
