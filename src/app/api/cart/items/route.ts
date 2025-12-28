@@ -4,69 +4,35 @@ import { NextResponse } from 'next/server'
 import { createServer } from '@/lib/supabase/server'
 import { compareObjects } from '@/lib/utils'
 
-import {
-  getCartItems,
-  getGuestCart,
-  getOrCreateCartSession,
-  getUserCart,
-  mergeGuestCartIntoUserCart,
-} from '@/services/cart.service'
+import { getCartByUserId, getCartItems } from '@/services/cart.service'
 
 export async function GET() {
   const cookieStore = await cookies()
   const locale = cookieStore.get('NEXT_LOCALE')?.value || 'en'
   const supabase = await createServer()
-  const sessionId = await getOrCreateCartSession()
 
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (user) {
-    // get user cart
-    const { data: userCart } = await getUserCart(user.id)
-
-    // get guest cart (if has)
-    const { data: guestCart } = await getGuestCart(sessionId)
-
-    // if has guest cart → merge to user cart
-    if (guestCart && userCart) {
-      await mergeGuestCartIntoUserCart(guestCart.id, userCart.id)
-      // delete guest cart after merge
-      await supabase.from('carts').delete().eq('id', guestCart.id)
-    }
-
-    // Lấy lại cart của user sau khi merge
-    const { data: cart } = await getCartItems(userCart?.id, locale)
-
-    const normalizedCart = cart?.map((item) => {
-      return {
-        ...item,
-        toppings: item.toppings?.map((topping: any) => {
-          return topping?.topping?.id
-        }),
-      }
-    })
-
-    return NextResponse.json({ cart: normalizedCart })
+  if (!user) {
+    // Trường hợp hiếm hoi: AuthProvider chưa kịp sign-in ẩn danh
+    // Trả về giỏ hàng rỗng thay vì lỗi
+    return NextResponse.json({ cart: [] })
   }
 
-  const { data: guestCart } = await getGuestCart(sessionId)
+  const cart = await getCartByUserId(user.id)
 
-  const { data: cart } = guestCart
-    ? await getCartItems(guestCart.id, locale)
-    : { data: [] }
+  const { data: cartItems } = await getCartItems(cart.id, locale)
 
-  const normalizedCart = cart?.map((item) => {
+  const normalizedCart = cartItems?.map((item) => {
     return {
       ...item,
-      toppings: item.toppings?.map((topping: any) => {
-        return topping?.topping?.id
-      }),
+      toppings: item.toppings?.map((topping: any) => topping?.topping?.id),
     }
   })
 
-  return NextResponse.json({ cart: normalizedCart })
+  return NextResponse.json({ cart: normalizedCart || [] })
 }
 
 export async function POST(request: Request) {
@@ -82,37 +48,20 @@ export async function POST(request: Request) {
       quantity,
     } = await request.json()
 
-    const sessionId = await getOrCreateCartSession()
-
     // get current user
     const {
       data: { user },
     } = await supabase.auth.getUser()
 
-    // step 1: get existing cart of user or create new if unauthenticated
-    const { data: existingCart } = user
-      ? await getUserCart(user.id)
-      : await getGuestCart(sessionId)
-
-    let cartId = existingCart?.id
-
-    if (!cartId) {
-      const { data: newCart, error: newCartError } = await supabase
-        .from('carts')
-        .insert({
-          user_id: user?.id || null,
-          session_id: user ? null : sessionId,
-        })
-        .select()
-        .single()
-
-      if (newCartError)
-        return NextResponse.json(
-          { error: newCartError.message },
-          { status: 400 },
-        )
-      cartId = newCart?.id
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Please refresh the page.' },
+        { status: 401 },
+      )
     }
+
+    const cart = await getCartByUserId(user.id)
+    const cartId = cart.id
 
     // step 2: if no existing cart, create new cart
     const { data: existingItems } = await supabase
@@ -121,19 +70,15 @@ export async function POST(request: Request) {
       .eq('cart_id', cartId)
       .eq('product_id', product_id)
 
-    const mappedProduct = {
-      product_id: product_id,
+    const newProductMapped = {
+      product_id,
       size,
       sweetness_level,
       ice_level,
       note,
       cart_item_toppings:
         Array.isArray(toppings) &&
-        toppings
-          .map((topping: string) => ({
-            topping_id: topping,
-          }))
-          .sort(),
+        toppings.map((t: string) => ({ topping_id: t })).sort(),
     }
 
     const sameItem = existingItems?.find((item) => {
@@ -144,7 +89,7 @@ export async function POST(request: Request) {
             Array.isArray(item.cart_item_toppings) &&
             item.cart_item_toppings.sort(),
         },
-        mappedProduct,
+        newProductMapped,
         [
           'product_id',
           'size',
@@ -214,34 +159,31 @@ export async function POST(request: Request) {
 
 export async function DELETE() {
   const supabase = await createServer()
-  const sessionId = await getOrCreateCartSession()
 
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (!sessionId) {
-    return NextResponse.json(
-      { error: 'Cart session not found' },
-      { status: 400 },
-    )
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  let cartId = null
+  const { data: cart } = await supabase
+    .from('carts')
+    .select('id')
+    .eq('user_id', user.id)
+    .single()
 
-  if (user) {
-    const { data: existingCart } = await getUserCart(user.id)
-    cartId = existingCart?.id
-  } else {
-    const { data: guestCart } = await getGuestCart(sessionId)
-    cartId = guestCart?.id
+  if (!cart) {
+    // Không có cart thì coi như đã clear thành công
+    return NextResponse.json({ message: 'Cart already empty' })
   }
 
   // Xóa tất cả items thuộc về cart_id này
   const { error } = await supabase
     .from('cart_items')
     .delete()
-    .eq('cart_id', cartId)
+    .eq('cart_id', cart.id)
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
