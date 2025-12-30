@@ -35,7 +35,7 @@ export default function PaymentStep() {
           color: 'success',
         })
         clearCart() // Xóa giỏ hàng
-        router.push(`/order-success`) // Chuyển trang
+        router.push(`/order-success/${result.orderId}`) // Chuyển trang
       } else {
         addToast({
           title: 'Error',

@@ -18,6 +18,9 @@ export async function placeOrder(
   paymentMethod: string,
 ): Promise<PlaceOrderResult> {
   const supabase = await createServer()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
   try {
     // ---------------------------------------------------------
@@ -74,8 +77,14 @@ export async function placeOrder(
         address: shippingInfo.address,
         note: shippingInfo.shippingNote, // Ghi chú giao hàng
         payment_method: paymentMethod,
-        total_price: calculatedTotal, // Dùng giá đã tính toán ở server
-        status: 'pending', // Mặc định là chờ xử lý
+        user_id: user?.id,
+        total_price: calculatedTotal,
+        timeline: [
+          {
+            status: 'confirmed',
+            timestamp: new Date().toISOString(),
+          },
+        ],
       })
       .select('id')
       .single()
