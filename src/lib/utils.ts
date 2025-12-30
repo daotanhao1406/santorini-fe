@@ -104,7 +104,7 @@ export function compareObjects<T extends Record<string, any>>(
  * @param formatStr - Định dạng mong muốn (Mặc định: dd/MM/yyyy HH:mm)
  * @returns string đã format
  */
-export const formatDate = (
+export const formatTime = (
   date: string | Date | null | undefined,
   formatStr: string = 'dd/MM/yyyy HH:mm',
 ): string => {
@@ -119,4 +119,9 @@ export const formatDate = (
 
   // 4. Trả về string (Sử dụng locale tiếng Việt)
   return format(dateObj, formatStr, { locale: vi })
+}
+
+export const getShortUUID = (uuid: string) => {
+  if (typeof uuid !== 'string') return null
+  return uuid.slice(0, 8).toUpperCase()
 }

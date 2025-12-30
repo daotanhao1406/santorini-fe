@@ -226,7 +226,8 @@ export const calcTotalCartItemsPrice = (cartItems: CartItemType[]) => {
   if (!Array.isArray(cartItems)) return 0
   return cartItems.reduce(
     (total, cartItem) =>
-      total + cartItem.product.base_price * cartItem.quantity,
+      total +
+      (cartItem.product ? cartItem.product.base_price * cartItem.quantity : 0),
     0,
   )
 }

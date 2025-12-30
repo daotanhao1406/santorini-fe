@@ -57,7 +57,8 @@ export default function OrderSummaryItem(cartItem: CartItemType) {
           </Typography>
         </div>
         <div className='flex flex-col mt-1'>
-          {cartItem.toppings.length > 0 &&
+          {Array.isArray(cartItem.toppings) &&
+            cartItem.toppings.length > 0 &&
             cartItem.toppings.map((topping, key) => {
               const toppingData = toppings.find((t) => t.id === topping)
               return (
