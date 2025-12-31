@@ -40,7 +40,8 @@ export default function LoginButton({
       <Link href='/auth/login'>
         <Button
           isLoading={isLoading}
-          variant={isOutOfHeroSection ? 'light' : 'solid'}
+          color={isOutOfHeroSection ? 'primary' : 'default'}
+          variant='solid'
           className='h-9 font-medium'
         >
           {navTranslation('login_button_text') || 'Login'}
