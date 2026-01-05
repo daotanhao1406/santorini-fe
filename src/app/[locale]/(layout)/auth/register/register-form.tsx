@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 import { createClient } from '@/lib/supabase/client'
-import { getSiteURL } from '@/lib/utils'
 
 import { MyButton } from '@/components/ui/button'
 import Typography from '@/components/ui/typography'
@@ -99,7 +98,7 @@ export const RegisterForm = () => {
             phone_number: phoneNumber,
           },
           // Chỉ dùng cách này bên trong useEffect hoặc event handler (onClick, onSubmit)
-          emailRedirectTo: `${getSiteURL()}/auth/callback`,
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       })
       if (error) throw error
