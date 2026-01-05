@@ -11,7 +11,7 @@ export const getSiteURL = () => {
   let url =
     process.env.NEXT_PUBLIC_SITE_URL ?? // Ưu tiên cấu hình trong Dashboard/Env
     process.env.NEXT_PUBLIC_VERCEL_URL ?? // Tự động lấy URL preview của Vercel
-    'http://localhost:3000/' // Fallback cho localhost
+    'http://localhost:3000' // Fallback cho localhost
 
   // Đảm bảo có protocol (Vercel URL thường không có http/https ở đầu)
   url = url.includes('http') ? url : `https://${url}`
