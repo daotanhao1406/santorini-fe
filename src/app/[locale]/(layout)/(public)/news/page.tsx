@@ -31,7 +31,7 @@ export default function NewsPage() {
       <main className='pt-8 lg:pt-16 px-8 xl:px-0 pb-20'>
         <div className='flex flex-col lg:flex-row lg:justify-between'>
           {/* Left Side - Typography */}
-          <div className='lg:sticky lg:top-24 lg:self-start w-1/2 flex flex-col lg:items-center lg:justify-center xl:items-start'>
+          <div className='hidden lg:flex lg:sticky lg:top-24 lg:self-start w-1/2 flex-col lg:items-center lg:justify-center xl:items-start'>
             <div className='relative w-[24vw]'>
               <div className='flex flex-col w-full'>
                 <h1 className='text-[10vw] leading-[8vw] font-medium'>BL</h1>
@@ -51,16 +51,20 @@ export default function NewsPage() {
             </div>
           </div>
 
+          <p className='text-center font-medium font-playfair mb-[12vw] text-[20vw] leading-[12vw] lg:hidden block'>
+            NEWS
+          </p>
+
           {/* Right Side - Articles */}
-          <div className='lg:self-end flex flex-col justify-center items-center w-1/2'>
+          <div className='lg:self-end flex flex-col justify-center items-center lg:w-1/2'>
             {articles.map((article, index) => (
               <div key={index} className='flex flex-col items-end'>
                 <article
                   key={article.id}
-                  className='flex flex-col md:flex-row gap-7'
+                  className='flex flex-col gap-3 md:flex-row md:gap-7'
                 >
                   {/* Image */}
-                  <div className='relative aspect-[3/5] md:h-[254px] xl:h-[478px] bg-neutral-900 rounded-md border'>
+                  <div className='relative aspect-[5/4] h-[240px] md:aspect-[3/5] md:h-[254px] xl:h-[478px] rounded-lg border'>
                     <Image
                       src={article.image}
                       alt={article.title}
@@ -80,28 +84,20 @@ export default function NewsPage() {
                         {article.date}
                       </Typography>
 
-                      <h2 className='text-[2.4vw] leading-[2vw] font-medium pb-[1.5vw] mt-[.6vw]'>
+                      <h2 className='text-[7vw] leading-[6vw] md:text-[2.4vw] md:leading-[2vw] font-medium pb-[4vw] md:pb-[1.5vw] mt-[.6vw]'>
                         {article.title}
                       </h2>
-
-                      {/* <button className='inline-flex items-center gap-3 bg-black text-white px-5 py-2.5 rounded-full text-sm w-fit mb-8 hover:bg-neutral-800 transition-colors text-[13px]'>
-                        Discover
-                        <CornerDownRight size={13} />
-                      </button> */}
                       <Button radius='full' color='primary'>
                         Discover
                         <CornerDownRight size={13} />
                       </Button>
                     </div>
-                    {/* <Typography className='text-[.8vw] leading-[1vw] font-medium'>
-                      {article.description}
-                    </Typography> */}
-                    <p className='text-[1vw] leading-[1.2vw] font-medium'>
+                    <p className='text-[4vw] leading-[5vw] md:text-[.9vw] md:leading-[1vw] mt-[9vw] md:mt-0'>
                       {article.description}
                     </p>
                   </div>
                 </article>
-                <Divider className='my-[6vw]' />
+                <Divider className='my-[10vw] md:my-[6vw]' />
               </div>
             ))}
           </div>
