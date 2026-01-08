@@ -20,7 +20,7 @@ interface CartActions {
   removeItem: (cartId: string) => Promise<void>
   increaseQuantity: (cartId: string) => void
   decreaseQuantity: (cartId: string) => void
-  clearCart: () => void
+  clearCart: () => Promise<void>
 
   //server-side actions
   loadCartFromServer: () => Promise<void>
@@ -157,7 +157,23 @@ export const useCartStore = create<CartState & CartActions>()(
           color: 'success',
         })
       },
-      clearCart: () => set({ items: [] }),
+      clearCart: async () => {
+        // 1. Xóa ngay lập tức ở Client để UI phản hồi nhanh
+        set({ items: [] })
+
+        try {
+          // 2. Gọi API để xóa trong Database dựa trên cookie
+          await fetch('/api/cart/items', {
+            method: 'DELETE',
+          })
+        } catch {
+          addToast({
+            title: 'Error',
+            description: 'Failed to clear cart',
+            color: 'danger',
+          })
+        }
+      },
 
       // get cart from server
       loadCartFromServer: async () => {
@@ -175,21 +191,25 @@ export const useCartStore = create<CartState & CartActions>()(
         }
       },
 
-      // 🔹 Gửi cart local lên Supabase để merge (sau khi login)
       syncCartToServer: async () => {
         const { items } = get()
         if (!items.length) return
 
         try {
-          await fetch('/api/cart/items/sync', {
+          // Gọi API sync chúng ta vừa viết ở trên
+          await fetch('/api/cart/sync', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items }),
+            body: JSON.stringify({ items }), // Gửi toàn bộ item local lên
           })
+
+          // Sau khi sync xong, set items về rỗng để chuẩn bị load data chuẩn từ server về
+          // (Hoặc bạn có thể giữ nguyên nếu muốn optimistic, nhưng clear đi load lại cho chuẩn ID từ DB)
+          set({ items: [] })
         } catch {
           addToast({
             title: 'Error',
-            description: 'Error syncing cart',
+            description: 'Failed to sync cart',
             color: 'danger',
           })
         }
@@ -206,7 +226,8 @@ export const calcTotalCartItemsPrice = (cartItems: CartItemType[]) => {
   if (!Array.isArray(cartItems)) return 0
   return cartItems.reduce(
     (total, cartItem) =>
-      total + cartItem.product.base_price * cartItem.quantity,
+      total +
+      (cartItem.product ? cartItem.product.base_price * cartItem.quantity : 0),
     0,
   )
 }

@@ -52,7 +52,7 @@ export default function ProductOptionModal({
   )
   const [selectedIceLevel, setSelectedIceLevel] = useState<
     ProductOptionsType['ice_level']
-  >(cartItem?.ice_level || ICE_LEVEL.NORMAL)
+  >(cartItem?.ice_level ?? ICE_LEVEL.NORMAL)
   const [selectedSweetnessLevel, setSelectedSweetnessLevel] = useState<
     ProductOptionsType['sweetness_level']
   >(cartItem?.sweetness_level || SWEETNESS_LEVEL.NORMAL)

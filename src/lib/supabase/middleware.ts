@@ -11,6 +11,7 @@ const getLocaleFromPath = (pathname: string): string | null => {
   return SUPPORTED_LOCALES.includes(maybeLocale) ? maybeLocale : null
 }
 
+// Các trang yêu cầu phải là thành viên chính thức mới được vào
 const protectedRoutes = ['/profile', '/settings']
 
 export async function updateSession(
@@ -52,28 +53,31 @@ export async function updateSession(
   const basePath = locale ? `/${locale}` : ''
 
   const isAuthPath = pathname.startsWith(`${basePath}/auth`)
-
-  // Xác định route gốc
   const normalizedPath = pathname.replace(basePath, '') || '/'
-
   const isProtected = protectedRoutes.includes(normalizedPath)
 
-  // Nếu route là protected mà chưa login → redirect về login
-  if (isProtected && !user && !isAuthPath) {
+  // --- LOGIC PHÂN QUYỀN MỚI ---
+
+  // Kiểm tra xem có phải là User ẩn danh không
+  const isAnonymous = user?.is_anonymous === true
+
+  // 1. Xử lý Protected Routes (/profile, /settings)
+  // Nếu chưa login HOẶC là user ẩn danh -> Đều phải đá về Login
+  if (isProtected && (!user || isAnonymous) && !isAuthPath) {
     const url = request.nextUrl.clone()
     url.pathname = `${basePath}/auth/login`
     url.searchParams.set('continueUrl', pathname)
     return NextResponse.redirect(url)
   }
 
-  // Nếu đã login mà vào /auth → redirect về home
-  if (user && isAuthPath) {
+  // 2. Xử lý Auth Routes (/auth/login, /auth/register)
+  // Chỉ redirect về Home nếu là User THẬT.
+  // Nếu là User ẨN DANH, vẫn cho phép ở lại trang Login để họ thực hiện đăng nhập/chuyển đổi tài khoản.
+  if (user && !isAnonymous && isAuthPath) {
     const url = request.nextUrl.clone()
     url.pathname = basePath || '/'
     return NextResponse.redirect(url)
   }
 
-  // Nếu route là public → cho phép
-  // Nếu route không nằm trong public/protected → bạn chọn mặc định xử lý (ở đây cho phép)
   return supabaseResponse
 }

@@ -13,6 +13,7 @@ export type TypographyType = VariantProps<typeof textBaseVariants>['type']
 const textBaseVariants = cva('', {
   variants: {
     size: {
+      xxxs: 'text-[6px] sm:text-[8px] lg:text-[8px]',
       xxs: 'text-[8px] sm:text-[10px] lg:text-[10px]',
       xs: 'text-[10px] sm:text-xs lg:text-xs',
       sm: 'text-xs sm:text-sm lg:text-sm',

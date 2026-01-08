@@ -137,11 +137,23 @@ export default function CheckoutCartItem(cartItem: CartItemType) {
             min={1}
           />
         </Typography>
-        <div className='flex gap-4'>
-          <Button onPress={onEditModalOpen} size='sm' radius='sm' isIconOnly>
+        <div className='flex gap-3'>
+          <Button
+            variant='ghost'
+            onPress={onEditModalOpen}
+            size='sm'
+            radius='sm'
+            isIconOnly
+          >
             <EditIcon size={18} />
           </Button>
-          <Button onPress={onDeleteModalOpen} size='sm' radius='sm' isIconOnly>
+          <Button
+            variant='ghost'
+            onPress={onDeleteModalOpen}
+            size='sm'
+            radius='sm'
+            isIconOnly
+          >
             <Trash2 size={18} />
           </Button>
         </div>

@@ -22,6 +22,7 @@ export const LoginForm = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState({})
+  const syncCartToServer = useCartStore((s) => s.syncCartToServer)
   const loadCartFromServer = useCartStore((s) => s.loadCartFromServer)
   const loginTranslations = useTranslations('login')
 
@@ -55,7 +56,7 @@ export const LoginForm = () => {
         password: formData.password as string,
       })
       if (error) throw error
-      await fetch('/api/cart/merge', { method: 'POST' })
+      await syncCartToServer()
       await loadCartFromServer()
       router.push(continueUrl)
     } catch (error: unknown) {
